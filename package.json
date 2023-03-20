@@ -9,7 +9,15 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
-    "vue": "^3.2.13"
+    "css-loader": "^6.7.3",
+    "node-sass": "^8.0.0",
+    "sass": "^1.59.3",
+    "style-loader": "^3.3.2",
+    "three": "^0.150.1",
+    "ts-loader": "^9.4.2",
+    "vue": "^3.2.13",
+    "vue-router": "^4.1.6",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
