@@ -1,0 +1,59 @@
+pre {
+
+    border: 1px solid var(--secondary-color);
+    border-radius: 4px;
+    color: var(--warning-color);
+    padding: .167em .33em;
+    font-family: CodeFont;
+
+    &.inline {
+        display: inline;
+    }
+
+    &.code-bloc {
+        padding: 1.05em 1.33em;
+    }
+
+}
+
+.hidden {
+    display: none;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.h-100 {
+    height: 100%;
+}
+
+.scrollable-x {
+    overflow: auto hidden;
+}
+
+.scrollable-y {
+    overflow: hidden auto;
+}
+
+.scrollable-x,
+.scrollable-y {
+    margin: -1.5rem;
+    padding: 1.5rem;
+}
+
+.d-block {
+    display: block !important;
+}
+
+.d-inline {
+    display: inline !important;
+}
+
+.d-inline-block {
+    display: inline-block !important;
+}
+
+.d-inline-flex {
+    display: inline-flex !important;
+}

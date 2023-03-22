@@ -1,0 +1,157 @@
+$primary: #26c4ce;
+
+$colors: ("primary": ("color": $primary, "textColor": #282b38),
+    "secondary": ("color": #484b57, "textColor": white),
+    "success": ("color": #16db65, "textColor": #282b38),
+    "warning": ("color": #f2d235, "textColor": #282b38),
+    "error": ("color": #d7263d, "textColor": white),
+    "danger": ("color": #d7263d, "textColor": white),
+    "info": ("color": #7456e0, "textColor": white),
+    "help": ("color": #821993, "textColor": white),
+    "test": ("color": #ff7b00, "textColor": white),
+    "working": ("color": #44ffe0, "textColor": #282b38),
+    "dark": ("color": #333744, "textColor": white));
+$colorVariants: ("darker": -25%, "dark": -10%, "light": 10%, "lighter": 25%);
+
+:root {
+
+    @each $colorName,
+    $colorValue in $colors {
+        --#{$colorName}-color: #{map-get($colorValue, "color")};
+    }
+}
+
+// 
+
+
+// $palette: (primary: make-shades(#3fc94b));
+
+// @function paletteColor($name, $level: 500) {
+//     @return map-get(map-get($palette, $name), $level);
+// }
+
+// $palette: (primary: make-shades($cc99cc),
+//     accent: make-shades($cccc99));
+
+// @function palette-color($name, $level: 500) {
+//     @return map-get(map-get($palette, $name), $level);
+// }
+
+// body {
+//     background: palette-color(primary, 700);
+
+// }
+
+// $greens: make-shades(#cc99cc);
+
+// :root {
+//     --green: #{map-get($greens, 100)};
+// }
+
+// :root {
+//     --shades: make-shades(#3fc94b); // @each $colorName,
+//     // $colorValue in $colors {
+
+//     paletteColor(primary);
+
+//     // --#{$colorName}-color: #{map-get($colorValue, "color")};
+
+//     // @each $colorVariant,
+//     // $colorVariantValue in $colorVariants {
+//     //     --#{$colorName}-#{$colorVariant}-color: #{adjust-color(map-get($colorValue, "color"), $blackness: $colorVariantValue)};
+//     // }
+//     // }
+// }
+
+// // Accessibility
+// :root {
+//     --a13y-resizer-size: 12px;
+// }
+
+$transitionDuration: .25s;
+$transitionTimingDefault: cubic-bezier(0, 0, 0, 1);
+$transitionTimingBounce: cubic-bezier(.47, 1.64, .41, .8);
+
+$animationDuration: 3s;
+$animationTiming: ease;
+
+$shadowHelperSteps: 8;
+$marginHelperSteps: 8;
+$maxMargin: 2rem;
+
+
+// // Returns a Material Design-style value level of a color, i.e. a multiple of
+// // 100 in the range 100-900 inclusive.
+// //
+// // @param color $color
+// // @return number - the color's value level
+// @function color-level($color) {
+//     @return min(max(round((100 - lightness($color)/1%) / 10) * 100, 100), 900);
+// }
+
+// // Generates a map containing a full range of value steps.
+// // - If one color is provided, that color is assigned to the closest value step
+// // and other colors are generated automatically.
+// // - If two colors are provided, both colors are assigned to their respective
+// // closest value step and the value steps between are interpolated. Value steps
+// // outside that range are generated automatically from the closest of the two
+// // colors.
+// //
+// // @requires color-level
+// // @param  color $color1
+// // @param  color $color2 [null]
+// // @return map - a map containing keys {100, 200, .., 900} and corresponding
+// //               color values
+// @function make-shades($color1, $color2: null) {
+//     $level1: color-level($color1);
+//     $shades: ();
+
+//     @if (type-of($color2) !=color) {
+//         @for $i from 1 through 9 {
+//             @if $i*100==$level1 {
+//                 $shades: map-merge($shades, ($i*100: $color1));
+//             }
+
+//             @else {
+//                 $shades: map-merge($shades, ($i*100: change-color($color1, $lightness: 100-($i*10))));
+//             }
+//         }
+//     }
+
+//     @else {
+//         $level2: color-level($color2);
+
+//         // We always want to work light-to-dark (100, 200, ..., 900)
+//         @if $level2 < $level1 {
+//             $tmp: $color1;
+//             $color1: $color2;
+//             $color2: $tmp;
+//             $tmp: $level1;
+//             $level1: $level2;
+//             $level2: $tmp;
+//         }
+
+//         @if $level1>100 {
+//             @for $i from 1 to $level1/100 {
+//                 $shades: map-merge($shades, ($i*100: change-color($color1, $lightness: 100-($i*10))));
+//             }
+//         }
+
+//         $shades: map-merge($shades, ($level1: $color1));
+
+//         @for $i from $level1/100+1 to $level2/100 {
+//             $weight: 100% - (($i - $level1/100) / ($level2/100 - $level1/100))*100%;
+//             $shades: map-merge($shades, ($i*100: mix($color1, $color2, $weight)));
+//         }
+
+//         $shades: map-merge($shades, ($level2: $color2));
+
+//         @if $level2 < 900 {
+//             @for $i from $level2/100+1 through 9 {
+//                 $shades: map-merge($shades, ($i*100: change-color($color2, $lightness: 100-($i*10))));
+//             }
+//         }
+//     }
+
+//     @return $shades;
+// }

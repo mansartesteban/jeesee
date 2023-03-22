@@ -1,0 +1,57 @@
+@use "sass:math";
+
+.alert {
+
+    border-radius: 4px;
+    padding: .66em 1em;
+    position: relative;
+    backdrop-filter: blur(10px);
+    user-select: none;
+
+    transition: all $transitionDuration $transitionTimingBounce;
+
+    &:hover {
+        --grow-margin: .25em;
+        padding: calc(.66em + var(--grow-margin)) calc(1em + var(--grow-margin));
+        margin: calc(var(--grow-margin) * -1) calc(var(--grow-margin) * -1);
+        zoom: 1;
+    }
+
+    @each $colorName,
+    $colorValue in $colors {
+        &.#{$colorName} {
+            border: 1px solid rgba(map-get($colorValue, "color"), 50%);
+
+            &::after {
+                --margin: .5em;
+
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                top: 0;
+                right: 0;
+                width: .075em;
+                height: calc(100% - var(--margin) * 2);
+                margin-top: var(--margin);
+                margin-bottom: var(--margin);
+                background: map-get($colorValue, "color");
+                border-radius: 999px;
+            }
+
+            &.glowing {
+
+                --glowingIntensity: .5;
+
+                @for $i from 1 through 10 {
+                    &.glow-#{$i} {
+                        --glowingIntensity: #{math.div($i, 10)};
+                    }
+                }
+
+                box-shadow: 0 0 calc(var(--glowingIntensity) * 1em) calc(var(--glowingIntensity) * .33em) rgba(map-get($colorValue, "color"), var(--glowingIntensity));
+            }
+
+        }
+    }
+}

@@ -1,0 +1,6 @@
+@each $colorName,
+$colorValue in $colors {
+    .bg-#{$colorName} {
+        background: map-get($colorValue, "color");
+    }
+}

@@ -1,0 +1,43 @@
+@import "./flicker";
+
+
+@keyframes progress-indeterminate {
+    0% {
+        left: 0;
+        right: 0;
+        width: 0;
+    }
+
+    40% {
+        left: 0;
+        width: 100%;
+    }
+
+    80%,
+    100% {
+        right: 0;
+        left: 100%;
+        width: 0;
+    }
+}
+
+// @keyframes progress-indeterminate {
+//     0% {
+//         left: 50%;
+//         right: 50%;
+//         width: 0;
+//     }
+
+//     50% {
+//         left: 0;
+//         right: 0;
+//         width: 100%;
+//     }
+
+//     80%,
+//     100% {
+//         right: 50%;
+//         left: 50%;
+//         width: 0;
+//     }
+// }

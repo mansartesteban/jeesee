@@ -1,4 +1,6 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import App from '@ui/App'
 
-createApp(App).mount('#app')
+import "@assets/styles/_jeesee.scss";
+
+createApp(App).mount('#jeesee')

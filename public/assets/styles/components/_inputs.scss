@@ -1,0 +1,279 @@
+@use "sass:math";
+
+.switch {
+
+    user-select: none;
+
+    @each $colorName,
+    $colorValue in $colors {
+        &.#{$colorName} {
+
+            &.checked {
+
+                .switch-label {
+                    color: white;
+
+                }
+
+                .switch-box {
+                    background-color: map-get($colorValue, "color");
+
+                    &::before {
+                        background: white;
+                    }
+                }
+
+                &.glowing {
+
+                    --glowingIntensity: .5;
+
+                    @for $i from 1 through 10 {
+                        &.glow-#{$i} {
+                            --glowingIntensity: #{math.div($i, 10)};
+                        }
+                    }
+
+                    .switch-label {
+                        text-shadow: 0 0 calc(var(--glowingIntensity) * 1em) rgba(map-get($colorValue, "color"), var(--glowingIntensity));
+                    }
+
+                    .switch-box {
+                        box-shadow: 0 0 calc(var(--glowingIntensity) * 1em) calc(var(--glowingIntensity) * .33em) rgba(map-get($colorValue, "color"), var(--glowingIntensity));
+
+                        &::before {
+                            box-shadow: 0 0 calc(var(--glowingIntensity) * 1em) calc(var(--glowingIntensity) * .33em) rgba(map-get($colorValue, "color"), var(--glowingIntensity));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .switch-label {
+        cursor: pointer;
+        color: rgba(255, 255, 255, .5);
+        transition: all $transitionDuration $transitionTimingBounce;
+    }
+
+    $width: 2.25em;
+    $height: .75em;
+    $gap: .15em;
+    $bubbleSize: $height+$gap*2;
+
+    &.checked {
+
+        .switch-box::before {
+            background: white;
+            left: calc($width - $bubbleSize);
+        }
+    }
+
+    .switch-box {
+        background: rgba(255, 255, 255, .15);
+        padding: calc($height / 2) calc($width / 2);
+        border-radius: 999px;
+        position: relative;
+        cursor: pointer;
+        transition: background-color $transitionDuration $transitionTimingBounce;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: calc($gap * -1);
+            bottom: calc($gap * -1);
+            left: calc($gap * -1);
+            right: calc($gap * -1);
+            width: $bubbleSize;
+            height: $bubbleSize;
+            border-radius: 999px;
+            transition:
+                background-color $transitionDuration $transitionTimingBounce,
+                left $transitionDuration $transitionTimingBounce;
+            background: var(--dark-color);
+        }
+
+    }
+
+}
+
+.checkbox {
+
+    @each $colorName,
+    $colorValue in $colors {
+        &.#{$colorName} {
+
+            &.checked {
+
+                .checkbox-box {
+                    background-color: map-get($colorValue, "color");
+                }
+
+                &.glowing {
+
+                    --glowingIntensity: .5;
+
+                    @for $i from 1 through 10 {
+                        &.glow-#{$i} {
+                            --glowingIntensity: #{math.div($i, 10)};
+                        }
+                    }
+
+                    .checkbox-label {
+                        text-shadow: 0 0 calc(var(--glowingIntensity) * 1em) rgba(map-get($colorValue, "color"), var(--glowingIntensity));
+                    }
+
+                    .checkbox-box {
+                        box-shadow: 0 0 calc(var(--glowingIntensity) * 1em) calc(var(--glowingIntensity) * .33em) rgba(map-get($colorValue, "color"), var(--glowingIntensity));
+                    }
+                }
+            }
+        }
+    }
+
+    &.checked {
+        .checkbox-box {
+            &::before {
+                opacity: 1;
+            }
+        }
+
+        .checkbox-label {
+            color: white;
+        }
+    }
+
+    &:not(.checked):hover {
+        .checkbox-box {
+            &::before {
+                opacity: .33;
+            }
+        }
+    }
+
+    .checkbox-box {
+        padding: .5em;
+        background: rgba(255, 255, 255, .2);
+        border-radius: 4px;
+        position: relative;
+        cursor: pointer;
+        transition: all $transitionDuration $transitionTimingBounce;
+
+        &::before {
+            content: "\F26E";
+            font-family: bootstrap-icons;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            opacity: 0;
+            transition: all $transitionDuration $transitionTimingBounce;
+        }
+    }
+
+    .checkbox-label {
+        cursor: pointer;
+        color: rgba(255, 255, 255, .5);
+        transition: all $transitionDuration $transitionTimingBounce;
+    }
+}
+
+.radio {
+
+    @each $colorName,
+    $colorValue in $colors {
+        &.#{$colorName} {
+
+            &.checked {
+
+                .radio-box {
+                    background-color: white;
+
+                    &::before {
+                        background-color: map-get($colorValue, "color");
+                    }
+                }
+
+
+                &.glowing {
+
+                    --glowingIntensity: .5;
+
+                    @for $i from 1 through 10 {
+                        &.glow-#{$i} {
+                            --glowingIntensity: #{math.div($i, 10)};
+                        }
+                    }
+
+                    .radio-label {
+                        text-shadow: 0 0 calc(var(--glowingIntensity) * 1em) rgba(map-get($colorValue, "color"), var(--glowingIntensity));
+                    }
+
+                    .radio-box {
+                        box-shadow: 0 0 calc(var(--glowingIntensity) * 1em) calc(var(--glowingIntensity) * .33em) rgba(map-get($colorValue, "color"), var(--glowingIntensity));
+
+                    }
+                }
+            }
+        }
+    }
+
+    &.checked {
+        .radio-box {
+            &::before {
+                opacity: 1;
+            }
+        }
+
+        .radio-label {
+            color: white;
+        }
+    }
+
+    &:not(.checked):hover {
+        .radio-box {
+            &::before {
+                opacity: .33;
+            }
+        }
+    }
+
+    .radio-box {
+        padding: .5em;
+        background: rgba(255, 255, 255, .2);
+        border-radius: 999px;
+        position: relative;
+        cursor: pointer;
+        transition: all $transitionDuration $transitionTimingBounce;
+
+        &::before {
+            content: "";
+            font-family: bootstrap-icons;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            opacity: 0;
+            border-radius: 999px;
+            margin: .25em;
+            transition: all $transitionDuration $transitionTimingBounce;
+        }
+    }
+
+    .radio-label {
+        cursor: pointer;
+        color: rgba(255, 255, 255, .5);
+        transition: all $transitionDuration $transitionTimingBounce;
+    }
+}
+
+.checkbox,
+.radio,
+.switch {
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+}

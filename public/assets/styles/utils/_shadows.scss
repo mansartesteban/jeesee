@@ -1,0 +1,35 @@
+.elevation-0 {
+    box-shadow: none;
+}
+
+@for $i from 1 through $shadowHelperSteps {
+    .elevation-#{$i} {
+        box-shadow: #{$i*.5}px #{$i*.5}px #{$i*2.5}px #{$i*.08}px rgba(0, 0, 0, .1),
+        #{$i*.3}px #{$i*.3}px #{$i}px 0 rgba(0, 0, 0, .4);
+    }
+}
+
+@for $i from 1 through $shadowHelperSteps {
+    $o: $i*2;
+
+    .elevation-#{$i}.hoverable:hover {
+        box-shadow: #{$o*.5}px #{$o*.5}px #{$o*2.5}px #{$o*.08}px rgba(0, 0, 0, .1),
+        #{$o*.3}px #{$o*.3}px #{$o}px 0 rgba(0, 0, 0, .4);
+    }
+}
+
+@for $i from 1 through $shadowHelperSteps {
+    .elevation-n#{$i} {
+        box-shadow: inset #{$i*.5}px #{$i*.5}px #{$i*2.5}px #{$i*.08}px rgba(0, 0, 0, .1),
+        inset #{$i*.3}px #{$i*.3}px #{$i}px 0 rgba(0, 0, 0, .4);
+    }
+}
+
+@for $i from 1 through $shadowHelperSteps {
+    $o: $i*2;
+
+    .elevation-n#{$i}.hoverable:hover {
+        box-shadow: inset #{$o*.5}px #{$o*.5}px #{$o*2.5}px #{$o*.08}px rgba(0, 0, 0, .1),
+        inset #{$o*.3}px #{$o*.3}px #{$o}px 0 rgba(0, 0, 0, .4);
+    }
+}

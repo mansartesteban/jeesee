@@ -1,0 +1,80 @@
+.btn {
+
+    padding: .5em .8em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    position: relative;
+    cursor: pointer;
+    box-shadow: none;
+
+    transition: box-shadow $transitionDuration $transitionTimingDefault;
+
+    &:hover {
+        box-shadow: inset 0 0 0 9999px rgba(0, 0, 0, .2);
+    }
+
+    &:active {
+        box-shadow: inset 0 0 0 9999px rgba(0, 0, 0, .33);
+    }
+
+    &.active {
+        border: 1px solid;
+        margin: -1px;
+        // box-sizing: border-box;
+    }
+
+    @each $colorName,
+    $colorValue in $colors {
+        &.#{$colorName} {
+
+            &:not(.outlined) {
+                background-color: map-get($colorValue, "color");
+                color: map-get($colorValue, "textColor");
+            }
+
+            // &.outlined.active) {
+            //     border: 1px solid #{map-get($colorValue, "color")};
+            // }
+
+            &.active {
+                border-color: map-get($colorValue, "color");
+            }
+
+        }
+
+    }
+
+
+    // Buttons sizes
+    &.xs {
+        font-size: .66rem;
+    }
+
+    &.sm {
+        font-size: .83rem;
+    }
+
+    &.lg {
+        font-size: 1.17rem;
+    }
+
+    &.xl {
+        font-size: 1.33rem;
+    }
+
+    // Buttons shapes
+    &.pill {
+        border-radius: 9999px;
+    }
+
+    &.circle {
+        border-radius: 50%;
+    }
+
+    &.rounded {
+        border-radius: 5px;
+    }
+
+}

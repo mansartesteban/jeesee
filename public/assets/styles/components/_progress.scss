@@ -1,0 +1,44 @@
+@use "sass:math";
+
+$bubbleSize: .3em;
+
+.progress-bar {
+
+    padding: #{math.div($bubbleSize, 2)};
+
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+
+    &.indeterminated {
+        .progress-bar-indicator {
+            animation: progress-indeterminate $animationDuration $animationTiming infinite;
+        }
+    }
+
+    .progress-bar-indicator {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 0;
+    }
+
+    @each $colorName,
+    $colorValue in $colors {
+        &.#{$colorName} {
+            background: rgba(255, 255, 255, .15);
+
+            .progress-bar-indicator {
+                background: map-get($colorValue, "color");
+                overflow: hidden;
+            }
+        }
+    }
+
+
+}

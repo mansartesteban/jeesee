@@ -1,0 +1,185 @@
+@use 'sass:math';
+
+/* Margin and padding helpers */
+
+/*
+Direction:
+n (North)
+s (South)
+w (West)
+e (East)
+x (West+East)
+y (North+South)
+[ ] (All)
+
+With negative values (Margin only)
+Size: From 0 to $marginHelperSteps
+
+*/
+
+@function calculateMargin($index, $negative: false) {
+    $size: math.div($index, $marginHelperSteps) * $maxMargin;
+
+    @if ($negative) {
+        @return $size * -1;
+    }
+
+    @else {
+        @return $size;
+    }
+}
+
+/* Margin all (neg and pos) */
+@for $i from 0 through $marginHelperSteps {
+    .m-#{$i} {
+        margin: calculateMargin($i) !important;
+    }
+}
+
+@for $i from 0 through $marginHelperSteps {
+    .m-n#{$i} {
+        margin: calculateMargin($i, true) !important;
+    }
+}
+
+/* Margin North */
+@for $i from 0 through $marginHelperSteps {
+    .mn-#{$i} {
+        margin-top: calculateMargin($i) !important;
+    }
+}
+
+@for $i from 0 through $marginHelperSteps {
+    .mn-n#{$i} {
+        margin-top: calculateMargin($i, true) !important;
+    }
+}
+
+/* Margin South */
+@for $i from 0 through $marginHelperSteps {
+    .ms-#{$i} {
+        margin-bottom: calculateMargin($i) !important;
+    }
+}
+
+@for $i from 0 through $marginHelperSteps {
+    .ms-n#{$i} {
+        margin-bottom: calculateMargin($i, true) !important;
+    }
+}
+
+
+/* Margin West */
+@for $i from 0 through $marginHelperSteps {
+    .mw-#{$i} {
+        margin-left: calculateMargin($i) !important;
+    }
+}
+
+@for $i from 0 through $marginHelperSteps {
+    .mw-n#{$i} {
+        margin-left: calculateMargin($i, true) !important;
+    }
+}
+
+/* Margin East */
+@for $i from 0 through $marginHelperSteps {
+    .me-#{$i} {
+        margin-right: calculateMargin($i) !important;
+    }
+}
+
+@for $i from 0 through $marginHelperSteps {
+    .me-n#{$i} {
+        margin-right: calculateMargin($i, true) !important;
+    }
+}
+
+/* Margin X (West<->Est) */
+@for $i from 0 through $marginHelperSteps {
+    .mx-#{$i} {
+        margin-left: calculateMargin($i) !important;
+        margin-right: calculateMargin($i) !important;
+    }
+}
+
+@for $i from 0 through $marginHelperSteps {
+    .mx-n#{$i} {
+        margin-left: calculateMargin($i, true) !important;
+        margin-right: calculateMargin($i, true) !important;
+    }
+}
+
+/* Margin Y (North<->South */
+@for $i from 0 through $marginHelperSteps {
+    .my-#{$i} {
+        margin-top: calculateMargin($i) !important;
+        margin-bottom: calculateMargin($i) !important;
+    }
+}
+
+@for $i from 0 through $marginHelperSteps {
+    .my-n#{$i} {
+        margin-top: calculateMargin($i, true) !important;
+        margin-bottom: calculateMargin($i, true) !important;
+    }
+}
+
+
+/* Padding all */
+@for $i from 0 through $marginHelperSteps {
+    .p-#{$i} {
+        padding: calculateMargin($i) !important;
+    }
+}
+
+/* Padding North */
+@for $i from 0 through $marginHelperSteps {
+    .pn-#{$i} {
+        padding-top: calculateMargin($i) !important;
+    }
+}
+
+/* Padding South */
+@for $i from 0 through $marginHelperSteps {
+    .ps-#{$i} {
+        padding-bottom: calculateMargin($i) !important;
+    }
+}
+
+/* Padding West */
+@for $i from 0 through $marginHelperSteps {
+    .pw-#{$i} {
+        padding-left: calculateMargin($i) !important;
+    }
+}
+
+/* Padding East */
+@for $i from 0 through $marginHelperSteps {
+    .pe-#{$i} {
+        padding-right: calculateMargin($i) !important;
+    }
+}
+
+/* Padding X (West<->Est) */
+@for $i from 0 through $marginHelperSteps {
+    .px-#{$i} {
+        padding-left: calculateMargin($i) !important;
+        padding-right: calculateMargin($i) !important;
+    }
+}
+
+/* Padding Y (North<->South) */
+@for $i from 0 through $marginHelperSteps {
+    .py-#{$i} {
+        padding-top: calculateMargin($i) !important;
+        padding-bottom: calculateMargin($i) !important;
+    }
+}
+
+/* Gap (flex and grid) */
+@for $i from 0 through $marginHelperSteps {
+    .gap-#{$i} {
+        gap: calculateMargin($i) !important;
+    }
+}
