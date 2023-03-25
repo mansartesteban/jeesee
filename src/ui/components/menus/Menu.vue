@@ -2,27 +2,29 @@
     <div :class="classes" :style="style">
         <Button @click="this.collapsed = !this.collapsed">Open menu</Button>
 
-        <div v-show="!collapsed">
+        <Card v-show="!collapsed" class="elevation-8">
             <template v-for="item in items">
                 <template v-if="item.divider">
-                    <Divider></Divider>
+                    <Divider class="my-2"></Divider>
                 </template>
                 <template v-else>
-                    <menu-item :icon="item.icon">
-                        <template #item-icon>
-                            <slot name="item-icon" v-bind="{ item }"></slot>
-                        </template>
-                        <slot name="menu-item" v-bind="{ item }">
-                            {{ item.label }}
-                        </slot>
-                        <template #item-end>
-                            <slot name="item-end" v-bind="{ item }"></slot>
-                        </template>
-                    </menu-item>
+                    <slot name="menu-item" v-bind="{ item }">
+                        <menu-item :icon="item.icon" :to="item.to">
+                            <template #item-icon>
+                                <slot name="item-icon" v-bind="{ item }"></slot>
+                            </template>
+                            <slot name="item-label" v-bind="{ item }">
+                                {{ item.label }}
+                            </slot>
+                            <template #item-end>
+                                <slot name="item-end" v-bind="{ item }"></slot>
+                            </template>
+                        </menu-item>
+                    </slot>
                 </template>
             </template>
 
-        </div>
+        </Card>
     </div>
 </template>
 <script>
@@ -58,6 +60,13 @@ export default {
     }
 }; 
 </script>
-<style lang="">
-    
+<style lang="scss">
+    .menu-dropdown {
+        position: relative;
+    }
+    .menu-dropdown .card {
+        position: absolute;
+        top: 110%;
+        z-index: 1000;
+    }
 </style>

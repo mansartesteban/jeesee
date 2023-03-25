@@ -23,10 +23,13 @@ declare module '@vue/runtime-core' {
     DocumentationInputRadios: typeof import('./src/ui/views/documentation/sections/inputs/DocumentationInputRadios.vue')['default']
     DocumentationInputs: typeof import('./src/ui/views/documentation/sections/DocumentationInputs.vue')['default']
     DocumentationInputSwitches: typeof import('./src/ui/views/documentation/sections/inputs/DocumentationInputSwitches.vue')['default']
+    DocumentationInputTextboxes: typeof import('./src/ui/views/documentation/sections/inputs/DocumentationInputTextboxes.vue')['default']
     DocumentationMenus: typeof import('./src/ui/views/documentation/sections/DocumentationMenus.vue')['default']
     DocumentationProgressBars: typeof import('./src/ui/views/documentation/sections/DocumentationProgressBars.vue')['default']
     DocumentationSection: typeof import('./src/ui/views/documentation/DocumentationSection.vue')['default']
     DocumentationTexts: typeof import('./src/ui/views/documentation/sections/DocumentationTexts.vue')['default']
+    Engine: typeof import('./src/ui/views/engine/index.vue')['default']
+    Home: typeof import('./src/ui/views/Home.vue')['default']
     KeyboardKey: typeof import('./src/ui/components/KeyboardKey.vue')['default']
     Menu: typeof import('./src/ui/components/menus/Menu.vue')['default']
     MenuItem: typeof import('./src/ui/components/menus/MenuItem.vue')['default']
@@ -40,5 +43,7 @@ declare module '@vue/runtime-core' {
     Tabs: typeof import('./src/ui/components/tabs/Tabs.vue')['default']
     TabView: typeof import('./src/ui/components/tabs/TabView.vue')['default']
     TabViewContainer: typeof import('./src/ui/components/tabs/TabViewContainer.vue')['default']
+    Textbox: typeof import('./src/ui/components/inputs/Textbox.vue')['default']
+    Toolbar: typeof import('./src/ui/components/Toolbar.vue')['default']
   }
 }

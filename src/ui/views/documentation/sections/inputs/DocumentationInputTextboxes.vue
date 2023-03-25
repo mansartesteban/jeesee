@@ -1,43 +1,43 @@
 <template>
-    <h1>Checkboxes</h1>
-    <DocumentationSection title="Checkboxes button colors">
-        <div>We can add some classes to modify the color of checkboxes
+    <h1>Textboxes</h1>
+    <DocumentationSection title="Textboxes button colors">
+        <div>We can add some classes to modify the color of textboxes
             <template v-for="color in colors">
                 <pre class="inline">.{{ color }}</pre>,
             </template>
         </div>
         <div class="d-flex gap-4 mn-4">
-            <Checkbox v-for="color in colors" :color="color"></Checkbox>
+            <Textbox v-for="color in colors" :color="color"></Textbox>
         </div>
     </DocumentationSection>
-    <DocumentationSection title="Checkboxes button labels">
+    <DocumentationSection title="Textboxes button labels">
         <div>
-            We can add some labels to checkboxes
+            We can add some labels to textboxes
         </div>
         <div class="d-flex gap-4 my-4">
-            <Checkbox v-for="color in colors" :color="color">{{ color }}</Checkbox>
+            <Textbox v-for="color in colors" :color="color">{{ color }}</Textbox>
         </div>
         <div>
-            <Checkbox color="primary" glowing>With glowing effect</Checkbox>
+            <Textbox color="primary" glowing>With glowing effect</Textbox>
         </div>
     </DocumentationSection>
-    <DocumentationSection title="Checkboxes styling">
-        <div>"We can add some classes to modify the style of checkboxes
+    <DocumentationSection title="Textboxes styling">
+        <div>"We can add some classes to modify the style of textboxes
             <pre class="inline">.glowing</pre>
         </div>
         <div class="d-flex gap-4 mn-4">
-            <Checkbox v-for="color in colors" :color="color" glowing>
+            <Textbox v-for="color in colors" :color="color" glowing>
                 Glowing
-            </Checkbox>
+            </Textbox>
         </div>
         <div class="my-4">
             We can add some classes to modify the glowing intensity from 0 to 1
             <pre class="inline">{ glowingIntensity: number }</pre>
         </div>
         <div class="d-flex gap-8 mn-4">
-            <Checkbox v-for="i in 10 " color="primary" glowing :glowingIntensity="i / 10">
+            <Textbox v-for="i in 10 " color="primary" glowing :glowingIntensity="i / 10">
                 .glowing-{{ i }}
-            </Checkbox>
+            </Textbox>
         </div>
     </DocumentationSection>
 </template>
@@ -46,7 +46,7 @@
 import colors from "@/ui/utils/colors";
 
 export default {
-    name: "DocumentationInputsCheckboxes",
+    name: "DocumentationInputsTextboxes",
     data() {
         return {
             colors,

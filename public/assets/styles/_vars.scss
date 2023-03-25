@@ -1,6 +1,6 @@
-$primary: #26c4ce;
+$primary: #12929c;
 
-$colors: ("primary": ("color": $primary, "textColor": #282b38),
+$colors: ("primary": ("color": $primary, "textColor": white),
     "secondary": ("color": #484b57, "textColor": white),
     "success": ("color": #16db65, "textColor": #282b38),
     "warning": ("color": #f2d235, "textColor": #282b38),
@@ -14,6 +14,7 @@ $colors: ("primary": ("color": $primary, "textColor": #282b38),
 $colorVariants: ("darker": -25%, "dark": -10%, "light": 10%, "lighter": 25%);
 
 :root {
+    --bg: #{map-get(map-get($colors, "dark"), "color")};
 
     @each $colorName,
     $colorValue in $colors {

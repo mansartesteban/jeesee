@@ -20,11 +20,13 @@ export default {
         return {
             tabs: [
                 {
+                    header: "Inputs",
+                    content: DocumentationInputs
+                },
+                {
                     header: "Menus",
                     content: DocumentationMenus
                 },
-
-
                 {
                     header: "Cards",
                     content: DocumentationCards
@@ -32,10 +34,6 @@ export default {
                 {
                     header: "ProgressBars",
                     content: DocumentationProgressBars
-                },
-                {
-                    header: "Inputs",
-                    content: DocumentationInputs
                 },
                 {
                     header: "Buttons",

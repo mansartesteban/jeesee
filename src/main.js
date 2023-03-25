@@ -1,6 +1,9 @@
-import { createApp } from 'vue'
-import App from '@ui/App'
+import { createApp } from 'vue';
+import App from '@ui/App';
 
 import "@assets/styles/_jeesee.scss";
+import routing from "./routing";
 
-createApp(App).mount('#jeesee')
+createApp(App)
+    .use(routing)
+    .mount('#jeesee');

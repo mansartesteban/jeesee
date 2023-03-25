@@ -1,5 +1,5 @@
 <template>
-    <div :class="classes">
+    <div :class="classes" ref="alert">
         <slot></slot>
     </div>
 </template>
@@ -29,6 +29,12 @@ export default {
                 this.glowing ? ("glow-" + this.glowingIntensity * 10) : ""
             ];
         }
+    },
+    mounted() {
+        this.$refs.alert.addEventListener("contextMenu", (e) => {
+            e.preventDefault();
+
+        });
     }
 };
 </script>
