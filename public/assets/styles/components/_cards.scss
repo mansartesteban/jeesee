@@ -1,7 +1,7 @@
 .card {
     display: flex;
     flex-direction: column;
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px);
     position: relative;
 
     box-shadow: 0 0 20px rgba(0, 0, 0, .25);
@@ -54,13 +54,13 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        padding: 1em;
+        padding: .5em;
     }
 
     .card-body {
         display: flex;
         flex-direction: column;
-        padding: 1em;
+        padding: .5em;
     }
 
 
@@ -68,7 +68,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        padding: 1em;
+        padding: .5em;
     }
 
 }

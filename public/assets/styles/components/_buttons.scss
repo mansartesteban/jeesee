@@ -22,7 +22,6 @@
     &.active {
         border: 1px solid;
         margin: -1px;
-        // box-sizing: border-box;
     }
 
     @each $colorName,
@@ -33,10 +32,6 @@
                 background-color: map-get($colorValue, "color");
                 color: map-get($colorValue, "textColor");
             }
-
-            // &.outlined.active) {
-            //     border: 1px solid #{map-get($colorValue, "color")};
-            // }
 
             &.active {
                 border-color: map-get($colorValue, "color");

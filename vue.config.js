@@ -16,7 +16,7 @@ module.exports = defineConfig({
                 "vue": path.resolve(`./node_modules/vue`),
                 "@assets": path.resolve(__dirname, "public/assets"),
                 "@styles": path.resolve(__dirname, "public/assets/styles"),
-                "@bundles": path.resolve(__dirname, "src/bundles"),
+                "@/engine": path.resolve(__dirname, "src/bundles"),
                 "@core": path.resolve(__dirname, "src/bundles/core"),
                 "@utils": path.resolve(__dirname, "src/utils"),
                 "@type": path.resolve(__dirname, "src/@types"),

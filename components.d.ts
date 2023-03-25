@@ -33,6 +33,7 @@ declare module '@vue/runtime-core' {
     KeyboardKey: typeof import('./src/ui/components/KeyboardKey.vue')['default']
     Menu: typeof import('./src/ui/components/menus/Menu.vue')['default']
     MenuItem: typeof import('./src/ui/components/menus/MenuItem.vue')['default']
+    MenuItemContent: typeof import('./src/ui/components/menus/MenuItemContent.vue')['default']
     ProgressBar: typeof import('./src/ui/components/ProgressBar.vue')['default']
     Radio: typeof import('./src/ui/components/inputs/Radio.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

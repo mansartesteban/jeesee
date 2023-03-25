@@ -1,11 +1,17 @@
 <template>
     <div :class="classes">
-        <i v-if="prependIcon && !icon" :class="iconName(prependIcon)" class="bi"></i>
-        <i v-if="icon" :class="iconName(icon)" class="bi"></i>
+        <slot name="prepend-icon">
+            <i v-if="prependIcon && !icon" :class="iconName(prependIcon)" class="bi"></i>
+        </slot>
+        <slot name="icon">
+            <i v-if="icon" :class="iconName(icon)" class="bi"></i>
+        </slot>
         <div v-if="$slots.default" :class="{ 'me-2': appendIcon && !icon, 'mw-2': prependIcon || icon }">
             <slot></slot>
         </div>
-        <i v-if="appendIcon && !icon" :class="iconName(appendIcon)" class="bi"></i>
+        <slot name="append-icon">
+            <i v-if="appendIcon && !icon" :class="iconName(appendIcon)" class="bi"></i>
+        </slot>
     </div>
 </template>
 <script>
@@ -58,6 +64,14 @@ export default {
         appendIcon: {
             type: String,
             default: null
+        },
+        glowing: {
+            type: Boolean,
+            default: false
+        },
+        glowingIntensity: {
+            type: [String, Number],
+            default: .5
         }
     },
     computed: {
@@ -72,7 +86,9 @@ export default {
                 { circle: this.circle },
                 { hoverable: this.hoverable },
                 { outlined: this.outlined },
-                { borderless: this.borderless }
+                { borderless: this.borderless },
+                { glowing: this.glowing },
+                this.glowing && this.glowingIntensity ? this.glowingIntensity * 10 : ""
             ];
         }
     },

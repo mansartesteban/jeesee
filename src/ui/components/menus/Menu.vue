@@ -1,6 +1,8 @@
 <template>
-    <div :class="classes" :style="style">
-        <Button @click="this.collapsed = !this.collapsed">Open menu</Button>
+    <div class="menu-dropdown" :class="classes" :style="style" ref="menu-dropdown">
+        <slot name="activator" v-bind="{ onClick: activatorOn }">
+            <Button @click="activatorOn" :icon="activatorIcon">{{ activatorLabel }}</Button>
+        </slot>
 
         <Card v-show="!collapsed" class="elevation-8">
             <template v-for="item in items">
@@ -31,6 +33,14 @@
 export default {
     name: "Menu",
     props: {
+        activatorLabel: {
+            type: String,
+            default: ""
+        },
+        activatorIcon: {
+            type: String,
+            default: ""
+        },
         items: {
             type: Array,
             default: () => ([])
@@ -43,7 +53,6 @@ export default {
     computed: {
         classes() {
             return [
-                "menu-dropdown",
                 { collapsed: this.collapsed }
             ];
         },
@@ -53,20 +62,30 @@ export default {
             ];
         }
     },
+    methods: {
+        activatorOn() {
+            this.collapsed = !this.collapsed;
+        },
+        closeOnBlur(e) {
+            const menu = this.$refs["menu-dropdown"];
+            if (!menu.contains(e.target) && e.target !== menu) {
+                this.collapsed = true;
+            }
+        }
+    },
     data() {
         return {
             collapsed: true
         };
+    },
+    mounted() {
+        window.addEventListener("click", this.closeOnBlur);
+    },
+    beforeUnmount() {
+        window.removeEventListener("click", this.closeOnBlur);
     }
 }; 
 </script>
 <style lang="scss">
-    .menu-dropdown {
-        position: relative;
-    }
-    .menu-dropdown .card {
-        position: absolute;
-        top: 110%;
-        z-index: 1000;
-    }
+
 </style>

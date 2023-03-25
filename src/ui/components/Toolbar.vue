@@ -8,16 +8,9 @@ export default {
     computed: {
         classes() {
             return {
-                "p-2": this.$slots.default
             };
         }
     }
 };
 </script>
-<style lang="scss">
-
-    @import "@styles/vars";
-    .toolbar {
-        border: 1px solid rgba($primary, .25);
-    }
-</style>
+<style lang="scss"></style>

@@ -1,9 +1,13 @@
 .menu-dropdown {
-
-    display: flex;
+    position: relative;
+    display: inline-flex;
     flex-direction: column;
-    padding: .5rem 0;
-    width: fit-content;
+
+    .card {
+        position: absolute;
+        top: 110%;
+        z-index: 1000;
+    }
 
     .menu-dropdown-list {
 
@@ -21,6 +25,7 @@
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
+        white-space: nowrap;
 
         cursor: pointer;
 
@@ -31,10 +36,6 @@
         div {
             display: flex;
             flex-direction: row;
-
-            i {
-                margin-right: .5rem;
-            }
         }
 
     }

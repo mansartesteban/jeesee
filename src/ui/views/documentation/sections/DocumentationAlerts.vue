@@ -30,7 +30,6 @@
         </div>
         <div class="d-flex gap-8 mn-4">
             <Alert v-for="i in 10 " color="primary" glowing :glowingIntensity="i / 10">
-                {{ i / 10 }}
                 Hey ! I am an alert to show you something special, you should take a look
             </Alert>
         </div>
