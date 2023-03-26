@@ -1,4 +1,7 @@
-import { WebGLRenderer, Scene as ThreeScene, PerspectiveCamera, LineSegments, WireframeGeometry, SphereGeometry } from "three";
+import { WebGLRenderer, Scene as ThreeScene, PerspectiveCamera, LineSegments, WireframeGeometry, SphereGeometry, Quaternion, Vector3, Raycaster, Vector2, MeshBasicMaterial, Mesh } from "three";
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { OutlinePass } from 'three/addons/postprocessing/OutlinePass.js';
 import SceneManager from "@/engine/game/SceneManager";
 import GuiControls from "@/engine/game/gui/GuiControls";
 
@@ -9,6 +12,9 @@ class Scene {
 	scene;
 
 	mountOn;
+	raycaster = new Raycaster();
+
+	mouse;
 
 	sceneManager;
 	guiControls;
@@ -18,67 +24,90 @@ class Scene {
 		this.mountOn = mountOn || document.body;
 
 		if (window.requestAnimationFrame === undefined) {
-			throw new Error("L'API 'requestAnimationFrame' ne fonctionne pas sur ce navigateur");
+			throw new Error("The 'requestAnimationFrame' API is required to make JeeSee Engine works !");
 		}
-
-		let controls = document.getElementById("controls");
-
-		let controlsWidth = controls?.clientWidth || 0;
 
 		this.scene = new ThreeScene();
-		this.camera = new PerspectiveCamera(
-			80,
-			(this.mountOn.clientWidth - controlsWidth) / this.mountOn.clientHeight,
-			0.1,
-			5000
-		);
-
 		this.renderer = new WebGLRenderer({ antialias: true });
-		this.renderer.setSize(this.mountOn.clientWidth - controlsWidth, this.mountOn.clientHeight);
-		this.mountOn.addEventListener("resize", () => {
-			let controls = document.getElementById("controls");
-			let controlsWidth = controls?.clientWidth || 0;
 
-			if (this.renderer !== null) {
-				this.renderer.setSize(this.mountOn.clientWidth - controlsWidth, this.mountOn.clientHeight);
-			}
-			if (this.camera !== null) {
-				this.camera.aspect =
-					(this.mountOn.clientWidth - controlsWidth) / this.renderer.domElement.height;
-				this.camera.updateProjectionMatrix();
-			}
-		});
-
-		if (this.camera) {
-			this.camera.position.y = 0;
-			this.camera.position.z = 250;
-			this.camera.rotation.x = 0;
-
-		}
+		this.recalculateRatio();
 
 		this.mountOn.appendChild(this.renderer.domElement);
 
 		this.sceneManager = new SceneManager(this.scene);
-
 		this.guiControls = new GuiControls(this.sceneManager);
 
-		this.guiControls.observer.$on(GuiControls.EVENTS.NODE_SELECTED, (node) => {
-			console.log("selected", node);
+		this.init();
+
+		this.outlineEffect();
+
+		this.mouse = new Vector2(0, 0);
+		this.renderer.domElement.addEventListener("pointermove", (e) => {
+			this.mouse.x = (e.layerX / e.target.clientWidth) * 2 - 1;
+			this.mouse.y = -(e.layerY / e.target.clientHeight) * 2 + 1;
 		});
 
-		this.init();
 		this.loop();
+	}
+
+	outlineEffect() {
+		this.composer = new EffectComposer(this.renderer);
+
+		this.renderPass = new RenderPass(this.scene, this.camera);
+		this.composer.addPass(this.renderPass);
+
+		this.outlinePass = new OutlinePass(new Vector2(window.innerWidth, window.innerHeight), this.scene, this.camera);
+		this.composer.addPass(this.outlinePass);
+	}
+
+	recalculateRatio() {
+
+		if (this.renderer !== null) {
+			this.renderer.setSize(this.mountOn.clientWidth, this.mountOn.clientHeight);
+		}
+		if (this.composer) {
+			this.composer.setSize(this.mountOn.clientWidth, this.mountOn.clientHeight);
+		}
+		if (this.camera) {
+			this.camera.aspect = (this.mountOn.clientWidth) / this.renderer.domElement.height;
+			this.camera.updateProjectionMatrix();
+		}
+	}
+
+	checkIntersection() {
+
+		if (this.controls) {
+			this.raycaster.setFromCamera(this.mouse, this.camera);
+			let intersects = [];
+			this.raycaster.intersectObject(this.scene, true, intersects);
+			intersects = intersects.filter(inter => {
+				let found = this.sceneManager.entities.find(entity => entity.object === inter.object);
+				return found && found.selectable;
+			});
+
+			if (intersects.length > 0) {
+				const selectedObject = intersects[0].object;
+				this.outlinePass.selectedObjects = [selectedObject];
+			}
+		}
+
 	}
 
 	loop() {
 		this.tick++;
 
+		this.checkIntersection();
+
+		this.composer.render();
+
 		this.update(this.tick);
 		this.sceneManager.update(this.tick);
 
-		if (this.renderer && this.scene && this.camera) {
-			this.renderer.render(this.scene, this.camera);
-		}
+		this.recalculateRatio();
+
+		// if (this.renderer && this.scene && this.camera) {
+		// 	this.renderer.render(this.scene, this.camera);
+		// }
 
 		// setTimeout(() => {
 		window.requestAnimationFrame(this.loop.bind(this));

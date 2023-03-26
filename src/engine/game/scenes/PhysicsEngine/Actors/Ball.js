@@ -2,7 +2,7 @@ import Actor from "@/engine/game/actors/Actor";
 import {
 	Mesh,
 } from "three";
-import Cube from "./Cube";
+import Cube from "../../../../core/shapes/Cube";
 
 class Ball extends Actor {
 

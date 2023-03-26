@@ -1,6 +1,5 @@
-import MiniVector2 from "@core/geometry/MiniVector2";
-import { _BlockLayoutPosition } from "@types";
-import MathUtils from "@utils/MathUtils";
+import MiniVector2 from "@/engine/core/geometry/MiniVector2";
+import MathUtils from "@/engine/utils/MathUtils";
 import BlockLayout from "./BlockLayout";
 import GuiLayout from "./GuiLayout";
 
@@ -97,7 +96,7 @@ class Interact {
         e.preventDefault();
         e.stopPropagation();
 
-        let movingSide = e.currentTargetgetAttribute("moving-side");
+        let movingSide = e.currentTarget.getAttribute("moving-side");
         if (movingSide) {
             let directionDatas = this.getDirections(movingSide);
 
@@ -144,7 +143,7 @@ class Interact {
             // Calculate if current edge is passing through layout border and reposition it to the limits with snapStrength
             pos = pos > 100 - this.options.snapStrength ? 100 : (pos < this.options.snapStrength ? 0 : pos);
 
-            // Finally apply calculted new position of the edge et recalculate size of the block
+            // Finally apply calculted new position of the edge and recalculate size of the block
             this.block.targetPosition[directionDatas.from][directionDatas.mainAxe] = Math.abs(this.block.targetPosition[directionDatas.oppositeFrom][directionDatas.mainAxe] - pos) >= this.options.snapStrength ? pos : this.block.targetPosition[directionDatas.oppositeFrom][directionDatas.mainAxe];
             this.block.targetPosition.size[directionDatas.mainAxe] = Math.abs(this.block.targetPosition[directionDatas.from][directionDatas.mainAxe] - this.block.targetPosition[directionDatas.oppositeFrom][directionDatas.mainAxe]);
 

@@ -1,5 +1,4 @@
-import Store from "./Store";
-import Bundle from "@core/Bundle";
+import Bundle from "@/engine/core/Bundle";
 
 class Database extends Bundle {
 
@@ -9,13 +8,13 @@ class Database extends Bundle {
         ...Bundle.EVENTS
     });
 
-    version: number = Date.now(); //TODO: Find a way to handle version managment
-    stores: Store[] = [];
+    version = Date.now(); //TODO: Find a way to handle version managment
+    stores = [];
 
-    db: IDBDatabase | undefined;
-    isInitialized: boolean = false;
+    db;
+    isInitialized;
 
-    requestQueue: Function[] = [];
+    requestQueue = [];
 
     constructor() {
         super(Bundle.BUNDLES.DATABASE);
@@ -24,8 +23,8 @@ class Database extends Bundle {
     start() {
 
         this.observer.$on(Database.EVENTS.DATABASE_INITIALIZED, () => {
-            let promises: Promise<unknown>[] = [];
-            this.stores.forEach((store: Store) => {
+            let promises = [];
+            this.stores.forEach(store => {
                 promises.push(new Promise((res) => {
                     store.retrieve().then(() => res(store.autosave()));
                 }));
@@ -83,7 +82,7 @@ class Database extends Bundle {
         }
     }
 
-    openStore(store: Store) {
+    openStore(store) {
         if (this.isInitialized) {
             throw new Error("You can't open a store after the application has started");
         }
@@ -91,19 +90,19 @@ class Database extends Bundle {
         this.stores.push(store);
     }
 
-    addRequest(callback: Function) {
+    addRequest(callback) {
         this.requestQueue.push(callback);
         this.observer.$emit(Database.EVENTS.QUEUE_UPDATED);
     }
 
-    getStore(name: string): Store | undefined {
+    getStore(name) {
         return this.stores.find(store => store.name === name);
     }
 
 
-    getItem(id: string, successCallback?: Function, errorCallback?: Function): Promise<Object> {
+    getItem(id, successCallback, errorCallback) {
         return new Promise((resolve, reject) => {
-            this.addRequest((db: IDBDatabase) => {
+            this.addRequest(db => {
                 let transaction = db.transaction(this.name, "readonly");
                 let storeObject = transaction.objectStore(this.name);
                 let req = storeObject.get(id);
@@ -123,9 +122,9 @@ class Database extends Bundle {
 
     }
 
-    setItem(store: Store, value: { id: string, value: any; }, instant = true) {
+    setItem(store, value, instant = true) {
         return new Promise((resolve, reject) => {
-            this.addRequest((db: IDBDatabase) => {
+            this.addRequest(db => {
 
                 let transaction = db.transaction(store.name, "readwrite");
                 let storeObject = transaction.objectStore(store.name);
@@ -147,9 +146,9 @@ class Database extends Bundle {
     }
 
 
-    getAll(store: Store) {
+    getAll(store) {
         return new Promise((resolve, reject) => {
-            this.addRequest((db: IDBDatabase) => {
+            this.addRequest(db => {
                 let transaction = db.transaction(store.name, "readonly");
                 let storeObject = transaction.objectStore(store.name);
 

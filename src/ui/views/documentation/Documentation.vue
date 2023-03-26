@@ -1,5 +1,5 @@
 <template>
-    <div class="documentation h-100 w-100 p-6">
+    <div class="documentation p-6 d-flex flex-column flex">
         <Tabs :tabs="tabs" vertical class="h-100"></Tabs>
     </div>
 </template>

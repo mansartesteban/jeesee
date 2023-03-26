@@ -1,39 +1,62 @@
-<template lang="">
-    <div class="engine-view">
-        <div ref="scene-view" class="scene-view"></div>
+<template>
+    <div ref="engine-view" class="engine-view">
+        <SideBar ref="side-bar"></SideBar>
+        <SceneView ref="scene-view"></SceneView>
+        <ContextBar ref="context-bar"></ContextBar>
+        <BottomBar ref="bottom-bar"></BottomBar>
     </div>
 </template>
 
 <script>
-import Game from "@/engine/game/Game";
+import GuiLayout from "@/engine/game/gui/layouts/GuiLayout";
+import BlockLayout from "@/engine/game/gui/layouts/BlockLayout";
 
 export default {
     mounted() {
-        // TODO: Retrieve layout grid datas
-        // Initialize three (loader)
 
-        let game = new Game();
-        game.start(this.$refs["scene-view"]);
+        console.log(this.$refs["engine-view"]);
+        let layout = new GuiLayout(this.$refs["engine-view"]);
 
-        // window.addEventListener("mousemove", (e) => {
-        //     this.$refs["scene-view"].style.width = e.clientX + "px";
-        //     let event = new Event("resize");
-        //     this.$refs["scene-view"].dispatchEvent(event);
-        // });
+        let sideBar = new BlockLayout({
+            x: 0,
+            y: 0,
+            width: 5,
+            height: 80
+        }, this.$refs["side-bar"].$el);
+        let bottomBar = new BlockLayout({
+            x: 0,
+            y: 80,
+            width: 100,
+            height: 20
+        }, this.$refs["bottom-bar"].$el);
+        let sceneView = new BlockLayout({
+            x: 5,
+            y: 0,
+            width: 80,
+            height: 80
+        }, this.$refs["scene-view"].$el);
+        let contextBar = new BlockLayout({
+            x: 85,
+            y: 0,
+            width: 15,
+            height: 80
+        }, this.$refs["context-bar"].$el);
+
+        layout.addBlock(sideBar);
+        layout.addBlock(bottomBar);
+        layout.addBlock(sceneView);
+        layout.addBlock(contextBar);
+
+        this.$engine.start(this.$refs["scene-view"].$el);
+
     }
 };
 </script>
 <style lang="scss">
-    .scene-view {
-        width: 50%;
-        height: 360px;
-        resize: both;
-        // padding: 1em;
-        // border: 1px solid grey;
-        // margin: 1em;
-    }
-    .scene-view canvas {
+
+    .engine-view {
         position: relative;
-        left: -2em;
+        height: 100%;
     }
+
 </style>

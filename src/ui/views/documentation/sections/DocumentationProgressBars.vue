@@ -21,6 +21,8 @@
 
 <script>
 import colors from '@/ui/utils/colors';
+import MyNoise from '@/engine/utils/MyNoise';
+
 export default {
     name: "DocumentationProgressBars",
     data() {
@@ -30,11 +32,15 @@ export default {
         };
     },
     created() {
+        let i = 0;
+        MyNoise.regenerate(10000);
         setInterval(() => {
-            console.log; ("interval ?");
-            this.prog += Math.random() > .75 ? .1 : 0;
+            let n = MyNoise.noise(i / 100);
+            this.prog += n / 10;
+            i++;
             if (this.prog > 100) {
                 this.prog = 0;
+                i = 0;
             }
         }, 5);
     }

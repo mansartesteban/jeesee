@@ -1,18 +1,18 @@
 <template>
   <Toolbar v-if="$route.name != 'Home'" class="d-flex align-items-center elevation-4">
-    <Menu :items="itemsApp">
+    <Menu :items="itemsApp" hide-on-click>
       <template #activator="props">
         <Button v-bind="props">
           <template #icon>
-            <img src="assets/medias/logo-white.svg" width="20" height="20" style="transform: rotate(90deg)">
+            <img src="/assets/medias/logo-white.svg" width="20" height="20" style="transform: rotate(90deg)">
           </template>
           <span class="mw-2">Application</span>
         </Button>
       </template>
     </Menu>
-    <Menu :items="itemsNavigation" activator-label="Navigation" activator-icon="diagram-3"></Menu>
+    <Menu :items="itemsNavigation" activator-label="Navigation" activator-icon="diagram-3" hide-on-click></Menu>
     <Divider></Divider>
-    <Menu :items="itemsHelp" activator-label="Help" activator-icon="question-circle"></Menu>
+    <Menu :items="itemsHelp" activator-label="Help" activator-icon="question-circle" hide-on-click></Menu>
   </Toolbar>
 
   <RouterView></RouterView>

@@ -1,3 +1,4 @@
+import { BackSide, Mesh, MeshBasicMaterial } from "three";
 import { generateUUID } from "three/src/math/MathUtils";
 
 class Actor {
@@ -11,6 +12,9 @@ class Actor {
 
     name;
     parent;
+    sceneManager;
+
+    selectable = true;
 
     isRigidBody = false;
 
@@ -30,8 +34,15 @@ class Actor {
         this.create();
     }
 
+    bindSceneManager(sceneManager) {
+        this.sceneManager = sceneManager;
+    }
+
     add(entity) {
         entity.parent = this.name;
+        if (this.sceneManager) {
+            this.sceneManager.add(entity);
+        }
         this.children.push(entity);
         return this;
     }

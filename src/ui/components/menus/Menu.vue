@@ -11,7 +11,7 @@
                 </template>
                 <template v-else>
                     <slot name="menu-item" v-bind="{ item }">
-                        <menu-item :icon="item.icon" :to="item.to">
+                        <menu-item :icon="item.icon" :to="item.to" @item-clicked="collapsed = true">
                             <template #item-icon>
                                 <slot name="item-icon" v-bind="{ item }"></slot>
                             </template>
@@ -40,6 +40,10 @@ export default {
         activatorIcon: {
             type: String,
             default: ""
+        },
+        hideOnClick: {
+            type: Boolean,
+            defautl: false
         },
         items: {
             type: Array,

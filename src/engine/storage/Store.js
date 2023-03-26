@@ -1,32 +1,27 @@
 import Database from "./Database";
 
-type StoredData = {
-    id: string,
-    value: any;
-};
-
 class Store {
 
-    static STORES: Record<string, string> = Object.freeze({
+    static STORES = Object.freeze({
         INTERFACE: "interface",
         SETTINGS: "settings",
         GAME: "game"
     });
 
-    name: string;
-    db: Database | undefined;
+    name;
+    db;
 
-    autosaveInterval: number = 10000;
+    autosaveInterval = 10000;
 
-    datas: any[] = [];
+    datas = [];
 
-    constructor(name: string) {
+    constructor(name) {
         this.name = name;
     }
 
-    save(id: string, value: any) {
+    save(id, value) {
 
-        let findIndex = this.datas.findIndex((data: StoredData) => data.id === id);
+        let findIndex = this.datas.findIndex(data => data.id === id);
         if (findIndex !== -1) {
             this.datas[findIndex].value = value;
         } else {
@@ -34,8 +29,8 @@ class Store {
         }
     }
 
-    get(id: string) {
-        return this.datas.find((data: StoredData) => data.id === id)?.value;
+    get(id) {
+        return this.datas.find(data => data.id === id)?.value;
     }
 
     getAll() {
@@ -50,7 +45,7 @@ class Store {
     }
 
     autosave() {
-        this.datas.forEach((data: StoredData) => {
+        this.datas.forEach(data => {
             if (this.db) {
                 this.db.setItem(this, data);
             }
@@ -59,12 +54,12 @@ class Store {
         setTimeout(this.autosave.bind(this), this.autosaveInterval);
     }
 
-    attachDB(db: Database) {
+    attachDB(db) {
         this.db = db;
     }
 
 
-    isValidStore(storeName: string) {
+    isValidStore(storeName) {
         return Object.values(Store.STORES).includes(storeName);
     }
 

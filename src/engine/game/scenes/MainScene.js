@@ -2,10 +2,7 @@ import PointLight from "@/engine/game/actors/StellarSystem/PointLight";
 import Scene from "@/engine/game/Scene";
 import StellarSystem from "@/engine/game/actors/StellarSystem/StellarSystem";
 
-import {
-	Mesh,
-	Vector3,
-} from "three";
+import { Vector3 } from "three";
 
 class MainScene extends Scene {
 	cube;

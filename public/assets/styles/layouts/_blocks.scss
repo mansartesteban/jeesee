@@ -26,10 +26,10 @@ body:not(.resize-x):not(.resize-y) {
 // A layout block
 .layout-block {
 
-    background: #333744;
+    background: rgba(map-get($colors, "dark", "color"), .25);
     box-sizing: border-box;
     resize: both;
-    // position: absolute;
+    position: absolute;
     border: 1px solid rgba(255, 255, 255, .1);
     margin: -.5px;
 
@@ -97,10 +97,10 @@ body:not(.resize-x):not(.resize-y) {
     &.resizing-right {
 
         .resizer-right {
-            background: #76c3c6;
+            background: var(--primary-color);
             width: 2px !important;
             transform: translateX(1px) translateY(-1px) !important;
-            box-shadow: 0 0 5px #86BBBD;
+            box-shadow: 0 0 5px var(--primary-color);
             animation: flicker 3s linear infinite;
         }
     }
@@ -108,10 +108,10 @@ body:not(.resize-x):not(.resize-y) {
     &.resizing-left {
 
         .resizer-left {
-            background: #76c3c6;
+            background: var(--primary-color);
             width: 2px !important;
             transform: translateX(-1px) translateY(-1px) !important;
-            box-shadow: 0 0 5px #86BBBD;
+            box-shadow: 0 0 5px var(--primary-color);
             animation: flicker 3s linear infinite;
         }
 
@@ -119,20 +119,20 @@ body:not(.resize-x):not(.resize-y) {
 
     &.resizing-top {
         .resizer-top {
-            background: #76c3c6;
+            background: var(--primary-color);
             height: 2px !important;
             transform: translateX(-1px) translateY(-1px) !important;
-            box-shadow: 0 0 5px #86BBBD;
+            box-shadow: 0 0 5px var(--primary-color);
             animation: flicker 3s linear infinite;
         }
     }
 
     &.resizing-bottom {
         .resizer-bottom {
-            background: #76c3c6;
+            background: var(--primary-color);
             height: 2px !important;
             transform: translateX(-1px) translateY(+1px) !important;
-            box-shadow: 0 0 5px #86BBBD;
+            box-shadow: 0 0 5px var(--primary-color);
             animation: flicker 3s linear infinite;
         }
     }

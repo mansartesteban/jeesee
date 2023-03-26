@@ -1,18 +1,12 @@
-import MiniVector2 from "@core/geometry/MiniVector2";
-import Observer from "@core/Observer";
-import {
-	_ActionBarItem,
-	_BlockLayoutOptions,
-	_BlockLayoutPosition,
-	_GridLayoutOptions,
-} from "@types";
+import MiniVector2 from "@/engine/core/geometry/MiniVector2";
+import Observer from "@/engine/core/Observer";
 
 import ActionBar from "./ActionBar";
 import Interact from "./Interact";
 import Interfacor from "./Interfacor";
-import MathUtils from "@utils/MathUtils";
+import MathUtils from "@/engine/utils/MathUtils";
 
-import InterfaceStore from "../../storage/stores/InterfaceStore";
+import InterfaceStore from "@/engine/storage/stores/InterfaceStore";
 
 class BlockLayout extends Interfacor {
 
@@ -36,6 +30,7 @@ class BlockLayout extends Interfacor {
 	};
 
 	layout = null;
+	node = null;
 
 	targetPosition = {
 		from: new MiniVector2(),
@@ -52,7 +47,7 @@ class BlockLayout extends Interfacor {
 	observer = new Observer(BlockLayout.EVENTS);
 	interact;
 
-	constructor(options) {
+	constructor(options, node) {
 		super();
 
 		if (options) {
@@ -75,6 +70,8 @@ class BlockLayout extends Interfacor {
 			}
 		}
 
+		this.node = node;
+
 
 		if (this.options.resizerSize) {
 			document.documentElement.style.setProperty("--a13y-resizer-size", this.options.resizerSize + "px");
@@ -91,11 +88,11 @@ class BlockLayout extends Interfacor {
 		this.interact = new Interact(this, this.layout.blocks, { snapStrength: this.options.snapStrength });
 
 		this.interact.makeResizable(true, true);
-		this.interact.makeMovable();
+		// this.interact.makeMovable();
 	}
 
 	createElement() {
-		this.node = document.createElement("div");
+		this.node = this.node || document.createElement("div");
 		this.node.classList.toggle("layout-block", true);
 		this.node.classList.toggle("resizable", true);
 
@@ -114,7 +111,7 @@ class BlockLayout extends Interfacor {
 
 	createActionBar() {
 
-		if (this.options.actionBar !== undefined) {
+		if (this.options.actionBar !== undefined && this.options.actionBar !== false) {
 			let actionBar = new ActionBar();
 			this.addNode(actionBar);
 
@@ -221,10 +218,10 @@ class BlockLayout extends Interfacor {
 				}
 			}
 
-			this.node.style.left = `${this.currentPosition.from.x}vw`;
-			this.node.style.right = `${100 - this.currentPosition.to.x}vw`;
-			this.node.style.top = `${this.currentPosition.from.y}vh`;
-			this.node.style.bottom = `${100 - this.currentPosition.to.y}vh`;
+			this.node.style.left = `${this.currentPosition.from.x}%`;
+			this.node.style.right = `${100 - this.currentPosition.to.x}%`;
+			this.node.style.top = `${this.currentPosition.from.y}%`;
+			this.node.style.bottom = `${100 - this.currentPosition.to.y}%`;
 
 
 

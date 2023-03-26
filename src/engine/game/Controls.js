@@ -1,4 +1,4 @@
-import { Camera, Euler, Quaternion, Renderer, Vector3 } from "three";
+import { Camera, Euler, Quaternion, Renderer, Vector2, Vector3 } from "three";
 import { clamp } from "three/src/math/MathUtils";
 
 class Controls {
@@ -8,8 +8,8 @@ class Controls {
 	keys = [];
 	actions;
 
-	mouseSensitivity = 1;
-	cameraSpeed = 1;
+	mouseSensitivity = .1;
+	cameraSpeed = .1;
 	theta = 0;
 	phi = 0;
 
@@ -18,6 +18,7 @@ class Controls {
 		this.renderer = renderer;
 
 		this.actions = {};
+		this.mouse = new Vector2();
 
 		this.addListeners();
 		this.bindActions();
@@ -44,39 +45,32 @@ class Controls {
 	}
 
 	bindMouseMovments() {
-		this.renderer.domElement.addEventListener("click", async () => {
+
+		const onMouseMove = (e) => {
+			if (this.renderer.domElement === document.pointerLockElement) {
+				this.rotateCamera(e);
+			}
+		};
+		const onWheel = (e) => {
+			this.modifyCameraSpeed(e);
+		};
+
+		this.renderer.domElement.addEventListener("mousedown", async () => {
 			if (this.renderer.domElement !== document.pointerLockElement) {
-				await this.renderer.domElement.requestPointerLock();
-
-				this.renderer.domElement.addEventListener("mousemove", (e) => {
-					if (this.renderer.domElement === document.pointerLockElement) {
-						const movementX = (e.movementX || 0) * 0.0005;
-						const movementY = (e.movementY || 0) * 0.0005;
-
-						this.phi += -movementX * 5;
-						this.theta = clamp(
-							this.theta + -movementY * 5,
-							-Math.PI / 3,
-							Math.PI / 3
-						);
-
-						const qx = new Quaternion();
-						qx.setFromAxisAngle(new Vector3(0, 1, 0), this.phi);
-						const qz = new Quaternion();
-						qz.setFromAxisAngle(new Vector3(1, 0, 0), this.theta);
-
-						const q = new Quaternion();
-						q.multiply(qx).multiply(qz);
-
-						this.camera.quaternion.copy(q);
-
-					}
+				await this.renderer.domElement.requestPointerLock({
+					unadjustedMovement: true,
 				});
 
-				this.renderer.domElement.addEventListener("wheel", (e) => {
-					this.cameraSpeed *= Math.pow(1.05, -e.deltaY / Math.abs(e.deltaY));
-					if (this.cameraSpeed <= 0) this.cameraSpeed = 0.1;
-				});
+				this.renderer.domElement.addEventListener("mousemove", onMouseMove);
+				this.renderer.domElement.addEventListener("wheel", onWheel, { passive: true });
+			}
+		});
+
+		this.renderer.domElement.addEventListener("mouseup", async () => {
+			if (this.renderer.domElement === document.pointerLockElement) {
+				document.exitPointerLock();
+				this.renderer.domElement.removeEventListener("mousemove", onMouseMove);
+				this.renderer.domElement.removeEventListener("wheel", onWheel);
 			}
 		});
 	}
@@ -92,6 +86,33 @@ class Controls {
 				this.keys = this.keys.filter((k) => k !== e.key);
 			}
 		});
+	}
+
+	rotateCamera(e) {
+		const movementX = (e.movementX || 0) * 0.0005;
+		const movementY = (e.movementY || 0) * 0.0005;
+
+		this.phi += -movementX * 5;
+		this.theta = clamp(
+			this.theta + -movementY * 5,
+			-Math.PI / 2,
+			Math.PI / 2
+		);
+
+		const qx = new Quaternion();
+		qx.setFromAxisAngle(new Vector3(0, 1, 0), this.phi);
+		const qz = new Quaternion();
+		qz.setFromAxisAngle(new Vector3(1, 0, 0), this.theta);
+
+		const q = new Quaternion();
+		q.multiply(qx).multiply(qz);
+
+		this.camera.quaternion.copy(q);
+	}
+
+	modifyCameraSpeed(e) {
+		this.cameraSpeed *= Math.pow(1.05, -e.deltaY / Math.abs(e.deltaY));
+		if (this.cameraSpeed <= 0) this.cameraSpeed = 0.1;
 	}
 
 	moveCamera(direction) {

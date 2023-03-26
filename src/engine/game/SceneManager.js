@@ -37,6 +37,8 @@ class SceneManager {
 
     if (entityName) entity.name = entityName;
 
+    entity.bindSceneManager(this);
+
     if (entity.children) {
       entity.children.forEach((child) => $this.add(child));
     }

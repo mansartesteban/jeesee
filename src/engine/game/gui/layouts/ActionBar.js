@@ -1,5 +1,4 @@
-import Observer from "@core/Observer";
-import { _ActionBarItem } from "@types";
+import Observer from "@/engine/core/Observer";
 import Interfacor from "./Interfacor";
 
 var iconStyle = ""; // TODO: préférence

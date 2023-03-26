@@ -1,6 +1,5 @@
-import MiniVector2 from "@core/geometry/MiniVector2";
-import { _BlockLayoutOptions, _BlockLayoutPosition, _GridLayoutOptions } from "@types";
-import InterfaceStore from "../../storage/stores/InterfaceStore";
+import MiniVector2 from "@/engine/core/geometry/MiniVector2";
+import InterfaceStore from "@/engine/storage/stores/InterfaceStore";
 import BlockLayout from "./BlockLayout";
 import Interfacor from "./Interfacor";
 
@@ -8,23 +7,19 @@ class GuiLayout extends Interfacor {
 
     blocks = [];
 
-    constructor() {
+    constructor(mountOn) {
         super();
 
-        this.createElement();
-    }
-
-    createElement() {
-        this.node = document.getElementById("jeesee-engine");
+        this.node = mountOn;
     }
 
     initialize() {
-        let layoutPosition = InterfaceStore.get("layout-position");
-        if (layoutPosition) {
-            this.importLayout(layoutPosition);
-        } else {
-            this.createInitialLayout();
-        }
+        // let layoutPosition = InterfaceStore.get("layout-position");
+        // if (layoutPosition) {
+        // this.importLayout(layoutPosition);
+        // } else {
+        this.createInitialLayout();
+        // }
     }
 
     importLayout(blocks) {
@@ -87,6 +82,7 @@ class GuiLayout extends Interfacor {
     }
 
     createInitialLayout() {
+        console.log("create initial layout");
         this.addBlock(new BlockLayout({
             x: 0,
             y: 0,
