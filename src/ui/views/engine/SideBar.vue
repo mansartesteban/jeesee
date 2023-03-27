@@ -7,7 +7,8 @@
 </template>
 <script>
 import Cube from '@/engine/core/shapes/Cube';
-import { Sphere } from 'three';
+import Sphere from '@/engine/core/shapes/Sphere';
+import Tetrahedron from '@/engine/core/shapes/Tetrahedron';
 
 export default {
     methods: {
@@ -20,6 +21,8 @@ export default {
             this.$engine.scene.sceneManager.add(sphere);
         },
         addTetrahedron() {
+            let tetrahedron = new Tetrahedron();
+            this.$engine.scene.sceneManager.add(tetrahedron);
         }
     },
 };

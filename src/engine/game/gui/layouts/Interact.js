@@ -1,18 +1,21 @@
 import MiniVector2 from "@/engine/core/geometry/MiniVector2";
 import MathUtils from "@/engine/utils/MathUtils";
+import { clamp } from "three/src/math/MathUtils";
 import BlockLayout from "./BlockLayout";
 import GuiLayout from "./GuiLayout";
 
 class Interact {
 
     options = {
-        snapStrength: 1
+        snapStrength: 5
     };
 
     block;
     otherBlocks;
 
     isLocked = false;
+
+    sharedEdges = [];
 
     constructor(block, otherBlocks, options) {
         this.options = { ...this.options, ...options };
@@ -82,6 +85,11 @@ class Interact {
 
                     if (movingSide) {
                         document.documentElement.setAttribute("moving-side", movingSide);
+
+                        this.sharedEdges = this.getSharedEdges(directionDatas, movingSide);
+                        this.sharedEdges.forEach(edge => {
+                            edge.block.node.classList.toggle("resizing-" + edge.side, true);
+                        });
                     }
 
                     // Handle the resizing constraints while moving the mouse (snap to other blocks, border limits ...)
@@ -92,11 +100,45 @@ class Interact {
         }
 
     }
+
+    getSharedEdges(directionDatas, movingSide) {
+
+        let sharedEdges = [];
+
+        this.otherBlocks.forEach((block) => {
+
+            // If the moving edges is shared with other edges (.to)
+            if (this.block.targetPosition[directionDatas.from][directionDatas.mainAxe] == block.targetPosition.from[directionDatas.mainAxe] && block.targetPosition.from[directionDatas.mainAxe] > 0) {
+                sharedEdges.push(
+                    {
+                        block,
+                        sharedEdge: "from",
+                        oppositeEdge: "to",
+                        side: directionDatas.mainAxe == "x" ? "left" : "top"
+                    }
+                );
+            }
+            if (this.block.targetPosition[directionDatas.from][directionDatas.mainAxe] == block.targetPosition.to[directionDatas.mainAxe] && block.targetPosition.to[directionDatas.mainAxe] < 100) {
+                sharedEdges.push(
+                    {
+                        block,
+                        sharedEdge: "to",
+                        oppositeEdge: "from",
+                        side: directionDatas.mainAxe == "x" ? "right" : "bottom"
+                    }
+                );
+            }
+        });
+
+        return sharedEdges;
+    }
+
     resizableMouseMove(e) {
         e.preventDefault();
         e.stopPropagation();
 
         let movingSide = e.currentTarget.getAttribute("moving-side");
+
         if (movingSide) {
             let directionDatas = this.getDirections(movingSide);
 
@@ -107,7 +149,7 @@ class Interact {
             let pos = mousePosition[directionDatas.mainAxe];
 
             if (this.otherBlocks) {
-                // Check collisions/snappings with other blocks
+                // Check collisions/snappings with other blocks 
                 for (let i = 0; i < this.otherBlocks.length; i++) {
 
                     let otherblock = this.otherBlocks[i];
@@ -147,6 +189,14 @@ class Interact {
             this.block.targetPosition[directionDatas.from][directionDatas.mainAxe] = Math.abs(this.block.targetPosition[directionDatas.oppositeFrom][directionDatas.mainAxe] - pos) >= this.options.snapStrength ? pos : this.block.targetPosition[directionDatas.oppositeFrom][directionDatas.mainAxe];
             this.block.targetPosition.size[directionDatas.mainAxe] = Math.abs(this.block.targetPosition[directionDatas.from][directionDatas.mainAxe] - this.block.targetPosition[directionDatas.oppositeFrom][directionDatas.mainAxe]);
 
+            if (this.sharedEdges) {
+                this.sharedEdges.forEach(edge => {
+
+                    edge.block.targetPosition[edge.sharedEdge][directionDatas.mainAxe] = this.block.targetPosition[directionDatas.from][directionDatas.mainAxe];
+                    edge.block.targetPosition.size[directionDatas.mainAxe] = Math.abs(edge.block.targetPosition[edge.sharedEdge][directionDatas.mainAxe] - edge.block.targetPosition[edge.oppositeEdge][directionDatas.mainAxe]);
+                });
+            }
+
             // Emit an event on observer to annouce the block has resized
             this.block.observer.$emit(BlockLayout.EVENTS.BLOCK_RESIZE);
         }
@@ -166,7 +216,12 @@ class Interact {
             if (this.block.node) {
                 this.block.node.classList.toggle("resizing-" + movingSide, false);
                 this.block.node.classList.toggle("moving", false);
+                this.sharedEdges.forEach(edge => {
+                    edge.block.node.classList.toggle("resizing-" + edge.side, false);
+                });
             }
+
+            this.sharedEdges.splice(0, this.sharedEdges.length);
             document.documentElement.removeEventListener("mousemove", this.resizableMouseMove);
             document.documentElement.removeEventListener("mouseup", this.resizableMouseUp);
         }

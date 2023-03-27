@@ -1,5 +1,5 @@
 import Actor from "@/engine/game/actors/Actor";
-import { BackSide, BoxGeometry, Mesh, MeshBasicMaterial, MeshPhongMaterial, TextureLoader } from "three";
+import { BackSide, BoxGeometry, Mesh, MeshBasicMaterial, TextureLoader } from "three";
 
 class Skybox extends Actor {
 

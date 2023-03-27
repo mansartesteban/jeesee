@@ -15,6 +15,7 @@ class Actor {
     sceneManager;
 
     selectable = true;
+    selected = false;
 
     isRigidBody = false;
 

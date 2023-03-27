@@ -3,7 +3,7 @@ import Grid from "@/engine/core/shapes/Grid";
 import Skybox from "@/engine/core/shapes/Skybox";
 import Sphere from "@/engine/core/shapes/Sphere";
 import Scene from "@/engine/game/Scene";
-import { PerspectiveCamera, PointLight, Quaternion, Vector3 } from "three";
+import { Euler, OrthographicCamera, PerspectiveCamera, PointLight, Quaternion, Vector3 } from "three";
 import Controls from "../Controls";
 
 class DefaultScene extends Scene {
@@ -42,6 +42,12 @@ class DefaultScene extends Scene {
             0.1,
             10000
         );
+        // this.camera = new OrthographicCamera(
+        //     this.mountOn.clientWidth,
+        //     this.mountOn.clientHeight,
+        //     .1, 1000
+        // );
+
         this.camera.position.copy(new Vector3(3, 3, 3));
 
         const qx = new Quaternion();
@@ -51,6 +57,7 @@ class DefaultScene extends Scene {
 
         const q = new Quaternion();
         q.multiply(qx).multiply(qz);
+
 
         this.camera.quaternion.copy(q);
     }

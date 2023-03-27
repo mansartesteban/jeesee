@@ -1,7 +1,7 @@
+import Actor from "@/engine/game/actors/Actor";
 import { BoxGeometry, Mesh, MeshPhongMaterial } from "three";
-import RigidBody from "../../game/scenes/PhysicsEngine/Actors/RigidBody";
 
-class Cube extends RigidBody {
+class Cube extends Actor {
 
     create() {
         this.geometry = new BoxGeometry(1, 1, 1);

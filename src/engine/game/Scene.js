@@ -4,6 +4,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { OutlinePass } from 'three/addons/postprocessing/OutlinePass.js';
 import SceneManager from "@/engine/game/SceneManager";
 import GuiControls from "@/engine/game/gui/GuiControls";
+import { ViewHelper } from 'three/addons/helpers/ViewHelper.js';
 
 class Scene {
 	tick;
@@ -15,6 +16,7 @@ class Scene {
 	raycaster = new Raycaster();
 
 	mouse;
+	helper;
 
 	sceneManager;
 	guiControls;
@@ -29,6 +31,7 @@ class Scene {
 
 		this.scene = new ThreeScene();
 		this.renderer = new WebGLRenderer({ antialias: true });
+		this.renderer.autoClear = false;
 
 		this.recalculateRatio();
 
@@ -47,6 +50,19 @@ class Scene {
 			this.mouse.y = -(e.layerY / e.target.clientHeight) * 2 + 1;
 		});
 
+		this.renderer.domElement.addEventListener("mousedown", (e) => {
+			this.sceneManager.entities.forEach(entity => entity.selected = false);
+			let intersectObject = this.getIntersectObjects();
+			if (intersectObject) {
+				intersectObject.selected = true;
+			}
+		});
+
+		this.helper = new ViewHelper(this.camera, this.renderer.domElement);
+		this.helper.handleClick = (e) => {
+			console.log("ev", e);
+		};
+
 		this.loop();
 	}
 
@@ -57,7 +73,12 @@ class Scene {
 		this.composer.addPass(this.renderPass);
 
 		this.outlinePass = new OutlinePass(new Vector2(window.innerWidth, window.innerHeight), this.scene, this.camera);
+		this.outlinePass.visibleEdgeColor.set(0x40c2ad);
 		this.composer.addPass(this.outlinePass);
+
+		this.outlinePass2 = new OutlinePass(new Vector2(window.innerWidth, window.innerHeight), this.scene, this.camera);
+		this.outlinePass2.visibleEdgeColor.set(0xff7b00);
+		this.composer.addPass(this.outlinePass2);
 	}
 
 	recalculateRatio() {
@@ -68,46 +89,62 @@ class Scene {
 		if (this.composer) {
 			this.composer.setSize(this.mountOn.clientWidth, this.mountOn.clientHeight);
 		}
+
 		if (this.camera) {
 			this.camera.aspect = (this.mountOn.clientWidth) / this.renderer.domElement.height;
 			this.camera.updateProjectionMatrix();
 		}
 	}
 
-	checkIntersection() {
+	getIntersectObjects(first = true) {
 
 		if (this.controls) {
 			this.raycaster.setFromCamera(this.mouse, this.camera);
 			let intersects = [];
 			this.raycaster.intersectObject(this.scene, true, intersects);
-			intersects = intersects.filter(inter => {
-				let found = this.sceneManager.entities.find(entity => entity.object === inter.object);
-				return found && found.selectable;
-			});
-
 			if (intersects.length > 0) {
-				const selectedObject = intersects[0].object;
-				this.outlinePass.selectedObjects = [selectedObject];
+				let entities = [];
+				intersects = intersects.forEach(inter => {
+					this.sceneManager.entities.forEach(entity => {
+						if (entity.selectable && entity.object === inter.object) {
+							entities.push(entity);
+						}
+					});
+				}, []);
+
+				return first ? entities[0] : entities;
 			}
+
 		}
+		return [];
 
 	}
 
 	loop() {
 		this.tick++;
+		let intersectObject = this.getIntersectObjects();
+		if (intersectObject?.object) {
+			this.outlinePass.selectedObjects = [intersectObject.object];
+		}
 
-		this.checkIntersection();
-
-		this.composer.render();
+		this.outlinePass2.selectedObjects = this.sceneManager.entities.filter(entity => entity.selected).map(entity => entity.object);
 
 		this.update(this.tick);
 		this.sceneManager.update(this.tick);
 
+		// this.helper.qua
+
 		this.recalculateRatio();
 
-		// if (this.renderer && this.scene && this.camera) {
-		// 	this.renderer.render(this.scene, this.camera);
-		// }
+		if (this.renderer && this.scene && this.camera) {
+			if (this.outlinePass.selectedObjects.length > 0 || this.outlinePass2.selectedObjects.length > 0) {
+				this.composer.render();
+			} else {
+				this.renderer.render(this.scene, this.camera);
+			}
+
+			this.helper.render(this.renderer);
+		}
 
 		// setTimeout(() => {
 		window.requestAnimationFrame(this.loop.bind(this));

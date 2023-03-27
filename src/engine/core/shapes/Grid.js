@@ -1,5 +1,5 @@
 import Actor from "@/engine/game/actors/Actor";
-import { GridHelper, Mesh, MeshPhongMaterial } from "three";
+import { GridHelper } from "three";
 
 class Grid extends Actor {
 
