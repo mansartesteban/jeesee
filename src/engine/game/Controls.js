@@ -8,6 +8,8 @@ class Controls {
 	keys = [];
 	actions;
 
+	isPaused = false;
+
 	mouseSensitivity = .1;
 	cameraSpeed = .1;
 	theta = 0;
@@ -33,6 +35,14 @@ class Controls {
 		});
 	}
 
+	pause() {
+		this.isPaused = true;
+	}
+
+	resume() {
+		this.isPaused = false;
+	}
+
 	bindActions() {
 		this.actions = {
 			z: this.moveForward,
@@ -48,7 +58,9 @@ class Controls {
 
 		const onMouseMove = (e) => {
 			if (this.renderer.domElement === document.pointerLockElement) {
-				this.rotateCamera(e);
+				if (!this.isPaused) {
+					this.rotateCamera(e);
+				}
 			}
 		};
 		const onWheel = (e) => {

@@ -243,9 +243,9 @@ class BlockLayout extends Interfacor {
 				this.currentPosition.size.y = this.currentPosition.to.y - this.currentPosition.from.y;
 
 			} else {
-				if (this.layout) {
-					this.layout.save();
-				}
+				// if (this.layout) {
+				// 	this.layout.save();
+				// }
 			}
 
 			if (!instant) {

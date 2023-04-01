@@ -3,6 +3,8 @@ import { BackSide, BoxGeometry, Mesh, MeshBasicMaterial, TextureLoader } from "t
 
 class Skybox extends Actor {
 
+    selectable = false;
+
     options = {
         urls: []
     };

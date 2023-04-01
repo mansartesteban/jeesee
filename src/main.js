@@ -5,10 +5,15 @@ import "@assets/styles/_jeesee.scss";
 import routing from "./routing";
 
 import Engine from "@/engine/game/Engine";
+import EngineApp from "@/engine";
 
 const app = createApp(App);
 
 app.config.globalProperties.$engine = new Engine();
 
-app.use(routing)
+
+
+app
+    .use(routing)
+    .use(EngineApp)
     .mount('#jeesee');

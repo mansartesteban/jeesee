@@ -1,4 +1,3 @@
-import { BackSide, Mesh, MeshBasicMaterial } from "three";
 import { generateUUID } from "three/src/math/MathUtils";
 
 class Actor {

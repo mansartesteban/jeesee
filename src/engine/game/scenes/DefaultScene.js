@@ -3,8 +3,85 @@ import Grid from "@/engine/core/shapes/Grid";
 import Skybox from "@/engine/core/shapes/Skybox";
 import Sphere from "@/engine/core/shapes/Sphere";
 import Scene from "@/engine/game/Scene";
-import { Euler, OrthographicCamera, PerspectiveCamera, PointLight, Quaternion, Vector3 } from "three";
+import { BoxGeometry, Euler, Mesh, MeshPhongMaterial, OrthographicCamera, PerspectiveCamera, PointLight, Quaternion, SphereGeometry, Vector3 } from "three";
 import Controls from "../Controls";
+import RenderComponent from "../RenderComponent";
+
+
+
+class Entity {
+    constructor(...components) {
+        this.position = new Vector3();
+        this.rotation = new Vector3();
+        this.velocity = new Vector3();
+
+        this.components = components;
+    }
+
+    bindSceneManager(sceneManager) {
+        this.sceneManager = sceneManager;
+    }
+
+    // save() {
+    //     return {
+    //         ...this.position,
+    //         ...this.rotation,
+    //         ...this.velocity
+    //     };
+    // }
+
+    update(tick) {
+        this.components.forEach(component => component.update(this, tick));
+        // console.log()
+    }
+}
+
+class PhysicsComponent {
+
+    update(entity, tick) {
+        entity.position.y = Math.cos(tick / 100) * 4;
+    }
+}
+
+class CarPhysics extends PhysicsComponent {
+
+    update(entity, tick) {
+        entity.position.x = Math.cos(tick / 200) * 2;
+        entity.rotation.y = Math.cos(tick / 100) * 3;
+    }
+}
+
+class Car extends Entity {
+    constructor(...components) {
+        super(...components);
+    }
+}
+
+class Ball extends Entity {
+    constructor(...components) {
+        super(...components);
+    }
+}
+
+class CarRender extends RenderComponent {
+    constructor() {
+        super();
+        this.geometry = new BoxGeometry(1, 1, 1);
+        this.material = new MeshPhongMaterial({ color: 0xffffff });
+        this.object = new Mesh(this.geometry, this.material);
+    }
+
+}
+
+class BallRender extends RenderComponent {
+    constructor() {
+        super();
+        this.geometry = new SphereGeometry(1, 10, 5);
+        this.material = new MeshPhongMaterial({ color: 0xffffff });
+        this.object = new Mesh(this.geometry, this.material);
+    }
+}
+
 
 class DefaultScene extends Scene {
 
@@ -16,15 +93,24 @@ class DefaultScene extends Scene {
 
     init() {
         this.addCamera();
-        this.addDefaultCube();
-        this.addGrid();
+        // this.addDefaultCube();
+        // this.addGrid();
         this.addLight();
-        this.addSkybox();
+        // this.addSkybox();
+
+        this.addComponentEntities();
 
         this.controls = new Controls(this.camera, this.renderer);
         this.controls.theta = -Math.PI / 4;
         this.controls.phi = Math.PI / 4;
 
+    }
+
+    addComponentEntities() {
+        let car = new Car(new CarPhysics(), new CarRender());
+        let ball = new Ball(new PhysicsComponent(), new BallRender());
+        this.sceneManager.add(car);
+        this.sceneManager.add(ball);
     }
 
     addLight() {

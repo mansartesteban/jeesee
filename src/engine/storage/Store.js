@@ -1,17 +1,15 @@
-import Database from "./Database";
-
 class Store {
 
     static STORES = Object.freeze({
         INTERFACE: "interface",
         SETTINGS: "settings",
-        GAME: "game"
+        SCENE: "scene"
     });
 
     name;
     db;
 
-    autosaveInterval = 10000;
+    autosaveInterval = 2000;
 
     datas = [];
 
@@ -27,6 +25,7 @@ class Store {
         } else {
             this.datas.push({ id, value });
         }
+        console.log("saving", this.datas, id, value);
     }
 
     get(id) {
@@ -45,12 +44,15 @@ class Store {
     }
 
     autosave() {
+        console.log("atutosaver", this.datas);
         this.datas.forEach(data => {
+            console.log("data", data);
             if (this.db) {
                 this.db.setItem(this, data);
             }
         });
 
+        console.log("autovsave", this.datas);
         setTimeout(this.autosave.bind(this), this.autosaveInterval);
     }
 
@@ -58,17 +60,11 @@ class Store {
         this.db = db;
     }
 
-
     isValidStore(storeName) {
         return Object.values(Store.STORES).includes(storeName);
     }
 
-
-
-    removeItem() {
-
-    }
-
+    removeItem() { }
 
 }
 

@@ -10,36 +10,37 @@
 <script>
 import GuiLayout from "@/engine/game/gui/layouts/GuiLayout";
 import BlockLayout from "@/engine/game/gui/layouts/BlockLayout";
+import Bundle from "@/engine/core/Bundle";
+import Store from "@/engine/storage/Store";
 
 export default {
     mounted() {
 
-        console.log(this.$refs["engine-view"]);
         let layout = new GuiLayout(this.$refs["engine-view"]);
 
         let sideBar = new BlockLayout({
             x: 0,
             y: 0,
             width: 5,
-            height: 80
+            height: 95
         }, this.$refs["side-bar"].$el);
         let bottomBar = new BlockLayout({
             x: 0,
-            y: 80,
+            y: 95,
             width: 100,
-            height: 20
+            height: 5
         }, this.$refs["bottom-bar"].$el);
         let sceneView = new BlockLayout({
             x: 5,
             y: 0,
-            width: 80,
-            height: 80
+            width: 90,
+            height: 95,
         }, this.$refs["scene-view"].$el);
         let contextBar = new BlockLayout({
-            x: 85,
+            x: 95,
             y: 0,
-            width: 15,
-            height: 80
+            width: 95,
+            height: 95,
         }, this.$refs["context-bar"].$el);
 
         layout.addBlock(sideBar);

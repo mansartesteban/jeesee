@@ -107,7 +107,7 @@ class Interact {
 
         this.otherBlocks.forEach((block) => {
 
-            // If the moving edges is shared with other edges (.to)
+            // If the moving edges is shared with other edges (.from)
             if (this.block.targetPosition[directionDatas.from][directionDatas.mainAxe] == block.targetPosition.from[directionDatas.mainAxe] && block.targetPosition.from[directionDatas.mainAxe] > 0) {
                 sharedEdges.push(
                     {
@@ -118,6 +118,8 @@ class Interact {
                     }
                 );
             }
+
+            // If the moving edges is shared with other edges (.to)
             if (this.block.targetPosition[directionDatas.from][directionDatas.mainAxe] == block.targetPosition.to[directionDatas.mainAxe] && block.targetPosition.to[directionDatas.mainAxe] < 100) {
                 sharedEdges.push(
                     {
