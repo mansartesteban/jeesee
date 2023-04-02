@@ -1,5 +1,5 @@
-import { construct } from "core-js/fn/reflect";
 import { Vector3 } from "three";
+import RenderComponent from "./scenes/Default/Components/RenderComponent";
 
 class Entity {
     constructor(...components) {
@@ -7,77 +7,32 @@ class Entity {
         this.rotation = new Vector3();
         this.velocity = new Vector3();
 
+        this.selectable = true;
+
         this.components = components;
     }
 
-    save() {
-        return {
-            ...this.position,
-            ...this.rotation,
-            ...this.velocity
-        };
+    getObject() {
+        let renderComponents = this.components
+            .find(component => component instanceof RenderComponent);
+        return renderComponents ? renderComponents.object : null;
     }
 
-    update() {
-        this.components.forEach(component => component.update(this));
-    }
-}
-
-class PhysicsComponent {
-    constructor(entity) {
-        this.entity = entity;
+    bindSceneManager(sceneManager) {
+        this.sceneManager = sceneManager;
     }
 
-    update() {
-        this.entity.position.y--;
-    }
-}
+    // save() {
+    //     return {
+    //         ...this.position,
+    //         ...this.rotation,
+    //         ...this.velocity
+    //     };
+    // }
 
-class CarPhysics extends PhysicsComponent {
-    constructor(car) {
-        super(car);
-    }
-
-    update() {
-        this.entity.position.x++;
+    update(tick) {
+        this.components.forEach(component => component.update(this, tick));
     }
 }
 
-class Car extends Entity {
-    constructor() {
-        super();
-    }
-}
-
-class Ball extends Entity {
-    constructor() {
-        super();
-    }
-}
-
-let car = new Car(
-    new CarPhysics()
-);
-
-let ball = new Ball(
-    new PhysicsComponent()
-);
-
-
-SceneManager.add(car);
-SceneManager.add(ball);
-
-class SceneManager {
-    constructor() {
-        this.entities = [];
-    }
-
-    add(entity) {
-        this.entities.push(entity);
-    }
-
-    update() {
-        this.entities.forEach(entity => entity.update());
-    }
-}
-// export default; 
+export default Entity;

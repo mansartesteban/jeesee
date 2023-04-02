@@ -1,7 +1,7 @@
 import App from "../core/App";
 import Bundle from "../core/Bundle";
 import Store from "../storage/Store";
-import DefaultScene from "./scenes/DefaultScene";
+import DefaultScene from "./scenes/Default/DefaultScene";
 
 class Engine {
 	scene;

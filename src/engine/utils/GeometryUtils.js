@@ -18,6 +18,18 @@ class GeometryUtils {
 		object.applyQuaternion(q);
 		object.position.applyQuaternion(q);
 	}
+
+	static rotateAroundAxisPosition(
+		position,
+		axis,
+		angle = 0
+	) {
+
+		let q = new Quaternion();
+		q.setFromAxisAngle(axis, angle);
+
+		position.applyQuaternion(q);
+	}
 }
 
 export default GeometryUtils;

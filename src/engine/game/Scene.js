@@ -5,6 +5,7 @@ import { OutlinePass } from 'three/addons/postprocessing/OutlinePass.js';
 import SceneManager from "@/engine/game/SceneManager";
 import GuiControls from "@/engine/game/gui/GuiControls";
 import { ViewHelper } from 'three/addons/helpers/ViewHelper.js';
+import RenderComponent from "./scenes/Default/Components/RenderComponent";
 
 class Scene {
 	tick;
@@ -33,7 +34,7 @@ class Scene {
 
 		this.scene = new ThreeScene();
 		this.renderer = new WebGLRenderer({ antialias: true });
-		// this.renderer.autoClear = false;
+		this.renderer.autoClear = false;
 
 		this.recalculateRatio();
 
@@ -51,6 +52,8 @@ class Scene {
 		let t = false;
 
 
+
+
 		const onPointerMove = (e) => {
 			this.mouse.x = (e.layerX / e.target.clientWidth) * 2 - 1;
 			this.mouse.y = -(e.layerY / e.target.clientHeight) * 2 + 1;
@@ -64,7 +67,7 @@ class Scene {
 
 		const onMouseDown = (e) => {
 			this.focusedMouse.copy(this.mouse);
-			let intersectObject = this.getIntersectObjects(true)[0];
+			let intersectObject = this.getIntersectEntities(true)[0];
 			this.sceneManager.entities.forEach(entity => entity.selected = false);
 			if (intersectObject) {
 				this.controls && this.controls.pause();
@@ -118,15 +121,22 @@ class Scene {
 		}
 	}
 
-	getIntersectObjects() {
+	getIntersectEntities() {
 
 		let entities = [];
 		if (this.intersectedObjects && this.intersectedObjects.length > 0) {
 
 			this.intersectedObjects.forEach(inter => {
 				this.sceneManager.entities.forEach(entity => {
-					if (entity.selectable && entity.object === inter.object) {
-						entities.push(entity);
+					if (entity.selectable) {
+						entity.components
+							.filter(component => component instanceof RenderComponent)
+							.forEach(renderComponent => {
+								if (renderComponent.object === inter.object) {
+									entities.push(entity);
+								}
+							});
+
 					}
 				});
 			});
@@ -149,13 +159,13 @@ class Scene {
 		this.raycaster.intersectObject(this.scene, true, this.intersectedObjects);
 
 		this.outlinePass.selectedObjects = [];
-		let intersectObject = this.getIntersectObjects()[0];
-		// console.log("inter", intersectObject);
-		if (intersectObject?.object) {
-			// this.outlinePass.selectedObjects = [intersectObject.object];
+		let intersectObject = this.getIntersectEntities()[0];
+		let obj = intersectObject?.getObject();
+		if (obj) {
+			this.outlinePass.selectedObjects = [obj];
 		}
 
-		this.outlinePass2.selectedObjects = selectedObjects.map(entity => entity.object);
+		this.outlinePass2.selectedObjects = selectedObjects.map(entity => entity?.getObject());
 
 		if (selectedObjects && selectedObjects.length > 0) {
 
@@ -165,7 +175,7 @@ class Scene {
 			let plane = new Plane(new Vector3(0, 1, 0), 0);
 			this.raycaster.ray.intersectPlane(plane, intersectPlane);
 			// intersectPlane = intersectPlane.sub(selectedObjects[0].object.position);
-			selectedObjects[0].object.position.set(intersectPlane.x, intersectPlane.y, intersectPlane.z);
+			selectedObjects[0].getObject().position.set(intersectPlane.x, intersectPlane.y, intersectPlane.z);
 		}
 
 
@@ -174,15 +184,15 @@ class Scene {
 
 		this.recalculateRatio();
 
-		// if (this.renderer && this.scene && this.camera) {
-		// 	if (this.outlinePass.selectedObjects.length > 0 || this.outlinePass2.selectedObjects.length > 0) {
-		// 		this.composer.render();
-		// 	} else {
-		this.renderer.render(this.scene, this.camera);
-		// 	}
+		if (this.renderer && this.scene && this.camera) {
+			if (this.outlinePass.selectedObjects.length > 0 || this.outlinePass2.selectedObjects.length > 0) {
+				this.composer.render();
+			} else {
+				this.renderer.render(this.scene, this.camera);
+			}
 
-		// 	this.helper.render(this.renderer);
-		// }
+			this.helper.render(this.renderer);
+		}
 
 		// setTimeout(() => {
 		window.requestAnimationFrame(this.loop.bind(this));

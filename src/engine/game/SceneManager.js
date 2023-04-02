@@ -1,5 +1,6 @@
 import Observer from "@/engine/core/Observer";
-import RenderComponent from "./RenderComponent";
+import RenderComponent from "./scenes/Default/Components/RenderComponent";
+import AssetsHandler from "./scenes/AssetsHandler";
 
 class SceneManager {
 
@@ -13,6 +14,8 @@ class SceneManager {
   constructor(threeScene) {
     this.entities = [];
     this.threeScene = threeScene;
+    console.log("mat1", AssetsHandler.materials);
+    console.log("mat2", AssetsHandler.materials);
 
     // this.autosave();
   }
@@ -55,9 +58,11 @@ class SceneManager {
     }
     this.entities.push(entity);
 
+
     entity.components
       .filter(component => component instanceof RenderComponent)
       .forEach(renderComponent => {
+        console.log("adding to scene", renderComponent);
         this.threeScene.add(renderComponent.object);
       });
 
