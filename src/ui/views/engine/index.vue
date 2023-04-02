@@ -10,8 +10,6 @@
 <script>
 import GuiLayout from "@/engine/game/gui/layouts/GuiLayout";
 import BlockLayout from "@/engine/game/gui/layouts/BlockLayout";
-import Bundle from "@/engine/core/Bundle";
-import Store from "@/engine/storage/Store";
 
 export default {
     mounted() {
@@ -33,13 +31,13 @@ export default {
         let sceneView = new BlockLayout({
             x: 5,
             y: 0,
-            width: 90,
+            width: 75,
             height: 95,
         }, this.$refs["scene-view"].$el);
         let contextBar = new BlockLayout({
-            x: 95,
+            x: 80,
             y: 0,
-            width: 95,
+            width: 20,
             height: 95,
         }, this.$refs["context-bar"].$el);
 

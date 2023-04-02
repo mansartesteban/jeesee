@@ -26,8 +26,8 @@ class RenderComponent {
 
     update(entity) {
         if (this.object) {
-            // this.object.position.copy(entity.position);
-            // this.object.rotation.setFromVector3(entity.rotation);
+            this.object.position.copy(entity.position);
+            this.object.rotation.setFromVector3(entity.rotation);
         }
     }
 

@@ -3,8 +3,10 @@
         <Button icon="box" @click="addCube"></Button>
         <Button icon="circle" @click="addSphere"></Button>
         <Button icon="triangle" @click="addTetrahedron"></Button>
+        <Button icon="person" @click="addCharacter"></Button>
         <Divider></Divider>
         <Button icon="bug" @click="dump"></Button>
+        <Button icon="arrow-bar-down" @click="toggleGravity"></Button>
     </div>
 </template>
 <script>
@@ -14,9 +16,20 @@ import SphereRender from '@/engine/game/scenes/Default/Renders/SphereRender';
 import TetrahedronRender from '@/engine/game/scenes/Default/Renders/TetrahedronRender';
 import PhysicsComponent from '@/engine/game/scenes/Default/Components/PhysicsComponent';
 import GeometryUtils from '@/engine/utils/GeometryUtils';
-import { Vector2, Vector3 } from 'three';
+import { GridHelper, Vector2, Vector3 } from 'three';
+import CharacterRender from '@/engine/game/scenes/Default/Renders/CharacterRender';
+import CharacterPhysics from '@/engine/game/scenes/Default/Entities/Character/CharacterPhysics';
+import Gravity from '@/engine/game/scenes/Default/Entities/Character/Gravity';
+import Grid from '@/engine/game/scenes/Default/Entities/Grid/Grid';
+import Skybox from '@/engine/game/scenes/Default/Entities/SkyBox/Skybox';
 
 export default {
+    data() {
+        return {
+            gravity: false,
+            gravityComponent: new Gravity()
+        };
+    },
     methods: {
         addCube() {
             let cube = new Entity(new CubeRender());
@@ -47,6 +60,32 @@ export default {
                 tetrahedron.position.x = 2;
                 this.$engine.scene.sceneManager.add(tetrahedron);
             }
+        },
+
+        async addCharacter() {
+            let character = new Entity(
+                new CharacterRender(),
+                new CharacterPhysics(),
+                // new Gravity()
+            );
+            await new Promise(r => setTimeout(r, 2000)); // Find a workaround to load heavy entites
+            character.position.set(2, 0, 1);
+            this.$engine.scene.sceneManager.add(character);
+        },
+        toggleGravity() {
+            if (!this.gravity) {
+                this.$engine.scene.sceneManager.entities
+                    .filter(entity => !(entity instanceof Grid) && !(entity instanceof Skybox))
+                    .forEach(entity => {
+                        entity.addComponent(this.gravityComponent);
+                    });
+            } else {
+                this.$engine.scene.sceneManager.entities.forEach(entity => {
+                    entity.removeComponent(this.gravityComponent);
+                });
+            }
+
+            this.gravity = !this.gravity;
         },
         dump() {
             console.log(this.$engine.scene.sceneManager.entities.length);

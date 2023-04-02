@@ -12,6 +12,17 @@ class Entity {
         this.components = components;
     }
 
+    addComponent(component) {
+        this.components.push(component);
+    }
+
+    removeComponent(component) {
+        let foundComponent = this.components.findIndex(entityComponent => entityComponent == component);
+        if (foundComponent !== -1) {
+            delete this.components[foundComponent];
+        }
+    }
+
     getObject() {
         let renderComponents = this.components
             .find(component => component instanceof RenderComponent);

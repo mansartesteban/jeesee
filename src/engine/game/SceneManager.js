@@ -62,7 +62,6 @@ class SceneManager {
     entity.components
       .filter(component => component instanceof RenderComponent)
       .forEach(renderComponent => {
-        console.log("adding to scene", renderComponent);
         this.threeScene.add(renderComponent.object);
       });
 

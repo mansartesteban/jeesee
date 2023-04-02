@@ -17,6 +17,7 @@ import GridRender from "./Renders/GridRender";
 
 import Entity from "../../Entity";
 import CharacterRender from "./Renders/CharacterRender";
+import CharacterPhysics from "./Entities/Character/CharacterPhysics";
 
 class DefaultScene extends Scene {
 
@@ -36,20 +37,10 @@ class DefaultScene extends Scene {
 
         this.addDefaultEntities();
 
-        this.addCharacter();
-
-
-
         this.controls = new Controls(this.camera, this.renderer);
         this.controls.theta = -Math.PI / 4;
         this.controls.phi = Math.PI / 4;
 
-    }
-
-    async addCharacter() {
-        let character = new Entity(new CharacterRender());
-        await new Promise(r => setTimeout(r, 2000)); // Find a workaround to load heavy entites
-        this.sceneManager.add(character);
     }
 
     addDefaultEntities() {
@@ -81,7 +72,7 @@ class DefaultScene extends Scene {
             10000
         );
 
-        this.camera.position.copy(new Vector3(3, 3, 3));
+        this.camera.position.copy(new Vector3(5, 5, 5));
 
         const qx = new Quaternion();
         qx.setFromAxisAngle(new Vector3(0, 1, 0), Math.PI / 4);
@@ -91,7 +82,7 @@ class DefaultScene extends Scene {
         const q = new Quaternion();
         q.multiply(qx).multiply(qz);
 
-
+        console.log(q);
         this.camera.quaternion.copy(q);
     }
 

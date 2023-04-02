@@ -6,6 +6,7 @@ import SceneManager from "@/engine/game/SceneManager";
 import GuiControls from "@/engine/game/gui/GuiControls";
 import { ViewHelper } from 'three/addons/helpers/ViewHelper.js';
 import RenderComponent from "./scenes/Default/Components/RenderComponent";
+import MoveModifier from "./scenes/MoveModifier";
 
 class Scene {
 	tick;
@@ -51,7 +52,7 @@ class Scene {
 
 		let t = false;
 
-
+		let moveModifier = new MoveModifier();
 
 
 		const onPointerMove = (e) => {
@@ -68,9 +69,13 @@ class Scene {
 		const onMouseDown = (e) => {
 			this.focusedMouse.copy(this.mouse);
 			let intersectObject = this.getIntersectEntities(true)[0];
-			this.sceneManager.entities.forEach(entity => entity.selected = false);
+			this.sceneManager.entities.forEach(entity => {
+				entity.selected = false;
+				entity.removeComponent(moveModifier);
+			});
 			if (intersectObject) {
 				this.controls && this.controls.pause();
+				intersectObject.addComponent(moveModifier);
 				intersectObject.selected = true;
 				t = true;
 			}
@@ -169,13 +174,19 @@ class Scene {
 
 		if (selectedObjects && selectedObjects.length > 0) {
 
-			this.raycaster.setFromCamera(this.focusedMouse, this.camera);
+			let moveModifier = selectedObjects[0].components.find(component => component instanceof MoveModifier);
 
-			let intersectPlane = new Vector3();
-			let plane = new Plane(new Vector3(0, 1, 0), 0);
-			this.raycaster.ray.intersectPlane(plane, intersectPlane);
-			// intersectPlane = intersectPlane.sub(selectedObjects[0].object.position);
-			selectedObjects[0].getObject().position.set(intersectPlane.x, intersectPlane.y, intersectPlane.z);
+			if (moveModifier) {
+				this.raycaster.setFromCamera(this.focusedMouse, this.camera);
+
+				let intersectPlane = new Vector3();
+				let plane = new Plane(new Vector3(0, 1, 0), 0);
+				this.raycaster.ray.intersectPlane(plane, intersectPlane);
+				moveModifier.updatePosition(intersectPlane.x, intersectPlane.y, intersectPlane.z);
+				// intersectPlane = intersectPlane.sub(selectedObjects[0].object.position);
+				// selectedObjects[0].addComponent().getObject().position.set();
+			}
+
 		}
 
 
