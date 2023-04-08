@@ -20,11 +20,11 @@
 }
 
 .flex-wrap {
-    flex-wrap: wrap;
+    flex-wrap: wrap !important;
 }
 
 .flex-nowrap {
-    flex-wrap: nowrap;
+    flex-wrap: nowrap !important;
 }
 
 .align-items-center {

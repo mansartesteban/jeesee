@@ -39,7 +39,6 @@ class MyNoise {
       if (max > precision) max = precision;
       this.arr.push(MathUtils.random(min, max) / precision);
     }
-    console.log(this.arr);
   }
   static cubicHermite(a, b, c, d, t) {
     let aPolynomial = -a / 2 + (3 * b) / 2 - (3 * c) / 2.0 + d / 2;

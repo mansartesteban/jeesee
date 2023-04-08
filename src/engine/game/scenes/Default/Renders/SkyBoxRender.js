@@ -1,10 +1,10 @@
 import { BackSide, BoxGeometry, MeshBasicMaterial, TextureLoader } from "three";
-import RenderComponent from "../Components/RenderComponent";
+import MeshRenderComponent from "../Components/MeshRenderComponent";
 
-class SkyBoxRender extends RenderComponent {
+class SkyBoxRender extends MeshRenderComponent {
 
     createGeometry() {
-        this.geometry = new BoxGeometry(10000, 10000, 10000);
+        return new BoxGeometry(10000, 10000, 10000);
     }
 
     createMaterial() {
@@ -16,7 +16,9 @@ class SkyBoxRender extends RenderComponent {
         }
 
         if (this.options) {
-            this.material = createMaterialArray(this.options.urls);
+            return createMaterialArray(this.options.urls);
+        } else {
+            return null;
         }
     }
 

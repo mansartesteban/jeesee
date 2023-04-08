@@ -31,3 +31,9 @@ h6 {
     font-size: 1.1rem;
     font-weight: 900;
 }
+
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

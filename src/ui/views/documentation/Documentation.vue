@@ -12,6 +12,8 @@ import DocumentationInputs from './sections/DocumentationInputs';
 import DocumentationMenus from './sections/DocumentationMenus';
 import DocumentationProgressBars from './sections/DocumentationProgressBars';
 import DocumentationTexts from './sections/DocumentationTexts';
+import DocumentationTreeView from './sections/DocumentationTreeView.vue';
+import DocumentationChips from './sections/DocumentationChips.vue';
 
 
 export default {
@@ -19,6 +21,14 @@ export default {
     data() {
         return {
             tabs: [
+                {
+                    header: "Chips",
+                    content: DocumentationChips
+                },
+                {
+                    header: "TreeView",
+                    content: DocumentationTreeView
+                },
                 {
                     header: "Inputs",
                     content: DocumentationInputs

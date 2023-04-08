@@ -1,10 +1,10 @@
 import { BoxGeometry } from "three";
-import RenderComponent from "../Components/RenderComponent";
+import MeshRenderComponent from "../Components/MeshRenderComponent";
 import AssetsHandler from "../../AssetsHandler";
 
-class CubeRender extends RenderComponent {
+class CubeRender extends MeshRenderComponent {
     createGeometry() {
-        this.geometry = AssetsHandler.geometries[0];
+        return AssetsHandler.geometries[0];
     }
 }
 

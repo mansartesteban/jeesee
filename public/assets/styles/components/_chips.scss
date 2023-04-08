@@ -1,0 +1,12 @@
+.chip {
+
+    border-radius: 999px;
+    position: relative;
+
+    @each $colorName,
+    $colorValue in $colors {
+        &.#{$colorName} {
+            background-color: map-get($colorValue, "color");
+        }
+    }
+}

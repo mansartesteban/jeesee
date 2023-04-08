@@ -29,18 +29,18 @@ module.exports = defineConfig({
         },
         module: {
             rules: [
+                // {
+                //     test: /\.css$/i,
+                //     use: [
+                //         "css-loader",
+                //         // "style-loader",
+                //         // "vue-style-loader",
+                //     ],
+                // },
                 {
                     test: /\.s[ac]ss$/i,
                     use: [
                         "sass-loader",
-                    ],
-                },
-                {
-                    test: /\.css$/i,
-                    use: [
-                        "style-loader",
-                        "vue-style-loader",
-                        "css-loader",
                     ],
                 },
             ],

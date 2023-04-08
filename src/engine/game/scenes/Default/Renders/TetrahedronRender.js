@@ -1,11 +1,11 @@
 import AssetsHandler from "../../AssetsHandler";
-import RenderComponent from "../Components/RenderComponent";
+import MeshRenderComponent from "../Components/MeshRenderComponent";
 import { TetrahedronGeometry } from "three";
 
-class TetrahedronRender extends RenderComponent {
+class TetrahedronRender extends MeshRenderComponent {
 
     createGeometry() {
-        this.geometry = AssetsHandler.geometries[0];
+        return AssetsHandler.geometries[0];
     }
 
 }

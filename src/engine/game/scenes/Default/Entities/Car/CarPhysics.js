@@ -1,10 +1,11 @@
 import PhysicsComponent from "../../Components/PhysicsComponent";
+import TransformComponent from "../../Components/TransformComponent";
 
 class CarPhysics extends PhysicsComponent {
 
     update(entity, tick) {
-        entity.position.x += Math.cos(tick / 540) * .02;
-        entity.rotation.y += Math.cos(tick / 100) * .03;
+        entity.velocity.x = Math.cos(tick / 50) * .1;
     }
+
 }
 export default CarPhysics;

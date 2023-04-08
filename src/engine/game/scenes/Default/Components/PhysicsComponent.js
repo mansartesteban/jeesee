@@ -1,8 +1,7 @@
-class PhysicsComponent {
-    update(entity, tick) {
-        // entity.velocity.y = Math.cos(tick / 133);
-        // entity.position.y = entity.velocity.y;
-    }
+import Component from "./Component";
+
+class PhysicsComponent extends Component {
+    update() { }
 }
 
 export default PhysicsComponent;

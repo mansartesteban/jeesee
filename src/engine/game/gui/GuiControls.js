@@ -7,18 +7,7 @@ class GuiControls {
     NODE_SELECTED: "NODE_SELECTED"
   });
 
-  sceneManager;
   observer = new Observer(GuiControls.EVENTS);
-
-  constructor(sceneManager) {
-    this.sceneManager = sceneManager;
-
-    this.sceneManager.observer.$on([
-      SceneManager.EVENTS.ENTITY_ADDED,
-      SceneManager.EVENTS.ENTITY_DELETED
-    ], this.refreshTree.bind(this));
-
-  }
 
   cleanTree(domElement) {
     while (domElement.firstChild) {
@@ -32,7 +21,7 @@ class GuiControls {
     if (controls) {
 
       this.cleanTree(controls);
-      let transformedDatas = this.transformEntities(this.sceneManager.entities, null);
+      let transformedDatas = this.transformEntities(SceneManager.entities, null);
       let tree = this.createTree(transformedDatas);
       controls.appendChild(tree);
 

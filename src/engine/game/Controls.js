@@ -28,6 +28,13 @@ class Controls {
 	}
 
 	update(tick) {
+
+		if (this.keys.includes("shift")) {
+			this.cameraSpeed = .5;
+		} else {
+			this.cameraSpeed = .1;
+		}
+
 		this.keys.forEach(k => {
 			if (this.actions[k]) {
 				this.actions[k].bind(this)();
@@ -64,17 +71,19 @@ class Controls {
 			}
 		};
 		const onWheel = (e) => {
-			this.modifyCameraSpeed(e);
+			// this.modifyCameraSpeed(e);
 		};
 
-		this.renderer.domElement.addEventListener("mousedown", async () => {
-			if (this.renderer.domElement !== document.pointerLockElement) {
-				await this.renderer.domElement.requestPointerLock({
-					unadjustedMovement: true,
-				});
+		this.renderer.domElement.addEventListener("mousedown", async (e) => {
+			if (e.which !== 3) {
+				if (this.renderer.domElement !== document.pointerLockElement) {
+					await this.renderer.domElement.requestPointerLock({
+						unadjustedMovement: true,
+					});
 
-				this.renderer.domElement.addEventListener("mousemove", onMouseMove);
-				this.renderer.domElement.addEventListener("wheel", onWheel, { passive: true });
+					this.renderer.domElement.addEventListener("mousemove", onMouseMove);
+					this.renderer.domElement.addEventListener("wheel", onWheel, { passive: true });
+				}
 			}
 		});
 
@@ -88,14 +97,14 @@ class Controls {
 	}
 
 	addListeners() {
-		window.addEventListener("keypress", (e) => {
-			if (this.keys.indexOf(e.key) === -1) {
-				this.keys.push(e.key);
+		window.addEventListener("keydown", e => {
+			if (this.keys.indexOf(e.key.toLowerCase()) === -1) {
+				this.keys.push(e.key.toLowerCase());
 			}
 		});
-		window.addEventListener("keyup", (e) => {
-			if (this.keys.indexOf(e.key) !== -1) {
-				this.keys = this.keys.filter((k) => k !== e.key);
+		window.addEventListener("keyup", e => {
+			if (this.keys.indexOf(e.key.toLowerCase()) !== -1) {
+				this.keys = this.keys.filter(k => k !== e.key.toLowerCase());
 			}
 		});
 	}

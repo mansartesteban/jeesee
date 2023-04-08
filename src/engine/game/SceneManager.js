@@ -1,6 +1,5 @@
 import Observer from "@/engine/core/Observer";
-import RenderComponent from "./scenes/Default/Components/RenderComponent";
-import AssetsHandler from "./scenes/AssetsHandler";
+import MeshRenderComponent from "./scenes/Default/Components/MeshRenderComponent";
 
 class SceneManager {
 
@@ -11,23 +10,12 @@ class SceneManager {
 
   observer = new Observer(SceneManager.EVENTS);
 
-  constructor(threeScene) {
-    this.entities = [];
+  entities = [];
+  threeScene = null;
+
+  addScene(threeScene) {
     this.threeScene = threeScene;
-    console.log("mat1", AssetsHandler.materials);
-    console.log("mat2", AssetsHandler.materials);
-
-    // this.autosave();
   }
-
-  // autosave() {
-  //   this.observer.$on([SceneManager.EVENTS.ENTITY_ADDED, SceneManager.EVENTS.ENTITY_DELETED], () => {
-  //     let db = App.getBundle(Bundle.BUNDLES.DATABASE);
-  //     let store = db.getStore(Store.STORES.SCENE);
-
-  //     // store.save("entities", this.entities.map());
-  //   });
-  // }
 
   delete(entityName) {
     let foundIndex = this.entities.findIndex(entity => entity.name === entityName);
@@ -36,7 +24,7 @@ class SceneManager {
       let entityFound = this.entities[foundIndex];
 
       if (entityFound.object) {
-        this.observer.$emit(SceneManager.EVENTS.ENTITY_DELETED);
+        this.observer.$emit(SceneManager.EVENTS.ENTITY_DELETED, entityFound);
         this.threeScene.remove(entityFound.object);
         entityFound.object.remove();
         entityFound.object.clear();
@@ -46,12 +34,8 @@ class SceneManager {
     }
   }
 
-  add(entity, entityName) {
+  add(entity) {
     let $this = this;
-
-    if (entityName) entity.name = entityName;
-
-    entity.bindSceneManager(this);
 
     if (entity.children) {
       entity.children.forEach((child) => $this.add(child));
@@ -60,17 +44,13 @@ class SceneManager {
 
 
     entity.components
-      .filter(component => component instanceof RenderComponent)
+      .filter(component => component instanceof MeshRenderComponent)
       .forEach(renderComponent => {
         this.threeScene.add(renderComponent.object);
       });
 
 
-    this.observer.$emit(SceneManager.EVENTS.ENTITY_ADDED);
-  }
-
-  get(entityName) {
-    return this.entities.find((entity) => entity.name === entityName);
+    this.observer.$emit(SceneManager.EVENTS.ENTITY_ADDED, entity);
   }
 
   update(tick) {
@@ -81,4 +61,4 @@ class SceneManager {
 }
 
 
-export default SceneManager;
+export default new SceneManager();

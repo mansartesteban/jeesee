@@ -1,10 +1,10 @@
 import { SphereGeometry } from "three";
-import RenderComponent from "../Components/RenderComponent";
+import MeshRenderComponent from "../Components/MeshRenderComponent";
 import AssetsHandler from "../../AssetsHandler";
 
-class SphereRender extends RenderComponent {
+class SphereRender extends MeshRenderComponent {
     createGeometry() {
-        this.geometry = AssetsHandler.geometries[0];
+        return AssetsHandler.geometries[0];
     }
 }
 

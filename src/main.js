@@ -1,6 +1,8 @@
 import { createApp } from 'vue';
 import App from '@ui/App';
 
+import VueCodeHighlight from 'vue-code-highlight';
+
 import "@assets/styles/_jeesee.scss";
 import routing from "./routing";
 
@@ -12,8 +14,8 @@ const app = createApp(App);
 app.config.globalProperties.$engine = new Engine();
 
 
-
 app
     .use(routing)
+    .use(VueCodeHighlight)
     .use(EngineApp)
     .mount('#jeesee');

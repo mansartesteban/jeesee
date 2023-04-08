@@ -1,7 +1,7 @@
 import { GridHelper } from "three";
-import RenderComponent from "../Components/RenderComponent";
+import MeshRenderComponent from "../Components/MeshRenderComponent";
 
-class GridRender extends RenderComponent {
+class GridRender extends MeshRenderComponent {
 
     options = {
         size: 12,
@@ -11,7 +11,7 @@ class GridRender extends RenderComponent {
     };
 
     createMesh() {
-        this.object = new GridHelper(
+        return new GridHelper(
             this.options.size,
             this.options.divisions,
             this.options.color1,

@@ -5,6 +5,7 @@ import Store from "../storage/Store";
 import DefaultScene from "./scenes/Default/DefaultScene";
 
 class Engine {
+
 	scene;
 	app;
 
