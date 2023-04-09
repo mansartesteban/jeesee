@@ -1,16 +1,43 @@
 <template>
     <div class="side-bar pn-2 d-flex flex-column align-items-center">
-        <Button icon="box" @click="addCube"></Button>
-        <Button icon="circle" @click="addSphere"></Button>
-        <Button icon="triangle" @click="addTetrahedron"></Button>
-        <Button icon="person" @click="addCharacter"></Button>
+        <Button
+            icon="box"
+            @click="addCube"
+        ></Button>
+        <Button
+            icon="circle"
+            @click="addSphere"
+        ></Button>
+        <Button
+            icon="triangle"
+            @click="addTetrahedron"
+        ></Button>
+        <Button
+            icon="person"
+            @click="addCharacter"
+        ></Button>
         <Divider></Divider>
-        <Button icon="bug" @click="dump"></Button>
-        <Button icon="x-lg" @click="removeColliders"></Button>
-        <Button icon="arrow-bar-down" @click="toggleGravity"></Button>
+        <Button
+            icon="bug"
+            @click="dump"
+        ></Button>
+        <Button
+            icon="x-lg"
+            @click="removeColliders"
+        ></Button>
+        <Button
+            icon="arrow-bar-down"
+            @click="toggleGravity"
+        ></Button>
         <Divider></Divider>
-        <Button icon="camera-video-off" @click="resetCamera"></Button>
-        <Button :icon="paused ? 'play' : 'pause'" @click="toggleLoop"></Button>
+        <Button
+            icon="camera-video-off"
+            @click="resetCamera"
+        ></Button>
+        <Button
+            :icon="paused ? 'play' : 'pause'"
+            @click="toggleLoop"
+        ></Button>
     </div>
 </template>
 <script>
@@ -102,10 +129,6 @@ export default {
                     .forEach((entity, k) => {
                         entity.addComponent(gravityComponent[k]);
                     });
-            } else {
-                // SceneManager.entities.forEach((entity, k) => {
-                //     entity.removeComponent(gravityComponent[k]);
-                // });
             }
 
             this.gravity = !this.gravity;

@@ -1,6 +1,5 @@
 import { Vector3 } from "three";
 import PhysicsComponent from "./PhysicsComponent";
-import TransformComponent from "./TransformComponent";
 
 class Gravity extends PhysicsComponent {
 
@@ -14,8 +13,8 @@ class Gravity extends PhysicsComponent {
 
     update(entity) {
         if (this.apply) {
-            this.velocity.add(this.acceleration.clone().multiplyScalar(1 / 60));
-            entity.transform.position.add(this.velocity.clone().multiplyScalar(1 / 60));
+            entity.velocity.add(this.acceleration.clone().multiplyScalar(.01));
+            entity.transform.position.add(entity.velocity.clone().multiplyScalar(.01));
         }
     }
 }

@@ -34,6 +34,7 @@ class MeshRenderComponent extends Component {
             entity.transform.position.add(entity.velocity);
             this.object.position.copy(entity.transform.position);
             this.object.rotation.setFromVector3(entity.transform.rotation);
+            this.object.scale.copy(entity.transform.scale);
         }
     }
 

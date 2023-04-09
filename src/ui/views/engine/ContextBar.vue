@@ -2,61 +2,84 @@
     <div class="context-bar d-flex flex-column">
 
         <div class="entities-tree">
-            <TreeView :items="entities" @row-clicked="selectEntity">
+            <TreeView
+                :items="entities"
+                @row-clicked="selectEntity"
+            >
                 <template #item-end="{ item, key }">
-                    <Chip v-if="key === selectedKey" color="success" glowing></Chip>
+                    <Chip
+                        v-if="key === selectedKey"
+                        color="success"
+                        glowing
+                    ></Chip>
                 </template>
             </TreeView>
         </div>
-        <Divider class="my-2"></Divider>
-        <div v-if="selectedEntity && matchedEntity" class="entity-details">
-            Selected: {{ selectedEntity }}
-            <br>
-            <br>
-            Matched : {{ matchedEntity?.constructor.name }}
-            <br>
-            <br>
+        <Divider></Divider>
+        <div
+            v-if="selectedEntity && matchedEntity"
+            class="entity-details p-2 d-flex flex-column gap-1"
+        >
 
-            <br>
-            X<input type="number" :value="pos?.x" class="mw-2"><br>
-            Y<input type="number" :value="pos?.y" class="mw-2"><br>
-            Z<input type="number" :value="pos?.z" class="mw-2">
+            <InputVector3
+                label="Position"
+                :modelValue="position"
+                @update:modelValue="matchedEntity.transform.position = $event"
+            ></InputVector3>
 
+            <InputVector3
+                label="Rotation"
+                :modelValue="rotation"
+                @update:modelValue="matchedEntity.transform.rotation = $event"
+            ></InputVector3>
+
+            <InputVector3
+                label="Scale"
+                :modelValue="scale"
+                @update:modelValue="matchedEntity.transform.scale = $event"
+            ></InputVector3>
 
         </div>
         <Divider></Divider>
 
-        <div v-if="matchedEntity">
-            <div v-for="component in matchedEntity.components" class="d-flex m-2">
-                <Checkbox v-model="component.active" class="me-2"></Checkbox>
-                {{ component.constructor.name }}
-            </div>
+        <div
+            v-if="matchedEntity"
+            class="entity-components"
+        >
+            <EntityComponent
+                v-for="(component, key) in matchedEntity.components"
+                v-model="matchedEntity.components[key]"
+            ></EntityComponent>
+
+
         </div>
 
     </div>
 </template>
+
 <script>
-import Vue, { ref } from "vue";
 import SceneManager from '@/engine/game/SceneManager';
-import MeshRenderComponent from '@/engine/game/scenes/Default/Components/MeshRenderComponent';
-import TransformComponent from '@/engine/game/scenes/Default/Components/TransformComponent';
 import UiComponent from '@/engine/game/scenes/Default/Components/UiComponent';
 
 export default {
     data() {
         return {
-            test: false,
+            test: "toto",
             selectedEntity: null,
             selectedKey: null,
             matchedEntity: null,
             entities: [],
             uiComponent: null,
-            pos: null
+            position: null,
+            rotation: null,
+            scale: null
         };
     },
     methods: {
         bindUiComponent(entity) {
-            this.pos = entity.transform.position.clone();
+            this.position = entity.transform.position.clone();
+            this.rotation = entity.transform.rotation.clone();
+            this.scale = entity.transform.scale.clone();
         },
         selectEntity(selectedEntity, key) {
             if (this.matchedEntity) {
@@ -70,7 +93,7 @@ export default {
 
             this.matchedEntity.selected = true;
             this.uiComponent = new UiComponent(this.bindUiComponent);
-            let callback = this.matchedEntity.addComponent(this.uiComponent);
+            this.matchedEntity.addComponent(this.uiComponent);
 
         }
     },
@@ -93,8 +116,12 @@ export default {
 <style lang="scss">
 
     .entities-tree, .entity-details {
-        max-height: 33%;
-        overflow-y: scroll;
+        max-height: 25%;
+        overflow-y: auto;
+    }
+    
+    .entity-components {
+        overflow-y: auto;
     }
 
 </style>

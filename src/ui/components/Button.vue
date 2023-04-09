@@ -1,16 +1,31 @@
 <template>
     <div :class="classes">
         <slot name="prepend-icon">
-            <i v-if="prependIcon && !icon" :class="iconName(prependIcon)" class="bi"></i>
+            <i
+                v-if="prependIcon && !icon"
+                :class="iconName(prependIcon)"
+                class="bi"
+            ></i>
         </slot>
         <slot name="icon">
-            <i v-if="icon" :class="iconName(icon)" class="bi"></i>
+            <i
+                v-if="icon"
+                :class="iconName(icon)"
+                class="bi"
+            ></i>
         </slot>
-        <div v-if="$slots.default" :class="{ 'me-2': appendIcon && !icon, 'mw-2': prependIcon || icon }">
+        <div
+            v-if="$slots.default && $slots.default()[0].children"
+            :class="{ 'me-2': appendIcon && !icon, 'mw-2': prependIcon || icon }"
+        >
             <slot></slot>
         </div>
         <slot name="append-icon">
-            <i v-if="appendIcon && !icon" :class="iconName(appendIcon)" class="bi"></i>
+            <i
+                v-if="appendIcon && !icon"
+                :class="iconName(appendIcon)"
+                class="bi"
+            ></i>
         </slot>
     </div>
 </template>
@@ -94,7 +109,6 @@ export default {
     },
     methods: {
         iconName(icon = "") {
-            // Externalize prefix icon to settings objects
             return icon.startsWith("bi-") ? icon : "bi-" + icon;
         }
     }

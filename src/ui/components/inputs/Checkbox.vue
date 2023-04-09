@@ -1,8 +1,15 @@
 <template>
     <div :class="classes">
-        <div class="checkbox-box" @click="input"></div>
-        <div v-if="$slots.default" class="checkbox-label mw-2" @click="input">
-            <slot></slot>
+        <div
+            class="checkbox-box"
+            @click="input"
+        ></div>
+        <div
+            v-if="$slots.default || label"
+            class="checkbox-label mw-2"
+            @click="input"
+        >
+            <slot>{{ label }}</slot>
         </div>
     </div>
 </template>

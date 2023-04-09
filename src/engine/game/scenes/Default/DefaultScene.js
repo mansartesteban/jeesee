@@ -1,5 +1,5 @@
 import Scene from "@/engine/game/Scene";
-import { Box3, Box3Helper, BoxBufferGeometry, BoxHelper, BufferGeometry, Matrix4, Mesh, MeshBasicMaterial, PerspectiveCamera, PointLight, Quaternion, SphereGeometry, Vector3 } from "three";
+import { Box3, Box3Helper, BoxBufferGeometry, BoxHelper, BufferGeometry, GridHelper, Matrix4, Mesh, MeshBasicMaterial, PerspectiveCamera, PointLight, Quaternion, SphereGeometry, Vector3 } from "three";
 import Controls from "../../Controls";
 import CarPhysics from "./Entities/Car/CarPhysics";
 import BallPhysics from "./Entities/Ball/BallPhysics";
@@ -153,8 +153,21 @@ class DefaultScene extends Scene {
     }
 
     addGrid() {
-        let grid = new Grid(new GridRender({ size: 100, divisions: 100, color1: 0xffffff, color2: 0xbbbbbb }));
-        SceneManager.add(grid);
+
+        let options = {
+            size: 100,
+            divisions: 100,
+            color1: 0xffffff,
+            color2: 0xaaaaaa
+        };
+
+        // Grid is not added to SceneManager as we can't modify it
+        this.scene.add(new GridHelper(
+            options.size,
+            options.divisions,
+            options.color1,
+            options.color2
+        ));
     }
 
     addSkybox() {

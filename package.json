@@ -51,6 +51,7 @@
       "vue/require-v-for-key": "off",
       "vue/valid-v-for": "off",
       "vue/no-unused-vars": "off",
+      "vue/no-mutating-props": "off",
       "no-unused-vars": "off",
       "no-constant-condition": "off"
     }
