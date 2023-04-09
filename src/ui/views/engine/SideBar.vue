@@ -57,6 +57,7 @@ import Ground from '@/engine/game/scenes/Default/Entities/Ground';
 import TransformComponent from '@/engine/game/scenes/Default/Components/TransformComponent';
 import Collider from '@/engine/game/scenes/Default/Components/Colliders/Collider';
 import SceneManager from '@/engine/game/SceneManager';
+import RotateAroundPhysics from '@/engine/game/scenes/Default/Components/RotateAroundPhysics';
 
 export default {
     data() {
@@ -67,7 +68,7 @@ export default {
     },
     methods: {
         addCube() {
-            let cube = new Entity(new CubeRender(), new Collider());
+            let cube = new Entity(new CubeRender());
             SceneManager.add(cube);
         },
         addSphere() {
@@ -77,7 +78,7 @@ export default {
                 }
             }
 
-            let sphere = new Entity(new SphereRender(), new SpherePhysics(), new Collider());
+            let sphere = new Entity(new SphereRender(), new SpherePhysics());
             SceneManager.add(sphere);
         },
         removeColliders() {
@@ -89,20 +90,9 @@ export default {
         },
         async addTetrahedron() {
 
-            class RotateAroundPhysics extends PhysicsComponent {
-                constructor() {
-                    super();
-                    this.speed = Math.random() / 20;
-                }
-                update(entity) {
-                    GeometryUtils.rotateAroundAxisPosition(entity.transform.position, new Vector3(0, 1, 0), this.speed);
-                }
-            }
-
-
             for (let i = 0; i < 90; i++) {
                 await new Promise(res => setTimeout(res, 100));
-                let tetrahedron = new Entity(new TetrahedronRender(), new RotateAroundPhysics(), new Collider());
+                let tetrahedron = new Entity(new TetrahedronRender(), new RotateAroundPhysics());
                 tetrahedron.transform.position.add(new Vector3(2, 0, 0));
                 SceneManager.add(tetrahedron);
             }

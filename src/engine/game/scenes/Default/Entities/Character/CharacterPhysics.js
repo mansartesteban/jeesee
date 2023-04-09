@@ -1,7 +1,6 @@
 import GeometryUtils from "@/engine/utils/GeometryUtils";
 import PhysicsComponent from "../../Components/PhysicsComponent";
 import { Vector3 } from "three";
-import TransformComponent from "../../Components/TransformComponent";
 
 class CharacterPhysics extends PhysicsComponent {
 

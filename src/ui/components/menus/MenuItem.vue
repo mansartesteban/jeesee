@@ -1,10 +1,20 @@
 <template>
     <template v-if="to">
         <RouterLink :to="to">
-            <div class="menu-item d-flex" @click="$emit('item-clicked')">
+            <div
+                class="menu-item d-flex"
+                @click="$emit('item-clicked')"
+            >
                 <div class="d-flex flex flex-row flex-nowrap justify-content-space-between">
-                    <slot name="item-icon" v-bind="{ icon }">
-                        <i v-if="icon" class="bi me-4" :class="`bi-${icon}`"></i>
+                    <slot
+                        name="item-icon"
+                        v-bind="{ icon }"
+                    >
+                        <i
+                            v-if="icon"
+                            class="bi me-4"
+                            :class="`bi-${icon}`"
+                        ></i>
                     </slot>
 
                     <slot></slot>
@@ -17,10 +27,20 @@
     </template>
 
     <template v-else>
-        <div class="menu-item d-flex" @click="$emit('item-clicked')">
+        <div
+            class="menu-item d-flex"
+            @click="itemClicked"
+        >
             <div class="d-flex flex flex-row flex-nowrap justify-content-space-between">
-                <slot name="item-icon" v-bind="{ icon }">
-                    <i v-if="icon" class="bi me-4" :class="`bi-${icon}`"></i>
+                <slot
+                    name="item-icon"
+                    v-bind="{ icon }"
+                >
+                    <i
+                        v-if="icon"
+                        class="bi me-4"
+                        :class="`bi-${icon}`"
+                    ></i>
                 </slot>
 
                 <slot></slot>
@@ -39,9 +59,20 @@ export default {
             type: String,
             default: null
         },
+        callback: {
+            type: Function
+        },
         to: {
             type: [String, Object],
             default: null
+        }
+    },
+    methods: {
+        itemClicked() {
+            if (this.callback) {
+                this.callback();
+            }
+            this.$emit('item-clicked');
         }
     }
 };

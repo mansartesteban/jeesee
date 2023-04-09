@@ -17,7 +17,8 @@
 
         <Card
             v-show="!collapsed"
-            class="elevation-8"
+            class="menu-overlay elevation-8"
+            :style="overlayStyle"
         >
             <template v-for="item in items">
                 <template v-if="item.divider">
@@ -31,6 +32,7 @@
                         <menu-item
                             :icon="item.icon"
                             :to="item.to"
+                            :callback="item.callback"
                             @item-clicked="collapsed = true"
                         >
                             <template #item-icon>
@@ -84,6 +86,15 @@ export default {
             default: null
         }
     },
+    data() {
+        return {
+            collapsed: true,
+            overlayStyle: {
+                "--mouse-x": "0px",
+                "--mouse-y": "0px"
+            }
+        };
+    },
     computed: {
         classes() {
             return [
@@ -97,8 +108,13 @@ export default {
         }
     },
     methods: {
-        activatorOn() {
+        activatorOn(event) {
             this.collapsed = !this.collapsed;
+
+            let boundingActivator = this.$refs["menu-dropdown"].getBoundingClientRect();
+
+            this.overlayStyle["--mouse-x"] = boundingActivator.x + "px";
+            this.overlayStyle["--mouse-y"] = (boundingActivator.y + boundingActivator.height) + "px";
         },
         closeOnBlur(e) {
             const menu = this.$refs["menu-dropdown"];
@@ -106,11 +122,6 @@ export default {
                 this.collapsed = true;
             }
         }
-    },
-    data() {
-        return {
-            collapsed: true
-        };
     },
     mounted() {
         window.addEventListener("click", this.closeOnBlur);

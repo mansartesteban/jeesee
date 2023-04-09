@@ -8,7 +8,16 @@
             >{{ modelValue.constructor.name }}</Checkbox>
 
             <div class="flex"></div>
-            <Menu activatorIcon="three-dots-vertical"></Menu>
+            <Menu :items="actions">
+                <template #activator="props">
+                    <Button
+                        v-bind="props"
+                        rounded
+                        icon="three-dots-vertical"
+                    >
+                    </Button>
+                </template>
+            </Menu>
 
         </div>
 
@@ -46,14 +55,27 @@
 </template>
 
 <script>
+import UiComponent from '@/engine/game/scenes/Default/Components/UiComponent';
+
 export default {
     name: "EntityComponent",
     props: {
-        modelValue: Object
+        modelValue: Object,
+        linkedEntity: Object,
     },
     data() {
         return {
-            objectProps: []
+            objectProps: [],
+            actions: [
+                {
+                    label: "Remove component",
+                    icon: "node-minus",
+                    test: "test",
+                    callback: () => {
+                        this.linkedEntity.removeComponent(this.modelValue);
+                    }
+                }
+            ]
         };
     },
     computed: {

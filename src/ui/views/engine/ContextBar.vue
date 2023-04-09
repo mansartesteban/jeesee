@@ -2,6 +2,7 @@
     <div class="context-bar d-flex flex-column">
 
         <div class="entities-tree">
+            <div>Entities : {{ entities.length }}</div>
             <TreeView
                 :items="entities"
                 @row-clicked="selectEntity"
@@ -44,11 +45,20 @@
 
         <div
             v-if="matchedEntity"
-            class="entity-components"
+            class="entity-components d-flex flex-column align-center"
         >
+
+            <Menu
+                activatorLabel="Add component"
+                activatorIcon="node-plus"
+                :items="componentList"
+            ></Menu>
+
+
             <EntityComponent
-                v-for="(component, key) in matchedEntity.components"
-                v-model="matchedEntity.components[key]"
+                v-for="(component, key) in filteredComponents"
+                v-model="filteredComponents[key]"
+                :linkedEntity="matchedEntity"
             ></EntityComponent>
 
 
@@ -59,7 +69,14 @@
 
 <script>
 import SceneManager from '@/engine/game/SceneManager';
+import Collider from '@/engine/game/scenes/Default/Components/Colliders/Collider';
+import Gravity from '@/engine/game/scenes/Default/Components/Gravity';
+import MeshRenderComponent from '@/engine/game/scenes/Default/Components/MeshRenderComponent';
+import PhysicsComponent from '@/engine/game/scenes/Default/Components/PhysicsComponent';
 import UiComponent from '@/engine/game/scenes/Default/Components/UiComponent';
+import RotateAroundPhysics from '@/engine/game/scenes/Default/Components/RotateAroundPhysics';
+import BallPhysics from '@/engine/game/scenes/Default/Entities/Ball/BallPhysics';
+import CarPhysics from '@/engine/game/scenes/Default/Entities/Car/CarPhysics';
 
 export default {
     data() {
@@ -70,9 +87,53 @@ export default {
             matchedEntity: null,
             entities: [],
             uiComponent: null,
-            position: null,
-            rotation: null,
-            scale: null
+            position: null, // TODO: Find a workaround
+            rotation: null, // TODO: Find a workaround
+            scale: null, // TODO: Find a workaround
+            componentList: [
+                {
+                    label: "PhysicsComponent",
+                    callback: () => {
+                        this.matchedEntity.addComponent(new PhysicsComponent());
+                    }
+                },
+                {
+                    label: "CarPhysics",
+                    callback: () => {
+                        this.matchedEntity.addComponent(new CarPhysics());
+                    }
+                },
+                {
+                    label: "Collider",
+                    callback: () => {
+                        this.matchedEntity.addComponent(new Collider());
+                    }
+                },
+                {
+                    label: "MeshRenderComponent",
+                    callback: () => {
+                        this.matchedEntity.addComponent(new MeshRenderComponent());
+                    }
+                },
+                {
+                    label: "Gravity",
+                    callback: () => {
+                        this.matchedEntity.addComponent(new Gravity());
+                    }
+                },
+                {
+                    label: "BallPhysics",
+                    callback: () => {
+                        this.matchedEntity.addComponent(new BallPhysics());
+                    }
+                },
+                {
+                    label: "RotateAroundPhysics",
+                    callback: () => {
+                        this.matchedEntity.addComponent(new RotateAroundPhysics());
+                    }
+                }
+            ]
         };
     },
     methods: {
@@ -95,6 +156,13 @@ export default {
             this.uiComponent = new UiComponent(this.bindUiComponent);
             this.matchedEntity.addComponent(this.uiComponent);
 
+        }
+    },
+    computed: {
+        filteredComponents() {
+            return this.matchedEntity
+                ? this.matchedEntity.components.filter(component => !(component instanceof UiComponent))
+                : [];
         }
     },
     mounted() {
