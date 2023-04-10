@@ -1,47 +1,52 @@
 <template>
     <div class="context-bar d-flex flex-column">
 
-        <div class="entities-tree">
-            <div>Entities : {{ entities.length }}</div>
+        <div class="entities-tree d-flex flex-column">
+            <div class="m-2">Entities : {{ entities.length }}</div>
             <TreeView
                 :items="entities"
                 @row-clicked="selectEntity"
             >
-                <template #item-end="{ item, key }">
+                <template #next-to-label="{ item, key }">
+                    <Button icon="pencil-square"></Button>
                     <Chip
                         v-if="key === selectedKey"
                         color="success"
                         glowing
+                        class="mw-2"
                     ></Chip>
                 </template>
+                <template #item-end="{ item, key }">
+                    <Button icon="eye"></Button>
+                    <Button icon="lock"></Button>
+                    <Button
+                        icon="trash"
+                        @click.stop="deleteEntity(item)"
+                    ></Button>
+
+                </template>
             </TreeView>
+
+            <Divider class="my-2"></Divider>
+
         </div>
-        <Divider></Divider>
+
         <div
             v-if="selectedEntity && matchedEntity"
             class="entity-details p-2 d-flex flex-column gap-1"
         >
 
-            <InputVector3
-                label="Position"
-                :modelValue="position"
-                @update:modelValue="matchedEntity.transform.position = $event"
-            ></InputVector3>
+            <TransformComponent
+                :position="position"
+                :rotation="rotation"
+                :scale="scale"
+                @update:position="matchedEntity.transform.position = $event"
+                @update:rotation="matchedEntity.transform.rotation = $event"
+                @update:scale="matchedEntity.transform.scale = $event"
+            ></TransformComponent>
 
-            <InputVector3
-                label="Rotation"
-                :modelValue="rotation"
-                @update:modelValue="matchedEntity.transform.rotation = $event"
-            ></InputVector3>
-
-            <InputVector3
-                label="Scale"
-                :modelValue="scale"
-                @update:modelValue="matchedEntity.transform.scale = $event"
-            ></InputVector3>
-
+            <Divider class="my-2"></Divider>
         </div>
-        <Divider></Divider>
 
         <div
             v-if="matchedEntity"
@@ -53,7 +58,6 @@
                 activatorIcon="node-plus"
                 :items="componentList"
             ></Menu>
-
 
             <EntityComponent
                 v-for="(component, key) in filteredComponents"
@@ -133,7 +137,16 @@ export default {
                         this.matchedEntity.addComponent(new RotateAroundPhysics());
                     }
                 }
-            ]
+            ],
+            // entityCtxMenu: [
+            //     {
+            //         label: "Lock",
+            //         icon: "lock"
+            //     },
+            //     {
+            //         label: ""
+            //     }
+            // ]
         };
     },
     methods: {
@@ -156,6 +169,9 @@ export default {
             this.uiComponent = new UiComponent(this.bindUiComponent);
             this.matchedEntity.addComponent(this.uiComponent);
 
+        },
+        deleteEntity(entity) {
+            SceneManager.delete(entity.id);
         }
     },
     computed: {

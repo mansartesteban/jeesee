@@ -1,14 +1,24 @@
 <template>
     <div :class="classes">
-        <div v-if="$slots['card-header']" class="card-header">
+        <div
+            v-if="$slots['card-header']"
+            class="card-header"
+        >
             <slot name="card-header"></slot>
         </div>
-        <div v-if="$slots['card-body'] || $slots.default" class="card-body">
+
+        <div
+            v-if="$slots['card-body'] || $slots.default && $slots.default()[0].children"
+            class="card-body"
+        >
             <slot name="card-body">
                 <slot></slot>
             </slot>
         </div>
-        <div v-if="$slots['card-footer']" class="card-footer">
+        <div
+            v-if="$slots['card-footer']"
+            class="card-footer"
+        >
             <slot name="card-footer"></slot>
         </div>
     </div>

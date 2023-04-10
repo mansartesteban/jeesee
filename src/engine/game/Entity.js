@@ -7,7 +7,7 @@ import { generateUUID } from "three/src/math/MathUtils";
 class Entity {
 
     uuid = generateUUID();
-
+    name = "";
     components = [];
 
     transform = new TransformComponent();

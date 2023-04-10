@@ -1,22 +1,13 @@
 <template>
-    <div class="side-bar pn-2 d-flex flex-column align-items-center">
-        <Button
-            icon="box"
-            @click="addCube"
-        ></Button>
-        <Button
-            icon="circle"
-            @click="addSphere"
-        ></Button>
-        <Button
-            icon="triangle"
-            @click="addTetrahedron"
-        ></Button>
-        <Button
-            icon="person"
-            @click="addCharacter"
-        ></Button>
+    <div class="side-bar py-2 gap-2 d-flex flex-column align-items-center">
+
+        <Menu
+            :items="shapesMenu"
+            activatorIcon="boxes"
+        ></Menu>
+
         <Divider></Divider>
+
         <Button
             icon="bug"
             @click="dump"
@@ -24,6 +15,10 @@
         <Button
             icon="x-lg"
             @click="removeColliders"
+        ></Button>
+        <Button
+            icon="sign-stop"
+            @click="breakSpawn = true"
         ></Button>
         <Button
             icon="arrow-bar-down"
@@ -49,6 +44,7 @@ import PhysicsComponent from '@/engine/game/scenes/Default/Components/PhysicsCom
 import GeometryUtils from '@/engine/utils/GeometryUtils';
 import { GridHelper, Quaternion, Vector2, Vector3 } from 'three';
 import CharacterRender from '@/engine/game/scenes/Default/Renders/CharacterRender';
+import TempleRender from '@/engine/game/scenes/Default/Renders/TempleRender';
 import CharacterPhysics from '@/engine/game/scenes/Default/Entities/Character/CharacterPhysics';
 import Gravity from '@/engine/game/scenes/Default/Components/Gravity';
 import Grid from '@/engine/game/scenes/Default/Entities/Grid/Grid';
@@ -63,7 +59,37 @@ export default {
     data() {
         return {
             gravity: false,
-            paused: false
+            paused: false,
+            breakSpawn: false,
+            tetrahedronPhysics: new RotateAroundPhysics(),
+            tetrahedronRender: new TetrahedronRender(),
+            shapesMenu: [
+                {
+                    label: "Cube",
+                    icon: "square",
+                    callback: this.addCube
+                },
+                {
+                    label: "Sphere",
+                    icon: "circle",
+                    callback: this.addSphere
+                },
+                {
+                    label: "Tetrahedron",
+                    icon: "triangle",
+                    callback: this.addTetrahedron
+                },
+                {
+                    label: "Character",
+                    icon: "person",
+                    callback: this.addCharacter
+                },
+                {
+                    label: "Temple",
+                    icon: "bank",
+                    callback: this.addTemple
+                }
+            ]
         };
     },
     methods: {
@@ -90,21 +116,34 @@ export default {
         },
         async addTetrahedron() {
 
-            for (let i = 0; i < 90; i++) {
-                await new Promise(res => setTimeout(res, 100));
-                let tetrahedron = new Entity(new TetrahedronRender(), new RotateAroundPhysics());
-                tetrahedron.transform.position.add(new Vector3(2, 0, 0));
-                SceneManager.add(tetrahedron);
-            }
+            let tetrahedron = new Entity(new RotateAroundPhysics(), new TetrahedronRender());
+            tetrahedron.transform.position.add(new Vector3(2, 0, 0));
+            SceneManager.add(tetrahedron);
+
+            // if (!this.breakSpawn) {
+            //     setTimeout(() => {
+            //         this.addTetrahedron();
+            //     }, 10);
+            // } else {
+            //     this.breakSpawn = false;
+            // }
         },
 
         async addCharacter() {
             let character = new Entity(
                 new CharacterRender(),
                 new CharacterPhysics(),
-                // new Gravity()
             );
-            await new Promise(r => setTimeout(r, 2000)); // Find a workaround to load heavy entites
+            await new Promise(r => setTimeout(r, 2000)); // Find a workaround to load heavy entites => THREE.LoadingManager
+            character.transform.position = new Vector3(2, 0, 1);
+            SceneManager.add(character);
+        },
+        async addTemple() {
+            let character = new Entity(
+                new TempleRender(),
+                new CharacterPhysics(),
+            );
+            await new Promise(r => setTimeout(r, 2000)); // Find a workaround to load heavy entites => THREE.LoadingManager
             character.transform.position = new Vector3(2, 0, 1);
             SceneManager.add(character);
         },

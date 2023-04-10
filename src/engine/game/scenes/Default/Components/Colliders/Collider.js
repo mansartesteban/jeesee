@@ -19,6 +19,10 @@ class Collider extends Component {
     b1 = new Box3();
     b2 = new Box3();
 
+    options = {
+        applyResponse: true
+    };
+
     constructor() {
         super();
         setTimeout(() => this.init = true, 0);
@@ -38,7 +42,9 @@ class Collider extends Component {
 
             if (this.b1.intersectsBox(this.b2)) {
                 // console.log("collingding", entity.velocity);
-                entity.velocity.add(otherEntity.velocity.clone().divideScalar(10));
+                if (this.applyResponse) {
+                    entity.velocity.add(otherEntity.velocity.clone().divideScalar(10));
+                }
                 // otherEntity.velocity.add(entity.velocity.clone().normalize());
             }
             // this.meshRenderer.object.boundingBox;

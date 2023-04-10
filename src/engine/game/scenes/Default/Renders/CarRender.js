@@ -5,7 +5,7 @@ import AssetsHandler from "../../AssetsHandler";
 class CarRender extends MeshRenderComponent {
 
     createGeometry() {
-        return AssetsHandler.geometries[0];
+        return AssetsHandler.geometries.cube;
     }
 
 }

@@ -1,7 +1,14 @@
 <template>
     <div :class="classes">
-        <div class="switch-box" @click="input"></div>
-        <div v-if="$slots.default" class="switch-label mw-2" @click="input">
+        <div
+            class="switch-box"
+            @click="input"
+        ></div>
+        <div
+            v-if="$slots.default"
+            class="switch-label mw-2"
+            @click="input"
+        >
             <slot></slot>
         </div>
     </div>

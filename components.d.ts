@@ -57,6 +57,7 @@ declare module '@vue/runtime-core' {
     TabViewContainer: typeof import('./src/ui/components/tabs/TabViewContainer.vue')['default']
     Textbox: typeof import('./src/ui/components/inputs/Textbox.vue')['default']
     Toolbar: typeof import('./src/ui/components/Toolbar.vue')['default']
+    TransformComponent: typeof import('./src/ui/views/engine/ContextBar/TransformComponent.vue')['default']
     TreeView: typeof import('./src/ui/components/TreeView.vue')['default']
   }
 }

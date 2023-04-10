@@ -4,7 +4,7 @@ import AssetsHandler from "../../AssetsHandler";
 
 class CubeRender extends MeshRenderComponent {
     createGeometry() {
-        return AssetsHandler.geometries[0];
+        return AssetsHandler.geometries.cube;
     }
 }
 

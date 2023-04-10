@@ -3,7 +3,9 @@ import PhysicsComponent from "./PhysicsComponent";
 
 class Gravity extends PhysicsComponent {
 
-    acceleration = new Vector3(0, -9.81, 0);
+    options = {
+        acceleration: new Vector3(0, -.0981, 0)
+    };
     apply = true;
 
     constructor(options) {
@@ -13,8 +15,7 @@ class Gravity extends PhysicsComponent {
 
     update(entity) {
         if (this.apply) {
-            entity.velocity.add(this.acceleration.clone().multiplyScalar(.01));
-            entity.transform.position.add(entity.velocity.clone().multiplyScalar(.01));
+            entity.velocity.add(this.options.acceleration.clone().multiplyScalar(.016).divideScalar(2));
         }
     }
 }

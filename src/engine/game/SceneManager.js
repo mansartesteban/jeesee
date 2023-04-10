@@ -1,5 +1,6 @@
 import Observer from "@/engine/core/Observer";
 import MeshRenderComponent from "./scenes/Default/Components/MeshRenderComponent";
+import Entity from "./Entity";
 
 class SceneManager {
 
@@ -17,20 +18,35 @@ class SceneManager {
     this.threeScene = threeScene;
   }
 
-  delete(entityName) {
-    let foundIndex = this.entities.findIndex(entity => entity.name === entityName);
+  delete(entityToDelete) {
+
+    let foundIndex = this.entities.findIndex(entity => {
+      if (typeof entityToDelete === "string") {
+        return entity.uuid === entityToDelete;
+      } else if (entityToDelete instanceof Entity) {
+        return entity === entityToDelete;
+      }
+      return false;
+    });
+
     if (foundIndex !== -1) {
 
       let entityFound = this.entities[foundIndex];
+      let renderComponent = entityFound.getComponent(MeshRenderComponent);
 
-      if (entityFound.object) {
+      if (renderComponent && renderComponent.object) {
         this.observer.$emit(SceneManager.EVENTS.ENTITY_DELETED, entityFound);
-        this.threeScene.remove(entityFound.object);
-        entityFound.object.remove();
-        entityFound.object.clear();
-        delete this.entities[foundIndex];
-        this.entities.splice(foundIndex, 1);
+        this.threeScene.remove(renderComponent.object);
+        renderComponent.object.remove();
+        renderComponent.object.clear();
       }
+
+      for (let i = entityFound.components.length - 1; i >= 0; i--) {
+        entityFound.components.splice(i, 1);
+      }
+
+      delete this.entities[foundIndex];
+      this.entities.splice(foundIndex, 1);
     }
   }
 

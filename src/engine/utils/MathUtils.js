@@ -1,4 +1,9 @@
 class MathUtils {
+	static num(number, precision = 4) {
+		let factor = Math.pow(10, precision);
+		let n = precision < 0 ? number : 0.01 / factor + number;
+		return Math.round(n * factor) / factor;
+	}
 	static random(min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}

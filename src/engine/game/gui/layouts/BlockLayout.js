@@ -206,7 +206,7 @@ class BlockLayout extends Interfacor {
 		return a + (b - a) * v;
 	}
 
-	reposition(instant = false) {
+	reposition(instant = false) { // TODO: To optimize => Recalculate position only if "move=true" ?
 
 
 		if (this.node) {
@@ -218,11 +218,10 @@ class BlockLayout extends Interfacor {
 				}
 			}
 
-			this.node.style.left = `${this.currentPosition.from.x}%`;
-			this.node.style.right = `${100 - this.currentPosition.to.x}%`;
-			this.node.style.top = `${this.currentPosition.from.y}%`;
-			this.node.style.bottom = `${100 - this.currentPosition.to.y}%`;
-
+			this.node.style.left = `${this.currentPosition.from.x}vw`;
+			this.node.style.right = `${100 - this.currentPosition.to.x}vw`;
+			this.node.style.top = `${this.currentPosition.from.y}vh`;
+			this.node.style.bottom = `${100 - this.currentPosition.to.y}vh`;
 
 
 			if (
@@ -241,11 +240,6 @@ class BlockLayout extends Interfacor {
 				this.currentPosition.to.y = this.lerp(this.options.animationSpeed || 1, this.currentPosition.to.y, this.targetPosition.to.y);
 				this.currentPosition.size.x = this.currentPosition.to.x - this.currentPosition.from.x;
 				this.currentPosition.size.y = this.currentPosition.to.y - this.currentPosition.from.y;
-
-			} else {
-				// if (this.layout) {
-				// 	this.layout.save();
-				// }
 			}
 
 			if (!instant) {

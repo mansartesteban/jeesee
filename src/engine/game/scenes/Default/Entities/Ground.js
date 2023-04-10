@@ -4,8 +4,7 @@ import { Vector3 } from "three";
 
 class Ground extends Entity {
     initialize() {
-        console.log(this.transform.position);
-        (this.transform.position).add(new Vector3(0, -5, 0));
+        this.transform.position.add(new Vector3(0, -5, 0));
     }
 }
 

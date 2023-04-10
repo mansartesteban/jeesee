@@ -17,6 +17,10 @@
                 @update:modelValue="update($event, 'z')"
                 label="Z"
             ></InputNumber>
+            <Button
+                icon="arrow-counterclockwise"
+                @click="update(0, 'xyz')"
+            ></Button>
         </div>
     </div>
 </template>
@@ -42,7 +46,9 @@ export default {
             if (!this.value) {
                 this.value = this.modelValue;
             }
-            this.value[prop] = value;
+            prop.split("").forEach(k => {
+                this.value[k] = value;
+            });
             this.$emit("update:modelValue", this.value);
         }
     },

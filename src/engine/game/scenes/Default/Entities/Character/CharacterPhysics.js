@@ -4,10 +4,13 @@ import { Vector3 } from "three";
 
 class CharacterPhysics extends PhysicsComponent {
 
+    options = {
+        speed: 1
+    };
+
     update(entity, tick) {
-        entity.transform.rotation.add(new Vector3(Math.cos(tick / 100) / 100, 0, 0));
-        entity.transform.rotation.add(new Vector3(0, 0, Math.cos(tick / 100) / 100));
-        GeometryUtils.rotateAroundAxisPosition(entity.transform.position, new Vector3(0, 1, 0), .02);
+        let calc = Math.cos(tick / 100) / 100;
+        entity.transform.rotation.add(new Vector3(calc, 0, calc).multiplyScalar(this.options.speed));
     }
 
 }

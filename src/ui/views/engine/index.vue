@@ -1,5 +1,8 @@
 <template>
-    <div ref="engine-view" class="engine-view">
+    <div
+        ref="engine-view"
+        class="engine-view"
+    >
         <SideBar ref="side-bar"></SideBar>
         <SceneView ref="scene-view"></SceneView>
         <ContextBar ref="context-bar"></ContextBar>
@@ -20,7 +23,8 @@ export default {
             x: 0,
             y: 0,
             width: 5,
-            height: 95
+            height: 95,
+            zIndex: 10000
         }, this.$refs["side-bar"].$el);
         let bottomBar = new BlockLayout({
             x: 0,
@@ -31,13 +35,13 @@ export default {
         let sceneView = new BlockLayout({
             x: 5,
             y: 0,
-            width: 75,
+            width: 65,
             height: 95,
         }, this.$refs["scene-view"].$el);
         let contextBar = new BlockLayout({
-            x: 80,
+            x: 70,
             y: 0,
-            width: 20,
+            width: 30,
             height: 95,
         }, this.$refs["context-bar"].$el);
 

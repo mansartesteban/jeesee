@@ -14,12 +14,7 @@ class GuiLayout extends Interfacor {
     }
 
     initialize() {
-        // let layoutPosition = InterfaceStore.get("layout-position");
-        // if (layoutPosition) {
-        // this.importLayout(layoutPosition);
-        // } else {
         this.createInitialLayout();
-        // }
     }
 
     importLayout(blocks) {

@@ -22,7 +22,7 @@ class MeshRenderComponent extends Component {
     createGeometry() { return; }
 
     createMaterial() {
-        return AssetsHandler.materials[0];
+        return AssetsHandler.materials.lambert;
     }
     createMesh() {
         return new Mesh(this.geometry, this.material);
@@ -30,7 +30,7 @@ class MeshRenderComponent extends Component {
 
     update(entity) {
         if (this.object) {
-            entity.velocity.lerp(new Vector3(), .02); // TODO: only for testing
+            // entity.velocity.lerp(new Vector3(), .02); // TODO: only for testing
             entity.transform.position.add(entity.velocity);
             this.object.position.copy(entity.transform.position);
             this.object.rotation.setFromVector3(entity.transform.rotation);

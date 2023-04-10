@@ -1,13 +1,17 @@
 <template>
-    <div class="d-flex flex-column m-2 ms-8">
+    <Card class="d-flex flex-column m-2 ms-8">
 
-        <div class="d-flex flex-nowrap">
-            <Checkbox
+        <template #card-header>
+
+            <Switch
                 v-model="modelValue.active"
                 class="me-2"
-            >{{ modelValue.constructor.name }}</Checkbox>
+                :glowing="modelValue.active"
+                :glowing-intensity=".3"
+            >{{ modelValue.constructor.name }}</Switch>
 
             <div class="flex"></div>
+
             <Menu :items="actions">
                 <template #activator="props">
                     <Button
@@ -19,53 +23,66 @@
                 </template>
             </Menu>
 
-        </div>
+        </template>
 
-        <div
-            v-for="(prp, key) in components"
-            class="ms-2"
+        <template
+            #card-body
+            v-if="components.options && components.options.length > 0 || components.attrs.length > 0"
         >
-            <template v-if="prp.type === 'Boolean'">
-                <Checkbox
-                    :label="prp.name"
-                    v-model="modelValue.options[prp.name]"
-                ></Checkbox>
-            </template>
-            <template v-else-if="prp.type === 'Vector3'">
-                <InputVector3
-                    :label="prp.name"
-                    v-model="modelValue.options[prp.name]"
-                ></InputVector3>
-            </template>
-            <template v-if="prp.type === 'Number'">
-                <InputNumber
-                    :label="prp.name"
-                    v-model="modelValue.options[prp.name]"
-                ></InputNumber>
-            </template>
-            <template v-if="prp.type === 'String'">
-                <InputText
-                    :label="prp.name"
-                    v-model="modelValue.options[prp.name]"
-                ></InputText>
-            </template>
 
-        </div>
-    </div>
+            <div
+                class="card p-2 ms-2"
+                v-if="components.options.length > 0"
+            >
+                <component
+                    v-for="prp in components.options"
+                    class="ms-2"
+                    :is="handledPropType[prp.type]"
+                    :label="prp.name.ucfirst()"
+                    v-model="modelValue.options[prp.name]"
+                ></component>
+
+            </div>
+
+            <div
+                class="card p-2"
+                v-if="components.attrs.length > 0"
+            >
+                <component
+                    v-for="prp in components.attrs"
+                    class="ms-2"
+                    :is="handledPropType[prp.type]"
+                    :label="prp.name.ucfirst()"
+                    v-model="modelValue[prp.name]"
+                ></component>
+
+            </div>
+
+        </template>
+
+    </Card>
 </template>
 
 <script>
-import UiComponent from '@/engine/game/scenes/Default/Components/UiComponent';
+import InputVector3 from "@/ui/components/inputs/InputVector3";
+import Checkbox from "@/ui/components/inputs/Checkbox";
+import InputNumber from "@/ui/components/inputs/InputNumber";
+import InputText from "@/ui/components/inputs/InputText";
 
 export default {
     name: "EntityComponent",
+    components: {
+        InputVector3,
+        Checkbox,
+        InputNumber,
+        InputText,
+    },
     props: {
         modelValue: Object,
         linkedEntity: Object,
     },
     data() {
         return {
-            objectProps: [],
             actions: [
                 {
                     label: "Remove component",
@@ -75,21 +92,47 @@ export default {
                         this.linkedEntity.removeComponent(this.modelValue);
                     }
                 }
-            ]
+            ],
+            handledPropType: {
+                Vector3: "InputVector3",
+                Boolean: "Checkbox",
+                Number: "InputNumber",
+                String: "InputText",
+            }
         };
     },
     computed: {
         components() {
-            let components = [];
 
-            Object.keys(Object.getOwnPropertyDescriptors(this.modelValue.options)).forEach(key => {
-                if (key !== "active") {
-                    components.push({
-                        name: key,
-                        type: this.modelValue.options[key].constructor.name
-                    });
+            let components = {
+                options: [],
+                attrs: []
+            };
+
+            if (this.modelValue.options) {
+                Object.keys(Object.getOwnPropertyDescriptors(this.modelValue.options)).forEach(key => {
+                    if (key !== "active") {
+                        if (this.modelValue.options[key].constructor.name in this.handledPropType) {
+                            components.options.push({
+                                name: key,
+                                type: this.modelValue.options[key].constructor.name
+                            });
+                        }
+                    }
+                });
+            }
+
+            Object.keys(Object.getOwnPropertyDescriptors(this.modelValue)).forEach(key => {
+                if (key !== "active" && this.modelValue[key] !== undefined) {
+                    if (this.modelValue[key].constructor.name in this.handledPropType) {
+                        components.attrs.push({
+                            name: key,
+                            type: this.modelValue[key].constructor.name
+                        });
+                    }
                 }
             });
+
             return components;
         }
     }

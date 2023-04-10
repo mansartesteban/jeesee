@@ -1,14 +1,38 @@
 <template>
     <div class="tree-view flex">
-        <div v-for="(item, key) in items" class="d-flex flex-column">
-            <div class="tree-view-row d-flex flex-nowrap align-items-center px-2 py-1" @click="onRowClick(key)">
-                <i class="bi me-4" :class="`bi-${item.icon}`"></i>
+        <div
+            v-for="(item, key) in items"
+            class="d-flex flex-column"
+        >
+            <div
+                class="tree-view-row d-flex flex-nowrap align-items-center px-2 py-1"
+                @click="onRowClick(key)"
+            >
+                <i
+                    class="bi me-4"
+                    :class="`bi-${item.icon}`"
+                ></i>
                 <span class="text-ellipsis">{{ item.label }}</span>
+                <slot
+                    name="next-to-label"
+                    v-bind="{ item, key }"
+                ></slot>
                 <div class="flex"></div>
-                <i v-if="item.items" class="bi" :class="childExpanded[key] ? 'bi-caret-up' : 'bi-caret-down'"></i>
-                <slot name="item-end" v-bind="{ item, key }"></slot>
+                <i
+                    v-if="item.items"
+                    class="bi"
+                    :class="childExpanded[key] ? 'bi-caret-up' : 'bi-caret-down'"
+                ></i>
+                <slot
+                    name="item-end"
+                    v-bind="{ item, key }"
+                ></slot>
             </div>
-            <div v-if="item.items" class="sub-tree-view d-flex mw-4" :class="{ expanded: childExpanded[key] }">
+            <div
+                v-if="item.items"
+                class="sub-tree-view d-flex mw-4"
+                :class="{ expanded: childExpanded[key] }"
+            >
                 <TreeView :items="item.items"></TreeView>
             </div>
         </div>

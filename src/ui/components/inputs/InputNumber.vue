@@ -1,5 +1,5 @@
 <template>
-    <div class="input-number d-flex flex-nowrap gap-2">
+    <div class="input-number d-flex flex-nowrap align-items-center gap-2">
         <div v-if="label">{{ label }}</div>
         <input
             type="text"
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import MathUtils from '@/engine/utils/MathUtils';
+
 export default {
     props: {
         modelValue: {
@@ -40,7 +42,7 @@ export default {
             if (e.ctrlKey) increaseValue = 100;
             if (e.altKey) increaseValue = .1;
 
-            this.update(+this.value + increaseValue);
+            this.update(MathUtils.num(+this.value + increaseValue));
         },
         onArrowDown(e) {
             let increaseValue = -1;
@@ -48,7 +50,7 @@ export default {
             if (e.ctrlKey) increaseValue = -100;
             if (e.altKey) increaseValue = -.1;
 
-            this.update(+this.value + increaseValue);
+            this.update(MathUtils.num(+this.value + increaseValue));
         },
         onUpdate(val) {
             val.target.value = val.target.value.replace(/[a-z]/i, "");
@@ -64,7 +66,7 @@ export default {
         },
         onEnter() {
             try {
-                this.value = parseFloat(eval(this.value));
+                this.value = MathUtils.num(eval(this.value));
                 this.update();
             } catch (error) { // If statment is not correct, set the value back to original one
                 this.value = this.modelValue;

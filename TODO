@@ -1,0 +1,33 @@
+TODO: Add the possibility to switch between perspective and orthographic camera
+TODO: Add the possibility to move/rotate/scale an object on 3D scene
+TODO: Add the possiblity to switch material view (wireframe, plain, ...)
+TODO: Enhance the collider component
+TODO: Enhance gravity component
+TODO: Add the camera to the SceneManager and add the modifiers on it
+TODO: On click on axishelper, change view axe
+OK -- Modify on contextbar the public props on entities (for now, it's only options array)
+TODO: Select an object in scene should select it in contextbar
+TODO: Have the possibility to rename an entity 
+OK -- Find a work around for floating precision => .1+.2 = .300000000004
+TODO: Add the toggleVisibility and lock features on entities
+TODO: Add different type of lights (ambiant, point, spot, directional)
+OK -- Add the possibility to remove an object from scene
+TODO: Code refactor
+TODO: Have the possibility to reset velocity of entity
+TODO: Add "xs" "sm" "lg" "xl" on buttons
+
+TODO: FileSystem : 
+TODO: - Create/Save code files
+TODO: - Open/new project
+TODO: - Save scene state to database
+
+TODO: Have the possibility to create multiple scenes and link them (from one game level to another)
+TODO: Create a "script file" with interface (like unity with MonoBehaviour)
+TODO: Async loader with progress bar (for skybox as exemple)
+
+TODO: Optimize the outline effect with a lot of entities
+TODO: Try to handle over 5000+ entities (optimization)
+ 
+TODO: In contextbar, have the possibility to select multiple entities at once and update all modifiers 
+
+TODO: Have a terminal logger which logs all actions internally made 
