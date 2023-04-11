@@ -19,7 +19,7 @@
             ></InputNumber>
             <Button
                 icon="arrow-counterclockwise"
-                @click="update(0, 'xyz')"
+                @click="update(defaultValue || 0, 'xyz')"
             ></Button>
         </div>
     </div>
@@ -34,6 +34,10 @@ export default {
         },
         label: {
             type: String
+        },
+        defaultValue: {
+            type: Number,
+            default: 0
         }
     },
     data() {

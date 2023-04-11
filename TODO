@@ -13,6 +13,7 @@ TODO: Add the toggleVisibility and lock features on entities
 TODO: Add different type of lights (ambiant, point, spot, directional)
 OK -- Add the possibility to remove an object from scene
 TODO: Code refactor
+TODO: Add the possibility to drag on InputNumber
 TODO: Have the possibility to reset velocity of entity
 TODO: Add "xs" "sm" "lg" "xl" on buttons
 

@@ -16,6 +16,7 @@
             label="Scale"
             :modelValue="scale"
             @update:modelValue="$emit('update:scale', $event)"
+            :defaultValue="1"
         ></InputVector3>
     </div>
 </template>

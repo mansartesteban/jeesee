@@ -131,9 +131,9 @@ class Scene {
 		this.renderer.domElement.addEventListener("mouseup", onMouseUp.bind(this));
 		this.renderer.domElement.addEventListener("wheel", onWheel.bind(this), { passive: true });
 
-		document.body.addEventListener("contextmenu", (e) => {
-			e.preventDefault();
-		});
+		// document.body.addEventListener("contextmenu", (e) => {
+		// 	e.preventDefault();
+		// });
 
 		this.helper = new ViewHelper(this.camera, this.renderer.domElement);
 

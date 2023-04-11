@@ -17,7 +17,7 @@
                     ></Chip>
                 </template>
                 <template #item-end="{ item, key }">
-                    <Button icon="eye"></Button>
+                    <Button icon="eye" @click="toggleVisibility"></Button>
                     <Button icon="lock"></Button>
                     <Button
                         icon="trash"
@@ -33,7 +33,7 @@
 
         <div
             v-if="selectedEntity && matchedEntity"
-            class="entity-details p-2 d-flex flex-column gap-1"
+            class="entity-details d-flex p-2 flex-column gap-1"
         >
 
             <TransformComponent
@@ -45,8 +45,8 @@
                 @update:scale="matchedEntity.transform.scale = $event"
             ></TransformComponent>
 
-            <Divider class="my-2"></Divider>
         </div>
+        <Divider class="my-2"></Divider>
 
         <div
             v-if="matchedEntity"
@@ -169,6 +169,9 @@ export default {
             this.uiComponent = new UiComponent(this.bindUiComponent);
             this.matchedEntity.addComponent(this.uiComponent);
 
+        },
+        toggleVisibility() {
+            // TODO: Filter on MeshRenderComponent get object and apply visible = false
         },
         deleteEntity(entity) {
             SceneManager.delete(entity.id);
