@@ -40,6 +40,8 @@ declare module '@vue/runtime-core' {
     InputText: typeof import('./src/ui/components/inputs/InputText.vue')['default']
     InputVector3: typeof import('./src/ui/components/inputs/InputVector3.vue')['default']
     KeyboardKey: typeof import('./src/ui/components/KeyboardKey.vue')['default']
+    Layout: typeof import('./src/ui/views/sandbox/Layout.vue')['default']
+    LayoutBox: typeof import('./src/ui/views/sandbox/LayoutBox.vue')['default']
     Menu: typeof import('./src/ui/components/menus/Menu.vue')['default']
     MenuItem: typeof import('./src/ui/components/menus/MenuItem.vue')['default']
     MenuItemContent: typeof import('./src/ui/components/menus/MenuItemContent.vue')['default']

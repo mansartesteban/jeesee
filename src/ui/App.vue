@@ -100,6 +100,11 @@ export default {
           label: "Engine",
           icon: "joystick",
           to: { name: "Engine" }
+        },
+        {
+          label: "Layouts",
+          icon: "grid-1x2",
+          to: { name: "Layouts" }
         }
       ],
       itemsHelp: [

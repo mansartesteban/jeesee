@@ -16,19 +16,18 @@ TODO: Code refactor
 TODO: Add the possibility to drag on InputNumber
 TODO: Have the possibility to reset velocity of entity
 TODO: Add "xs" "sm" "lg" "xl" on buttons
+TODO: Add an options snap object to grid while moving or move by incrementals steps (.1, 1, 10)
 
 TODO: FileSystem : 
 TODO: - Create/Save code files
 TODO: - Open/new project
 TODO: - Save scene state to database
 
+
 TODO: Have the possibility to create multiple scenes and link them (from one game level to another)
 TODO: Create a "script file" with interface (like unity with MonoBehaviour)
 TODO: Async loader with progress bar (for skybox as exemple)
-
 TODO: Optimize the outline effect with a lot of entities
 TODO: Try to handle over 5000+ entities (optimization)
- 
 TODO: In contextbar, have the possibility to select multiple entities at once and update all modifiers 
-
 TODO: Have a terminal logger which logs all actions internally made 
