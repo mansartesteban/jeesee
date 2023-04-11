@@ -42,6 +42,7 @@ declare module '@vue/runtime-core' {
     KeyboardKey: typeof import('./src/ui/components/KeyboardKey.vue')['default']
     Layout: typeof import('./src/ui/views/sandbox/Layout.vue')['default']
     LayoutBox: typeof import('./src/ui/views/sandbox/LayoutBox.vue')['default']
+    LayoutResizer: typeof import('./src/ui/views/sandbox/LayoutResizer.vue')['default']
     Menu: typeof import('./src/ui/components/menus/Menu.vue')['default']
     MenuItem: typeof import('./src/ui/components/menus/MenuItem.vue')['default']
     MenuItemContent: typeof import('./src/ui/components/menus/MenuItemContent.vue')['default']

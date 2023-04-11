@@ -13,6 +13,9 @@ class MathUtils {
 	static minMax(x, min, max) {
 		return x < min ? min : (x > max ? max : x);
 	}
+	static clamp(num, min, max) {
+		return Math.min(Math.max(num, min), max);
+	}
 }
 
 export default MathUtils;
