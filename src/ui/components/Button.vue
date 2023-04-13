@@ -87,12 +87,32 @@ export default {
         glowingIntensity: {
             type: [String, Number],
             default: .5
+        },
+        xs: {
+            type: Boolean,
+            default: false
+        },
+        sm: {
+            type: Boolean,
+            default: false
+        },
+        lg: {
+            type: Boolean,
+            default: false
+        },
+        xl: {
+            type: Boolean,
+            default: false
         }
     },
     computed: {
         classes() {
             return [
                 "btn",
+                { xs: this.xs },
+                { sm: this.sm },
+                { lg: this.lg },
+                { xl: this.xl },
                 this.color,
                 this.elevation ? ("elevation-" + this.elevation) : "",
                 { active: this.active },

@@ -1,5 +1,8 @@
 <template>
-    <div class="toolbar" :class="classes">
+    <div
+        class="toolbar d-flex flex-nowrap flex-row"
+        :class="classes"
+    >
         <slot></slot>
     </div>
 </template>

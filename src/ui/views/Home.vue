@@ -14,6 +14,9 @@
             <RouterLink :to="{name: 'Engine'}">
                 <Button rounded glowing class="primary elevation-4 xl">Engine</Button>
             </RouterLink>
+            <RouterLink :to="{name: 'Layouts'}">
+                <Button rounded glowing class="primary elevation-4 xl">Layouts</Button>
+            </RouterLink>
         </div>
     </div>
 </template>

@@ -2,7 +2,7 @@
     <div
         ref="layout-resizer"
         class="layout-resizer"
-        :class="{ vertical }"
+        :class="{ vertical, active }"
         @mousedown.stop="onMouseDown"
         @mouseup.stop="onMouseUp"
     ></div>
@@ -12,7 +12,6 @@ import MathUtils from '@/engine/utils/MathUtils';
 
 export default {
     props: {
-        neighbours: Number,
         vertical: {
             type: Boolean,
             default: false,
@@ -20,6 +19,7 @@ export default {
     },
     data() {
         return {
+            active: false,
             siblingPrev: null,
             siblingNext: null,
             boundingBox: null,
@@ -28,14 +28,18 @@ export default {
             initialMousePosition: {
                 x: 0,
                 y: 0
-            }
+            },
+            closestParent: null
         };
     },
     methods: {
         onMouseDown(e) {
 
+            this.active = true;
             document.body.addEventListener("pointermove", this.onMouseMove);
             document.body.addEventListener("mouseup", this.onMouseUp);
+
+            document.body.classList.toggle("resize-" + (this.vertical ? "y" : "x"), true);
 
             this.siblingPrev = e.target.previousElementSibling;
             this.siblingNext = e.target.nextElementSibling;
@@ -56,6 +60,8 @@ export default {
 
         },
         onMouseUp(e) {
+            this.active = false;
+            document.body.classList.toggle("resize-" + (this.vertical ? "y" : "x"), false);
             document.body.removeEventListener("pointermove", this.onMouseMove);
             document.body.removeEventListener("mouseup", this.onMouseUp);
         },
@@ -75,9 +81,7 @@ export default {
 
             this.siblingPrev.style.flexGrow = flexGrow;
             this.siblingNext.style.flexGrow = 2 - flexGrow;
-        }
-    },
-    mounted() {
+        },
 
     }
 };
@@ -87,27 +91,23 @@ export default {
 
 .layout-resizer {
     position: relative;
-    padding: .5px;
+    padding: 1px;
     user-select: none;
-    transition: 
-        border-color $transitionDuration $transitionTimingBounce;
+    transition: border-color $transitionDuration $transitionTimingBounce;
     background: var( --secondary-color);
-}
-
-.layout-resizer:hover {
-    background-color: var(--primary-color);
-    transform: scaleX(5);
-}
-.layout-resizer.vertical:hover {
-    transform: scaleY(5);
-}
-
-.layout-resizer.vertical {
-    cursor: ns-resize;
-
-}
-
-.layout-resizer {
     cursor: ew-resize;
+
+    &:hover, &.active {
+        background-color: var(--primary-color);
+        transform: scaleX(2.5);
+    }
+
+    &.vertical {
+        cursor: ns-resize;
+        &:hover, &.active {
+            transform: scaleY(2.5);
+        }
+    }
+    
 }
 </style>

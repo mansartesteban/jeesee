@@ -70,6 +70,7 @@ $colorVariants: ("darker": -25%, "dark": -10%, "light": 10%, "lighter": 25%);
 // }
 
 $transitionDuration: .25s;
+$transitionDurationFast: .1s;
 $transitionTimingDefault: cubic-bezier(0, 0, 0, 1);
 $transitionTimingBounce: cubic-bezier(.47, 1.64, .41, .8);
 
