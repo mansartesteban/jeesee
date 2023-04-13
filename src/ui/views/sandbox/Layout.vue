@@ -1,5 +1,8 @@
 <template>
-  <LayoutBox :items="layouts"></LayoutBox>
+  <LayoutBox
+    :items="layouts"
+    @select="prepareMoving"
+  ></LayoutBox>
   <div
     ref="slot-ghost"
     class="slot-ghost"
@@ -31,14 +34,14 @@ TODO:
 // Exemple : http://jsfiddle.net/Lnem9d8g/
 
 import LayoutBox from "./LayoutBox";
-import { layoutData2 as LayoutDatas } from "./Layouts";
+import { layoutData3 as LayoutDatas } from "./Layouts";
 
 export default {
   name: "Layout",
   data() {
     return {
       layouts: LayoutDatas,
-      slots: []
+      slots: [],
     };
   },
   methods: {
@@ -89,7 +92,6 @@ export default {
         for (let slot of this.slots) {
           if (this.intersectBoundingBox(slot, x, y)) {
             this.setBoundingBox(this.$refs["slot-ghost"], slot);
-            console.log(this.closestParent.getAttribute("data-id"));
             break;
           }
         }
@@ -123,12 +125,20 @@ export default {
         }
       });
     },
+    prepareMoving(e) {
+      console.log("prepare moving", e)
+    }
   },
   mounted() {
+    document.addEventListener("click", () => {
+      
+    })
     document.body.addEventListener("pointermove", this.move);
 
     this.bindId(this.layouts);
-    console.log(this.layouts);
+
+    console.log(this.tmp);
+
 
   },
 };

@@ -4,7 +4,7 @@
       <template #activator="props">
         <Button v-bind="props">
           <template #icon>
-            <img src="/assets/medias/logo-white.svg" width="20" height="20" style="transform: rotate(90deg)">
+            <img src="/assets/logo.svg" width="20" height="20">
           </template>
           <span class="mw-2">Application</span>
         </Button>

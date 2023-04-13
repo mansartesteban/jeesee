@@ -6,6 +6,7 @@
     <div
       v-if="childBox"
       class="layout-box-header d-flex flex-nowrap flex-row"
+      @click="$emit('select', id)"
     >
       <Toolbar class="flex">
         {{ title }}
@@ -44,6 +45,7 @@
           :title="item.title"
           :id="item.id"
           v-model:collapsed="item.collapsed"
+          @select="$emit('select', $event)"
         ></LayoutBox>
         <Component
           v-else
