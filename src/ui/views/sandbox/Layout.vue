@@ -1,8 +1,25 @@
 <template>
-  <LayoutBox
+  <!-- <LayoutBox
     :items="layouts"
     @select="prepareMoving"
-  ></LayoutBox>
+  ></LayoutBox> -->
+  <pre class="language-json">{{ transformedLayout }}</pre>
+  <pre class="language-json">
+  {
+    "isBox": true,
+    "id": "0",
+    {
+      boxes: [
+        {
+          "isBox": true,
+          "title": "Panel 1",
+          "flex": 1,
+          "id": "0-1"
+        }
+      ]
+    }
+  }
+  </pre>
   <div
     ref="slot-ghost"
     class="slot-ghost"
@@ -10,6 +27,8 @@
 </template>
 
 <script>
+import "vue-code-highlight/themes/window.css";
+import "vue-code-highlight/themes/prism.css";
 
 /*
 OK - Have the possibility to add flex-grow in main array (to prepare data saving and retrieving)
@@ -44,7 +63,123 @@ export default {
       slots: [],
     };
   },
+  computed: {
+    transformedLayout() {
+
+      let keys = this.layouts.map(box => box.id);
+
+      return keys.reduce((newArray, keyPath) => {
+
+        console.log("reducing main paths", keyPath);
+        console.log("value on each reduce", JSON.parse(JSON.stringify(newArray)));
+
+        keyPath.split("-").reduce((nestedArray, key, index, mainKeyPathsArray) => {
+
+          console.log("value on begin nested", JSON.parse(JSON.stringify(nestedArray)));
+          console.log("reducing key path", key);
+
+          if (mainKeyPathsArray[index + 1] !== undefined) {
+
+            console.log("has a next", mainKeyPathsArray[index + 1]);
+
+            if (nestedArray.boxes === undefined) {
+              nestedArray.boxes = [];
+            }
+
+            if (nestedArray.boxes[key] === undefined) {
+              console.log(`nested array '${key}' doesn't exists`);
+              nestedArray.boxes[key] = { boxes: [] };
+            }
+
+            console.log("returning nested", JSON.parse(JSON.stringify(nestedArray[key])));
+            return nestedArray.boxes[key];
+
+          } else {
+
+            nestedArray[key] = this.layouts.find(box => box.id === keyPath);
+            console.log("doesn't have next, returning value " + keyPath, JSON.parse(JSON.stringify(nestedArray)));
+            return nestedArray;
+
+          }
+
+        }, newArray);
+
+        return newArray;
+
+      }, []);
+
+      // return keys.reduce((r, k) => {
+
+      //   console.log("reducing k", k);
+
+      //   k.split('-').reduce((a, e, i, arr) => {
+      //     console.log("splitted keys", a, e);
+      //     const next = arr[i + 1];
+      //     console.log("next", next);
+      //     if (!next) {
+      //       // let ret = a[e] = this.layouts.find(box => box.id === k);
+      //       let ret = (a[e] = k);
+      //       console.log("ret if", ret);
+      //       return ret;
+      //     }
+      //     else {
+      //       console.log("before a[e]", a[e], a, e);
+      //       let ret = a[e] || (a[e] = []);
+      //       console.log("ret else", ret);
+      //       return ret;
+      //     }
+      //   }, r);
+
+      //   console.log("reduced ", r);
+
+      //   return r;
+      // }, []);
+
+      // return keys.reduce((reducer, key) => {
+      //   console.log("reducing on " + key);
+
+      // const splittedPositions = key.split("-");
+      // let newArray = [];
+
+      // splittedPositions.forEach((keyPosition, i) => {
+
+      //   const next = splittedPositions[i + 1];
+      //   if (next) {
+      //     return newArray[keyPosition] || (newArray[keyPosition] = []);
+      //   } else {
+      //     return newArray[keyPosition] = this.layouts.find(box => box.id === key);
+      //   }
+
+      // })
+
+
+
+      // }, []);
+    }
+    // let maxDeepness = this.layouts.reduce((max, box) => Math.max(max, box.id.split("-").length), 0);
+    // console.log(maxDeepness);
+    // return this.transformLayout(1, maxDeepness);
+  },
   methods: {
+    // transformLayout(deepness = 1, maxDeepness = 1) {
+    //   // console.log("deepnes?", deepness);
+    //   let boxForCurrentDeepness = this.layouts.filter(layoutBox => {
+    //     // console.log(layoutBox.id, layoutBox.id.split("-"), layoutBox.id.split("-").length, deepness, layoutBox.id.split("-").length === deepness);
+    //     return layoutBox.id.split("-").length === deepness;
+    //   });
+    //   // console.log("boxForCurrentDeepness", boxForCurrentDeepness);
+    //   return boxForCurrentDeepness.map(currentBox => {
+    //     currentBox.boxes = this.layouts.filter(layoutBox => {
+    //       if (layoutBox.id !== currentBox.id && layoutBox.id.startsWith(currentBox.id) && layoutBox.id.split("-").length === deepness + 1) {
+    //         if (deepness <= maxDeepness) {
+
+    //         }
+    //         return true;
+    //       }
+    //       return false;
+    //     });
+    //   });
+    // },
     async move(e) {
       let newClosestParent = e.target.closest(".layout-box");
 
@@ -59,6 +194,7 @@ export default {
 
         let boundingBox = newClosestParent.getBoundingClientRect();
 
+        // Todo : Add a slot for tab container 
         this.slots = [
           // left
           // if vertical => wrap in a layout-box and place first
@@ -126,19 +262,16 @@ export default {
       });
     },
     prepareMoving(e) {
-      console.log("prepare moving", e)
+      console.log("prepare moving", e);
     }
   },
   mounted() {
     document.addEventListener("click", () => {
-      
-    })
+
+    });
     document.body.addEventListener("pointermove", this.move);
 
     this.bindId(this.layouts);
-
-    console.log(this.tmp);
-
 
   },
 };
