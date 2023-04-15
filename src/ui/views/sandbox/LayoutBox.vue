@@ -2,51 +2,55 @@
   <div
     class="layout-box d-flex flex-nowrap flex-column"
     :data-id="id"
+    :style="{ flex }"
   >
     <div
-      v-if="childBox"
+      v-if="type === 'box'"
       class="layout-box-header d-flex flex-nowrap flex-row"
-      @mousedown="$emit('select', id)"
+      @mousedown.stop="dragStart"
     >
-      <Toolbar class="flex">
-        {{ title }}
+      <Toolbar class="px-2">
+        <span class="text-ellipsis">
+          {{ title }}
+        </span>
         <div class="flex"></div>
-        {{ id }}
-        <div class="flex"></div>
+        <!-- <span class="text-ellipsis">
+          {{ id }}
+        </span> -->
+        <!-- <div class="flex"></div> -->
         <Button
           xs
           :icon="isCollapsed ? 'chevron-down' : 'chevron-up'"
-          @click="isCollapsed = !isCollapsed"
+          @click.stop="isCollapsed = !isCollapsed"
         ></Button>
         <Button
           xs
           icon="x"
-          @click="closeBox"
+          @click.stop="closeBox"
+          v-if="closable"
         ></Button>
       </Toolbar>
     </div>
-    <!-- :style="isCollapsed ? 'flex-grow: 0' : 'flex-grow: 1'" -->
     <div
       class="layout-box-body d-flex flex-nowrap"
       :class="vertical ? 'flex-column' : 'flex-row'"
-      style="flex-grow: 1"
+      :style="isCollapsed ? 'flex-grow: 0' : 'flex-grow: 1'"
     >
-      <template v-for="(item, k) in items">
+      <template v-for="(item, k) in items.filter(a => a)">
         <LayoutResizer
-          v-if="item && item.isBox && k !== 0"
+          v-if="item && ['container', 'box'].includes(item.type) && k !== 0"
           :neighbours="item.length"
           :vertical="vertical"
         ></LayoutResizer>
         <LayoutBox
-          v-if="item && item.isBox && item.boxes"
-          child-box
+          v-if="item && ['container', 'box'].includes(item.type)"
+          v-bind="item"
           :items="item.boxes"
           :vertical="!vertical"
-          :flex="item.flex"
-          :title="item.title"
-          :id="item.id"
           v-model:collapsed="item.collapsed"
-          @select="$emit('select', $event)"
+          @dragStart="(e, id) => $emit('dragStart', e, id)"
+          @dragMove="$emit('dragMove', $event)"
+          @dragEnd="$emit('dragEnd')"
         ></LayoutBox>
         <Component
           v-else
@@ -59,16 +63,16 @@
 <script>
 export default {
   props: {
-    childBox: {
-      type: Boolean,
-      default: false
-    },
     items: {
       type: [Array, Object],
     },
     id: {
       type: String,
       default: ""
+    },
+    type: {
+      type: String,
+      default: "container"
     },
     title: {
       type: String,
@@ -79,12 +83,16 @@ export default {
       default: true
     },
     flex: {
-      type: Number,
+      type: [Number, String],
       default: 1
     },
     collapsed: {
       type: Boolean,
       default: false
+    },
+    closable: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
@@ -96,9 +104,32 @@ export default {
     }
   },
   methods: {
+    dragStart(e) {
+      this.$emit('dragStart', e, this.id);
+
+      document.body.addEventListener("pointermove", this.dragMove);
+      document.body.addEventListener("mouseup", this.dragEnd);
+
+      document.body.style.userSelect = "none";
+    },
+    dragMove(e) {
+      this.$emit("dragMove", e);
+    },
+    dragEnd() {
+      this.$emit("dragEnd");
+
+      document.body.removeEventListener("pointermove", this.dragMove);
+      document.body.removeEventListener("mouseup", this.dragEnd);
+
+      document.body.style.userSelect = "";
+    },
     closeBox() {
 
     }
+  },
+  beforeUnmount() {
+    document.body.removeEventListener("pointermove", this.dragMove);
+    document.body.removeEventListener("mouseup", this.dragEnd);
   }
 };
 </script>
@@ -106,27 +137,29 @@ export default {
 .layout-box {
   flex: 1;
   overflow: auto;
-  border: 1px solid var(--secondary-color);
-  padding: .5em;
+  border: 2px solid var(--secondary-color);
+  margin: -2px;
+  overflow: hidden;
   
   .layout-box-header {
-    border: 1px dotted yellow;
-    padding: .5em;
+    border-bottom: 2px solid var(--secondary-color);
+    margin: -2px;
+    // padding: .5em;
   }
 
-  .layout-box-body {
+  // .layout-box-body {
 
-    padding: .5em;
+  //   padding: .5em;
     
-    &.flex-column {
-      border: 1px dotted coral;
-    }
+  //   &.flex-column {
+  //     border: 1px dotted coral;
+  //   }
 
-    &.flex-row {
-      border: 1px dotted cornflowerblue;
-    }
+  //   &.flex-row {
+  //     border: 1px dotted cornflowerblue;
+  //   }
 
-  }
+  // }
 }
 
 

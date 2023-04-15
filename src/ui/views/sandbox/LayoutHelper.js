@@ -68,7 +68,17 @@ const getBoxesAtLevel = (layouts, level = "") => {
 };
 
 // TODO: Add a slot for tab container 
-const createSlots = (boundingBox) => {
+const createSlots = (boundingBox, onlySame = false) => {
+    if (onlySame) {
+        return [
+            {
+                name: "same",
+                hovered: false,
+                boundingBox,
+            }
+        ];
+    }
+
     return [
         {
             name: "left",

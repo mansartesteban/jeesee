@@ -30,4 +30,14 @@ TODO: Async loader with progress bar (for skybox as exemple)
 TODO: Optimize the outline effect with a lot of entities
 TODO: Try to handle over 5000+ entities (optimization)
 TODO: In contextbar, have the possibility to select multiple entities at once and update all modifiers 
-TODO: Have a terminal logger which logs all actions internally made 
+TODO: Have a terminal logger which logs all actions internally made
+
+TODO: Create a quest system
+      For now i have no idea about what to do, but i would to have a system which can handle quest as a tree
+      Have the possibility to handle (multiple) interactions with actors
+      Have the possibility to handle collectibles and goals
+      Have the possibility to handle timer
+      Have the possibility to handle sub quest, sub subquest and so on
+      Have the possibility to link scenes to quest
+      Have the possibility to handle gui/hud or dialogs
+      With this quest system, we would be able to create the tutorial of any game i guess

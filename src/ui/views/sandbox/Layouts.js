@@ -2,18 +2,18 @@ import Checkbox from "@/ui/components/inputs/Checkbox.vue";
 
 let layoutData1 = [
   {
-    isBox: true,
+    type: "box",
     boxes: [Checkbox],
   },
   {
-    isBox: true,
+    type: "box",
     boxes: [
       {
-        isBox: true,
+        type: "box",
         boxes: [Checkbox],
       },
       {
-        isBox: true,
+        type: "box",
         boxes: [Checkbox],
       },
     ],
@@ -22,45 +22,45 @@ let layoutData1 = [
 
 let layoutData2 = [
   {
-    isBox: true,
+    type: "box",
     title: "Panel 1",
     flex: 1,
     boxes: [
       {
-        isBox: true,
+        type: "box",
         title: "Layout",
         flex: 1,
         boxes: [],
       },
       {
         title: "Menus",
-        isBox: true,
+        type: "box",
         flex: 1,
         boxes: [],
       },
       {
         title: "Application",
-        isBox: true,
+        type: "box",
         flex: 1,
         boxes: [],
       },
       {
-        isBox: true,
+        type: "box",
         flex: 1,
         title: "Fichiers",
         boxes: [
           {
-            isBox: true,
+            type: "box",
             flex: 1,
             collapsed: true,
             boxes: [
               {
-                isBox: true,
+                type: "box",
                 flex: 0.5,
                 boxes: [Checkbox],
               },
               {
-                isBox: true,
+                type: "box",
                 flex: 1.5,
                 boxes: [Checkbox, Checkbox, Checkbox],
               },
@@ -69,70 +69,70 @@ let layoutData2 = [
         ],
       },
       {
-        isBox: true,
+        type: "box",
         flex: 1,
         collapsed: true,
         boxes: [
           {
-            isBox: true,
+            type: "box",
             collapsed: true,
             boxes: [Checkbox],
           },
           {
-            isBox: true,
+            type: "box",
             boxes: [Checkbox],
           },
           Checkbox,
         ],
       },
       {
-        isBox: true,
+        type: "box",
         boxes: [Checkbox],
       },
     ],
   },
   {
-    isBox: true,
+    type: "box",
     boxes: [
       {
-        isBox: true,
+        type: "box",
         flex: 1,
         collapsed: true,
         boxes: [
           {
-            isBox: true,
+            type: "box",
             collapsed: true,
             boxes: [Checkbox],
           },
           {
-            isBox: true,
+            type: "box",
             boxes: [Checkbox],
           },
           Checkbox,
         ],
       },
       {
-        isBox: true,
+        type: "box",
         boxes: [
           {
-            isBox: true,
+            type: "box",
             flex: 1,
             collapsed: true,
             boxes: [
               {
-                isBox: true,
+                type: "box",
                 collapsed: true,
                 boxes: [Checkbox],
               },
               {
-                isBox: true,
+                type: "box",
                 boxes: [Checkbox],
               },
               Checkbox,
             ],
           },
           {
-            isBox: true,
+            type: "box",
             boxes: [Checkbox],
           },
           Checkbox,
@@ -145,112 +145,138 @@ let layoutData2 = [
 ];
 let layoutData3 = [
   {
-    isBox: true,
+    type: "box",
     title: "Layout",
     flex: 1,
     id: "0-0",
   },
   {
     title: "Menus",
-    isBox: true,
+    type: "box",
     flex: 1,
     id: "0-1",
   },
   {
     title: "Application",
-    isBox: true,
+    type: "box",
     flex: 1,
     id: "1-1-1-2",
   },
   {
-    isBox: true,
+    type: "box",
     flex: 0.5,
     id: "0-3-0-0",
   },
   {
-    isBox: true,
+    type: "box",
     flex: 1.5,
     id: "0-3-0-1",
   },
   {
-    isBox: true,
+    type: "box",
     flex: 1,
     collapsed: true,
     id: "0-3-0",
   },
   {
-    isBox: true,
+    type: "box",
     flex: 1,
     title: "Fichiers",
     id: "0-3",
   },
   {
-    isBox: true,
+    type: "box",
     collapsed: true,
     id: "0-4-0",
   },
   {
-    isBox: true,
+    type: "box",
     id: "0-4-1",
   },
   {
-    isBox: true,
+    type: "box",
     flex: 1,
     collapsed: true,
     id: "0-4",
   },
   {
-    isBox: true,
+    type: "box",
     id: "0-5",
   },
   {
-    isBox: true,
+    type: "box",
     title: "Panel 1",
     flex: 1,
     id: "0",
   },
   {
-    isBox: true,
+    type: "box",
     collapsed: true,
     id: "1-0-0",
   },
   {
-    isBox: true,
+    type: "box",
     id: "1-0-1",
   },
   {
-    isBox: true,
+    type: "box",
     flex: 1,
     collapsed: true,
     id: "1-0",
   },
   {
-    isBox: true,
+    type: "box",
     collapsed: true,
     id: "1-1-0-0",
   },
   {
-    isBox: true,
+    type: "box",
     id: "1-1-0-1",
   },
   {
-    isBox: true,
+    type: "box",
     flex: 1,
     collapsed: true,
     id: "1-1-0",
   },
   {
-    isBox: true,
+    type: "box",
     id: "1-1-1",
   },
   {
-    isBox: true,
+    type: "box",
     id: "1-1",
   },
   {
-    isBox: true,
+    type: "box",
     id: "1",
   },
 ];
 
-export { layoutData1, layoutData2, layoutData3 };
+let defaultLayout = [
+  {
+    type: "box",
+    id: "0-1",
+    flex: .1
+  },
+  {
+    type: "box",
+    id: "0-2",
+    flex: 2,
+    title: "SceneView",
+    closable: false
+  },
+  {
+    type: "box",
+    id: "0-3",
+    flex: .5,
+    title: "Entities Manager"
+  },
+  {
+    type: "box",
+    id: "1-0",
+    title: "Assets & Scripts"
+  },
+];
+
+export { layoutData1, layoutData2, layoutData3, defaultLayout };

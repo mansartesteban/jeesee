@@ -1,26 +1,11 @@
 <template>
   <LayoutBox
     :items="transformedLayout"
-    @select="prepareMoving"
+    @dragStart="onMouseDown"
+    @dragMove="onMouseMove"
+    @dragEnd="onMouseUp"
   ></LayoutBox>
-  <!-- <pre class="language-json">{{ transformedLayout }}</pre>
-  <CodeHighlight language="json">
-    <pre>
-    {
-      "isBox": true,
-      "id": "0",
-      boxes: [
-        {
-          "isBox": true,
-          "title": "Panel 1",
-          "flex": 1,
-          "id": "0-1"
-        }
-      ]
-    }
-    
-    </pre>
-  </CodeHighlight> -->
+
   <div
     ref="slot-ghost"
     class="slot-ghost ghost"
@@ -32,9 +17,6 @@
 </template>
 
 <script>
-// import CodeHighlight from "vue-code-highlight/src/CodeHighlight.vue";
-// import "vue-code-highlight/themes/window.css";
-// import "vue-code-highlight/themes/duotone-sea.css";
 
 /*
 OK - Have the possibility to add flex-grow in main array (to prepare data saving and retrieving)
@@ -45,28 +27,39 @@ OK - Add toolbar in header with predefined actions (close, expand/collapse, max/
 OK - Add the possibility to locate slot (to prepare the drag-n-drop feature)
 OK - Add lerp transitions 
 OK - Try to remove the header on main layout-box (because there is no data linked to it)
+OK - Handle the drag-n-drop by dragging on header 
+OK - Add the possibility to move a block into another
+OK - Fix the borders collapsing sizes
+OK - When an element is moved, we can't move it anymore
+OK - When we add a wrapper to box, don't make header
 
 TODO:
 - Increase resizer click area size
-- Handle the drag-n-drop by dragging on header 
-- Add the possibility to move a block into another
 - Add glowing effect to resizers
 - Add snapping to borders on resize
 - Add the possibility to rename panels
+- Create a function 'simplifyLayout' which loops through layout and simplify tree to avoid useless containers or emptied box
+- Contextual menu : split view, close others, pin
+- Add tab system
+
+FIXME:
+- When dragging boxes next to main boxes (first deepness level), box disappear
+- Sometimes an error in thrown with "reading 'style' of undefined"
+- When moving a box, move its children with it
+- When moving box on itself, don't allow to move
+- The collapse doesn't work anymore
 */
 
 
 // Exemple : http://jsfiddle.net/Lnem9d8g/
 
 import LayoutBox from "./LayoutBox";
-import { layoutData3 as LayoutDatas } from "./Layouts";
+import { defaultLayout as LayoutDatas } from "./Layouts";
 import { createSlots, moveInside, moveNextDeeperLevel, moveNextSameLevel, movePreviousDeeperLevel, movePreviousSameLevel } from "./LayoutHelper";
 
 export default {
   name: "Layout",
-  components: {
-    // CodeHighlight
-  },
+
   data() {
     return {
       layouts: LayoutDatas,
@@ -85,62 +78,7 @@ export default {
     },
   },
   methods: {
-    placeOrCreateNode(array = [], box, previousSplittedKeys, splittedKeys) {
-      if (!array[splittedKeys[0]]) {
-        array[splittedKeys[0]] = {
-          id: [...previousSplittedKeys, splittedKeys[0]].join("-"),
-          isBox: true,
-          boxes: []
-        };
-      }
 
-      if (splittedKeys.length > 1) {
-        array[splittedKeys[0]].boxes = this.placeOrCreateNode(array[splittedKeys[0]].boxes, box, [splittedKeys[0], ...previousSplittedKeys], splittedKeys.slice(1));
-      } else {
-        array[splittedKeys[0]] = { ...array[splittedKeys[0]], ...box };
-      }
-
-      return array;
-    },
-
-    async move(e) {
-      let newClosestParent = e.target.closest(".layout-box");
-
-      this.movingElementBoundingBox.x = e.clientX - this.deltaMoving.x;
-      this.movingElementBoundingBox.y = e.clientY - this.deltaMoving.y;
-      this.setBoundingBox(this.$refs["box-ghost"], this.movingElementBoundingBox);
-
-      if (newClosestParent) {
-
-        if (!this.closestParent) {
-          this.closestParent = newClosestParent;
-        }
-
-        if (this.closestParent && this.closestParent !== newClosestParent) {
-          this.closestParent.style.background = "none";
-          this.closestParent = newClosestParent;
-
-          this.slots = createSlots(newClosestParent.getBoundingClientRect());
-        }
-
-        if (this.closestParent) {
-          for (let slot of this.slots) {
-            let intersect = this.intersectBoundingBox(slot.boundingBox, e.clientX, e.clientY);
-            slot.hovered = intersect;
-            if (intersect) {
-              this.setBoundingBox(this.$refs["slot-ghost"], slot.boundingBox, 99999, 99999);
-              break;
-            }
-          }
-        }
-
-      } else {
-        this.closestParent = null;
-      }
-
-      this.setBoundingBox(this.$refs["box-ghost"], this.movingElementBoundingBox, 99999, 99999);
-
-    },
     intersectBoundingBox(boundingBox, x, y) {
       return x && y && x >= boundingBox.left && x <= boundingBox.right && y >= boundingBox.top && y <= boundingBox.bottom;
     },
@@ -158,31 +96,60 @@ export default {
         }
       }
     },
-    prepareMoving(e) {
-      this.movingElementId = e;
-    }
-  },
-  mounted() {
 
-    const onMouseDown = (e) => {
-      document.body.addEventListener("pointermove", this.move);
-      document.body.style.userSelect = "none";
 
-      let newClosestParent = e.target.closest(".layout-box");
-      this.movingElementBoundingBox = newClosestParent.getBoundingClientRect();
-      this.movingBox = newClosestParent;
-      this.deltaMoving = {
-        x: e.clientX - this.movingElementBoundingBox.x,
-        y: e.clientY - this.movingElementBoundingBox.y,
-      };
-    };
+    placeOrCreateNode(array = [], box, previousSplittedKeys, splittedKeys) {
+      if (!array[splittedKeys[0]]) {
+        array[splittedKeys[0]] = {
+          id: [...previousSplittedKeys, splittedKeys[0]].join("-"),
+          type: "container",
+          boxes: []
+        };
+      }
 
-    const onMouseUp = () => {
+      if (splittedKeys.length > 1) {
+        array[splittedKeys[0]].boxes = this.placeOrCreateNode(array[splittedKeys[0]].boxes, box, [splittedKeys[0], ...previousSplittedKeys], splittedKeys.slice(1));
+      } else {
+        array[splittedKeys[0]] = { ...array[splittedKeys[0]], ...box };
+      }
 
-      document.body.removeEventListener("pointermove", this.move);
+      return array;
+    },
+
+    onMouseMove(e) {
+
+      this.movingElementBoundingBox.x = e.clientX - this.deltaMoving.x;
+      this.movingElementBoundingBox.y = e.clientY - this.deltaMoving.y;
+      this.setBoundingBox(this.$refs["box-ghost"], this.movingElementBoundingBox, 99999, 99999);
+
+      this.closestParent = e.target.closest(".layout-box");
+
+      if (this.closestParent) {
+
+        this.slots = createSlots(
+          this.closestParent.getBoundingClientRect(),
+          this.closestParent.getAttribute("data-id") === this.movingElementId
+        );
+
+        let intersected = false;
+
+        if (this.closestParent) {
+          for (let slot of this.slots) {
+            let intersect = this.intersectBoundingBox(slot.boundingBox, e.clientX, e.clientY);
+            slot.hovered = intersect;
+            if (intersect && !intersected) {
+              intersected = true;
+              this.setBoundingBox(this.$refs["slot-ghost"], slot.boundingBox, 99999, 99999);
+            }
+          }
+        }
+      }
+
+    },
+    onMouseUp() {
+
       this.$refs["slot-ghost"].style.transform = "unset";
       this.$refs["box-ghost"].style.transform = "unset";
-      document.body.style.userSelect = null;
 
       if (this.movingElementId) {
 
@@ -194,44 +161,54 @@ export default {
           let foundElement = this.layouts.find(box => box.id === this.movingElementId);
           let parentBox = this.layouts.find(box => box.id === slotId);
 
-          if (foundElement) {
+          if (slotId !== this.movingElementId) {
+            if (foundElement) {
 
-            if (slotHovered.name === "center") {
-              moveInside(foundElement, slotId);
-            }
+              if (slotHovered.name === "center") {
+                moveInside(foundElement, slotId);
+              }
 
-            // If we have to add previous on the same deepness
-            else if (slotHovered.name === "left" && !isVertical || slotHovered.name === "top" && isVertical) {
-              movePreviousSameLevel(foundElement, slotId, this.layouts);
-            }
+              // If we have to add previous on the same deepness
+              else if (slotHovered.name === "left" && !isVertical || slotHovered.name === "top" && isVertical) {
+                movePreviousSameLevel(foundElement, slotId, this.layouts);
+              }
 
-            // If we have to add previous on the next deeper level
-            else if (slotHovered.name === "left" && isVertical || slotHovered.name === "top" && !isVertical) {
-              movePreviousDeeperLevel(foundElement, slotId, parentBox);
-            }
+              // If we have to add previous on the next deeper level
+              else if (slotHovered.name === "left" && isVertical || slotHovered.name === "top" && !isVertical) {
+                movePreviousDeeperLevel(foundElement, slotId, parentBox);
+              }
 
-            // If we have to add next on the same deepness
-            else if (slotHovered.name === "right" && !isVertical || slotHovered.name === "bottom" && isVertical) {
-              moveNextSameLevel(foundElement, slotId, this.layouts);
-            }
+              // If we have to add next on the same deepness
+              else if (slotHovered.name === "right" && !isVertical || slotHovered.name === "bottom" && isVertical) {
+                moveNextSameLevel(foundElement, slotId, this.layouts);
+              }
 
-            // If we have to add next on the next deeper level
-            else if (slotHovered.name === "right" && isVertical || slotHovered.name === "bottom" && !isVertical) {
-              moveNextDeeperLevel(foundElement, slotId, parentBox);
+              // If we have to add next on the next deeper level
+              else if (slotHovered.name === "right" && isVertical || slotHovered.name === "bottom" && !isVertical) {
+                moveNextDeeperLevel(foundElement, slotId, parentBox);
+              }
             }
           }
         }
+      } else {
+        this.movingElementId = null;
       }
 
-      this.movingElementId = null;
-    };
+    },
+    onMouseDown(e, movingElementId) {
+      this.movingElementId = movingElementId;
 
-    let layoutBoxHeaders = document.getElementsByClassName("layout-box-header");
-    for (let boxHeader of layoutBoxHeaders) {
-      boxHeader.addEventListener("mousedown", onMouseDown);
+      let newClosestParent = e.target.closest(".layout-box");
+      this.movingElementBoundingBox = newClosestParent.getBoundingClientRect();
+      this.movingBox = newClosestParent;
+      this.deltaMoving = {
+        x: e.clientX - this.movingElementBoundingBox.x,
+        y: e.clientY - this.movingElementBoundingBox.y,
+      };
+
     }
-    document.addEventListener("mouseup", onMouseUp);
   },
+
 };
 
 </script>

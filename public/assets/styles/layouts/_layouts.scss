@@ -2,7 +2,9 @@
     position: relative;
     padding: 1px;
     user-select: none;
-    transition: border-color $transitionDuration $transitionTimingBounce;
+    transition:
+        border-color $transitionDuration $transitionTimingBounce,
+        transform $transitionDuration $transitionTimingBounce;
     background: var(--secondary-color);
     cursor: ew-resize;
 
