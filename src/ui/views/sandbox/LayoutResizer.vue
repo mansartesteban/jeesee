@@ -86,28 +86,3 @@ export default {
     }
 };
 </script>
-<style scoped lang="scss">
-@import "@styles/vars";
-
-.layout-resizer {
-    position: relative;
-    padding: 1px;
-    user-select: none;
-    transition: border-color $transitionDuration $transitionTimingBounce;
-    background: var( --secondary-color);
-    cursor: ew-resize;
-
-    &:hover, &.active {
-        background-color: var(--primary-color);
-        transform: scaleX(2.5);
-    }
-
-    &.vertical {
-        cursor: ns-resize;
-        &:hover, &.active {
-            transform: scaleY(2.5);
-        }
-    }
-    
-}
-</style>

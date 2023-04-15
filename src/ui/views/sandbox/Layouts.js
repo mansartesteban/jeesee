@@ -144,12 +144,65 @@ let layoutData2 = [
   Checkbox,
 ];
 let layoutData3 = [
-  // {
-  //   title: "Menus",
-  //   isBox: true,
-  //   flex: 1,
-  //   id: "zero-one",
-  // },
+  {
+    isBox: true,
+    title: "Layout",
+    flex: 1,
+    id: "0-0",
+  },
+  {
+    title: "Menus",
+    isBox: true,
+    flex: 1,
+    id: "0-1",
+  },
+  {
+    title: "Application",
+    isBox: true,
+    flex: 1,
+    id: "1-1-1-2",
+  },
+  {
+    isBox: true,
+    flex: 0.5,
+    id: "0-3-0-0",
+  },
+  {
+    isBox: true,
+    flex: 1.5,
+    id: "0-3-0-1",
+  },
+  {
+    isBox: true,
+    flex: 1,
+    collapsed: true,
+    id: "0-3-0",
+  },
+  {
+    isBox: true,
+    flex: 1,
+    title: "Fichiers",
+    id: "0-3",
+  },
+  {
+    isBox: true,
+    collapsed: true,
+    id: "0-4-0",
+  },
+  {
+    isBox: true,
+    id: "0-4-1",
+  },
+  {
+    isBox: true,
+    flex: 1,
+    collapsed: true,
+    id: "0-4",
+  },
+  {
+    isBox: true,
+    id: "0-5",
+  },
   {
     isBox: true,
     title: "Panel 1",
@@ -158,149 +211,46 @@ let layoutData3 = [
   },
   {
     isBox: true,
-    title: "Layout",
-    flex: 1,
-    id: "0-1",
+    collapsed: true,
+    id: "1-0-0",
   },
-  // {
-  //   title: "Application",
-  //   isBox: true,
-  //   flex: 1,
-  //   id: "0-2",
-  // },
-  // {
-  //   isBox: true,
-  //   flex: 1,
-  //   collapsed: true,
-  //   id: "1-0",
-  // },
-  // {
-  //   isBox: true,
-  //   flex: 1,
-  //   collapsed: true,
-  //   id: "1-1-0",
-  // },
-  // {
-  //   isBox: true,
-  //   id: "1-1-1",
-  // },
-  // {
-  //   isBox: true,
-  //   id: "1-1",
-  // },
-  // {
-  //   isBox: true,
-  //   id: "1",
-  // },
+  {
+    isBox: true,
+    id: "1-0-1",
+  },
+  {
+    isBox: true,
+    flex: 1,
+    collapsed: true,
+    id: "1-0",
+  },
+  {
+    isBox: true,
+    collapsed: true,
+    id: "1-1-0-0",
+  },
+  {
+    isBox: true,
+    id: "1-1-0-1",
+  },
+  {
+    isBox: true,
+    flex: 1,
+    collapsed: true,
+    id: "1-1-0",
+  },
+  {
+    isBox: true,
+    id: "1-1-1",
+  },
+  {
+    isBox: true,
+    id: "1-1",
+  },
+  {
+    isBox: true,
+    id: "1",
+  },
 ];
-// let layoutData3 = [
-//   {
-//     isBox: true,
-//     title: "Layout",
-//     flex: 1,
-//     id: "0-0",
-//   },
-//   {
-//     title: "Menus",
-//     isBox: true,
-//     flex: 1,
-//     id: "0-1",
-//   },
-//   {
-//     title: "Application",
-//     isBox: true,
-//     flex: 1,
-//     id: "0-2",
-//   },
-//   {
-//     isBox: true,
-//     flex: 0.5,
-//     id: "0-3-0-0",
-//   },
-//   {
-//     isBox: true,
-//     flex: 1.5,
-//     id: "0-3-0-1",
-//   },
-//   {
-//     isBox: true,
-//     flex: 1,
-//     collapsed: true,
-//     id: "0-3-0",
-//   },
-//   {
-//     isBox: true,
-//     flex: 1,
-//     title: "Fichiers",
-//     id: "0-3",
-//   },
-//   {
-//     isBox: true,
-//     collapsed: true,
-//     id: "0-4-0",
-//   },
-//   {
-//     isBox: true,
-//     id: "0-4-1",
-//   },
-//   {
-//     isBox: true,
-//     flex: 1,
-//     collapsed: true,
-//     id: "0-4",
-//   },
-//   {
-//     isBox: true,
-//     id: "0-5",
-//   },
-//   {
-//     isBox: true,
-//     title: "Panel 1",
-//     flex: 1,
-//     id: "0",
-//   },
-//   {
-//     isBox: true,
-//     collapsed: true,
-//     id: "1-0-0",
-//   },
-//   {
-//     isBox: true,
-//     id: "1-0-1",
-//   },
-//   {
-//     isBox: true,
-//     flex: 1,
-//     collapsed: true,
-//     id: "1-0",
-//   },
-//   {
-//     isBox: true,
-//     collapsed: true,
-//     id: "1-1-0-0",
-//   },
-//   {
-//     isBox: true,
-//     id: "1-1-0-1",
-//   },
-//   {
-//     isBox: true,
-//     flex: 1,
-//     collapsed: true,
-//     id: "1-1-0",
-//   },
-//   {
-//     isBox: true,
-//     id: "1-1-1",
-//   },
-//   {
-//     isBox: true,
-//     id: "1-1",
-//   },
-//   {
-//     isBox: true,
-//     id: "1",
-//   },
-// ];
 
 export { layoutData1, layoutData2, layoutData3 };

@@ -1,16 +1,26 @@
 $primary: #40c2ad;
+$secondary: #485057;
+$success: #16db65;
+$warning: #f2d235;
+$error: #d7263d;
+$danger: #d7263d;
+$info: #7456e0;
+$help: #821993;
+$test: #ff7b00;
+$working: #44ffe0;
+$dark: #333744;
 
 $colors: ("primary": ("color": $primary, "textColor": white),
-    "secondary": ("color": #485057, "textColor": white),
-    "success": ("color": #16db65, "textColor": #282b38),
-    "warning": ("color": #f2d235, "textColor": #282b38),
-    "error": ("color": #d7263d, "textColor": white),
-    "danger": ("color": #d7263d, "textColor": white),
-    "info": ("color": #7456e0, "textColor": white),
-    "help": ("color": #821993, "textColor": white),
-    "test": ("color": #ff7b00, "textColor": white),
-    "working": ("color": #44ffe0, "textColor": #282b38),
-    "dark": ("color": #333744, "textColor": white));
+    "secondary": ("color": $secondary, "textColor": white),
+    "success": ("color": $success, "textColor": #282b38),
+    "warning": ("color": $warning, "textColor": #282b38),
+    "error": ("color": $error, "textColor": white),
+    "danger": ("color": $danger, "textColor": white),
+    "info": ("color": $info, "textColor": white),
+    "help": ("color": $help, "textColor": white),
+    "test": ("color": $test, "textColor": white),
+    "working": ("color": $working, "textColor": #282b38),
+    "dark": ("color": $dark, "textColor": white));
 $colorVariants: ("darker": -25%, "dark": -10%, "light": 10%, "lighter": 25%);
 
 :root {

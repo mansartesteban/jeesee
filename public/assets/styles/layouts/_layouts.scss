@@ -1,0 +1,43 @@
+.layout-resizer {
+    position: relative;
+    padding: 1px;
+    user-select: none;
+    transition: border-color $transitionDuration $transitionTimingBounce;
+    background: var(--secondary-color);
+    cursor: ew-resize;
+
+    &:hover,
+    &.active {
+        background-color: var(--primary-color);
+        transform: scaleX(2.5);
+    }
+
+    &.vertical {
+        cursor: ns-resize;
+
+        &:hover,
+        &.active {
+            transform: scaleY(2.5);
+        }
+    }
+
+}
+
+.slot-ghost {
+    background: rgba($primary, .15);
+    border: 2px dashed rgba($primary, .75);
+    transition: all $transitionDurationFast $transitionTimingDefault;
+}
+
+.box-ghost {
+    background: rgba(0, 0, 0, .33);
+    border: 1px solid rgba($primary, .75);
+}
+
+.ghost {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 5px;
+    top: -99999px;
+    left: -99999px;
+}

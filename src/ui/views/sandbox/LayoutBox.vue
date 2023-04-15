@@ -6,7 +6,7 @@
     <div
       v-if="childBox"
       class="layout-box-header d-flex flex-nowrap flex-row"
-      @click="$emit('select', id)"
+      @mousedown="$emit('select', id)"
     >
       <Toolbar class="flex">
         {{ title }}
@@ -25,19 +25,20 @@
         ></Button>
       </Toolbar>
     </div>
+    <!-- :style="isCollapsed ? 'flex-grow: 0' : 'flex-grow: 1'" -->
     <div
       class="layout-box-body d-flex flex-nowrap"
       :class="vertical ? 'flex-column' : 'flex-row'"
-      :style="isCollapsed ? 'flex-grow: 0' : 'flex-grow: 1'"
+      style="flex-grow: 1"
     >
       <template v-for="(item, k) in items">
         <LayoutResizer
-          v-if="item.isBox && k !== 0"
+          v-if="item && item.isBox && k !== 0"
           :neighbours="item.length"
           :vertical="vertical"
         ></LayoutResizer>
         <LayoutBox
-          v-if="item.isBox && item.boxes"
+          v-if="item && item.isBox && item.boxes"
           child-box
           :items="item.boxes"
           :vertical="!vertical"
