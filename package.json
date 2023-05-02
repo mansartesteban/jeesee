@@ -53,6 +53,7 @@
       "vue/no-unused-components": "off",
       "vue/no-unused-vars": "off",
       "vue/no-mutating-props": "off",
+      "no-empty": "off",
       "no-unused-vars": "off",
       "no-constant-condition": "off"
     }

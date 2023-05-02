@@ -18,7 +18,7 @@ module.exports = defineConfig({
                 "@styles": path.resolve(__dirname, "public/assets/styles"),
                 "@/engine": path.resolve(__dirname, "src/bundles"),
                 "@core": path.resolve(__dirname, "src/bundles/core"),
-                "@utils": path.resolve(__dirname, "src/utils"),
+                "@utils": path.resolve(__dirname, "src/engine/utils"),
                 "@type": path.resolve(__dirname, "src/@types"),
                 "@actors": path.resolve(__dirname, "src/game/actors"),
                 "@app": path.resolve(__dirname, "src/bundles/core/App"),

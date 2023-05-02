@@ -10,7 +10,10 @@
       @mousedown.stop="dragStart"
     >
       <Toolbar class="px-2">
-        <span class="text-ellipsis">
+        <span
+          class="text-ellipsis"
+          @dblclick.stop=""
+        >
           {{ title }}
         </span>
         <div class="flex"></div>
@@ -36,14 +39,16 @@
       :class="vertical ? 'flex-column' : 'flex-row'"
       :style="isCollapsed ? 'flex-grow: 0' : 'flex-grow: 1'"
     >
+
       <template v-for="(item, k) in items.filter(a => a)">
+
         <LayoutResizer
           v-if="item && ['container', 'box'].includes(item.type) && k !== 0"
           :neighbours="item.length"
           :vertical="vertical"
         ></LayoutResizer>
+        <!-- v-if="item && ['container', 'box'].includes(item.type)" -->
         <LayoutBox
-          v-if="item && ['container', 'box'].includes(item.type)"
           v-bind="item"
           :items="item.boxes"
           :vertical="!vertical"
@@ -51,17 +56,34 @@
           @dragStart="(e, id) => $emit('dragStart', e, id)"
           @dragMove="$emit('dragMove', $event)"
           @dragEnd="$emit('dragEnd')"
-        ></LayoutBox>
-        <Component
-          v-else
-          :is="item"
-        ></Component>
+        >
+          <Component
+            v-if="item?.content"
+            :is="item.content"
+          ></Component>
+        </LayoutBox>
+
       </template>
+
+      <slot></slot>
+
     </div>
   </div>
 </template>
 <script>
+
+import SceneView from "@/ui/views/engine/SceneView.vue";
+import BottomBar from "@/ui/views/engine/BottomBar.vue";
+import SideBar from "@/ui/views/engine/SideBar.vue";
+import ContextBar from "@/ui/views/engine/ContextBar.vue";
+
 export default {
+  components: {
+    SceneView,
+    BottomBar,
+    SideBar,
+    ContextBar,
+  },
   props: {
     items: {
       type: [Array, Object],
@@ -93,6 +115,10 @@ export default {
     closable: {
       type: Boolean,
       default: true
+    },
+    content: {
+      type: String,
+      default: ""
     }
   },
   computed: {
@@ -104,6 +130,7 @@ export default {
     }
   },
   methods: {
+
     dragStart(e) {
       this.$emit('dragStart', e, this.id);
 

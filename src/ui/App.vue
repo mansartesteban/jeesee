@@ -125,6 +125,11 @@ export default {
           label: "Layouts",
           icon: "grid-1x2",
           to: { name: "Layouts" }
+        },
+        {
+          label: "DragCode",
+          icon: "easel2",
+          to: { name: "DragCode" }
         }
       ],
       itemsHelp: [

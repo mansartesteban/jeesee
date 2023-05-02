@@ -16,6 +16,9 @@ class MathUtils {
 	static clamp(num, min, max) {
 		return Math.min(Math.max(num, min), max);
 	}
+	static randomHexadecimal() {
+		return Math.floor(Math.random() * 16777215).toString(16);
+	}
 }
 
 export default MathUtils;

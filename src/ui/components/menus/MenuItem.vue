@@ -68,9 +68,9 @@ export default {
         }
     },
     methods: {
-        itemClicked() {
+        itemClicked(e) {
             if (this.callback) {
-                this.callback();
+                this.callback(e);
             }
             this.$emit('item-clicked');
         }

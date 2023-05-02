@@ -52,13 +52,14 @@ class DefaultScene extends Scene {
         this.stats = new Stats();
         this.stats.showPanel(0);
         this.stats.dom.style.zIndex = 1;
+        this.stats.dom.classList.add("stats-panel");
         document.body.appendChild(this.stats.dom);
 
         let sceneView = document.getElementsByClassName("scene-view");
         if (sceneView) {
             let boundingBox = sceneView[0].getBoundingClientRect();
-            this.stats.dom.style.top = boundingBox.top + "px";
-            this.stats.dom.style.left = boundingBox.left + "px";
+            this.stats.dom.style.top = (boundingBox.top + 4) + "px";
+            this.stats.dom.style.left = (boundingBox.left + 4) + "px";
         }
     }
 

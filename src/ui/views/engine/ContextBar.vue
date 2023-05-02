@@ -1,5 +1,5 @@
 <template>
-    <div class="context-bar d-flex flex-column">
+    <div class="context-bar d-flex flex flex-column">
 
         <div class="entities-tree d-flex flex-column">
             <div class="m-2">Entities : {{ entities.length }}</div>
@@ -17,7 +17,10 @@
                     ></Chip>
                 </template>
                 <template #item-end="{ item, key }">
-                    <Button icon="eye" @click="toggleVisibility"></Button>
+                    <Button
+                        icon="eye"
+                        @click="toggleVisibility"
+                    ></Button>
                     <Button icon="lock"></Button>
                     <Button
                         icon="trash"
@@ -185,6 +188,14 @@ export default {
         }
     },
     mounted() {
+        SceneManager.entities.forEach(entity => {
+            this.entities.push({
+                id: entity.uuid,
+                label: entity.constructor.name,
+                icon: "square",
+                selected: false
+            });
+        });
         SceneManager.observer.$on("ENTITY_ADDED", (entity) => {
             this.entities.push({
                 id: entity.uuid,

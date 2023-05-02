@@ -19,19 +19,6 @@
 <script>
 
 /*
-OK - Have the possibility to add flex-grow in main array (to prepare data saving and retrieving)
-OK - BTW pass the grow as prop of layout-box, like this we could read/save the grow easily
-OK - Add the cursor class on the body while resizing
-OK - Add a header slot on layout-box
-OK - Add toolbar in header with predefined actions (close, expand/collapse, max/minimize, options)
-OK - Add the possibility to locate slot (to prepare the drag-n-drop feature)
-OK - Add lerp transitions 
-OK - Try to remove the header on main layout-box (because there is no data linked to it)
-OK - Handle the drag-n-drop by dragging on header 
-OK - Add the possibility to move a block into another
-OK - Fix the borders collapsing sizes
-OK - When an element is moved, we can't move it anymore
-OK - When we add a wrapper to box, don't make header
 
 TODO:
 - Increase resizer click area size
@@ -39,8 +26,15 @@ TODO:
 - Add snapping to borders on resize
 - Add the possibility to rename panels
 - Create a function 'simplifyLayout' which loops through layout and simplify tree to avoid useless containers or emptied box
-- Contextual menu : split view, close others, pin
+- Contextual menu : split view, close others, pin, show children
 - Add tab system
+
+
+Find a solution to handle contextual boxes, as exemple, the ContextBar has as component for the list of entities,
+the transform modifiers and component modifiers. But those boxes could only be place in ContextBar.
+Maybe we could add a slug to boxes so they can be identified as mandatory parent of those sub-boxes ?
+As well, find a solution to initialize those sub-boxes 
+
 
 FIXME:
 - When dragging boxes next to main boxes (first deepness level), box disappear
@@ -54,15 +48,13 @@ FIXME:
 // Exemple : http://jsfiddle.net/Lnem9d8g/
 
 import LayoutBox from "./LayoutBox";
-import { defaultLayout as LayoutDatas } from "./Layouts";
-import { createSlots, moveInside, moveNextDeeperLevel, moveNextSameLevel, movePreviousDeeperLevel, movePreviousSameLevel } from "./LayoutHelper";
+import Layout from "./Layout";
 
 export default {
   name: "Layout",
 
   data() {
     return {
-      layouts: LayoutDatas,
       movingElementBoundingBox: null,
       movingElementId: null,
       deltaMoving: null,
@@ -72,8 +64,8 @@ export default {
   },
   computed: {
     transformedLayout() {
-      return this.layouts.reduce((transformedLayout, box) => {
-        return this.placeOrCreateNode(transformedLayout, box, [], box.id.split("-"));
+      return Layout.layout.reduce((transformedLayout, box) => {
+        return Layout.placeOrCreateNode(transformedLayout, box, [], box.id.split("-"));
       }, []);
     },
   },
@@ -82,6 +74,7 @@ export default {
     intersectBoundingBox(boundingBox, x, y) {
       return x && y && x >= boundingBox.left && x <= boundingBox.right && y >= boundingBox.top && y <= boundingBox.bottom;
     },
+
     setBoundingBox(element, boundingBox, originX = 0, originY = 0) {
       if (boundingBox && element) {
         if (element instanceof HTMLElement) {
@@ -97,25 +90,6 @@ export default {
       }
     },
 
-
-    placeOrCreateNode(array = [], box, previousSplittedKeys, splittedKeys) {
-      if (!array[splittedKeys[0]]) {
-        array[splittedKeys[0]] = {
-          id: [...previousSplittedKeys, splittedKeys[0]].join("-"),
-          type: "container",
-          boxes: []
-        };
-      }
-
-      if (splittedKeys.length > 1) {
-        array[splittedKeys[0]].boxes = this.placeOrCreateNode(array[splittedKeys[0]].boxes, box, [splittedKeys[0], ...previousSplittedKeys], splittedKeys.slice(1));
-      } else {
-        array[splittedKeys[0]] = { ...array[splittedKeys[0]], ...box };
-      }
-
-      return array;
-    },
-
     onMouseMove(e) {
 
       this.movingElementBoundingBox.x = e.clientX - this.deltaMoving.x;
@@ -126,7 +100,7 @@ export default {
 
       if (this.closestParent) {
 
-        this.slots = createSlots(
+        this.slots = Layout.createSlots(
           this.closestParent.getBoundingClientRect(),
           this.closestParent.getAttribute("data-id") === this.movingElementId
         );
@@ -146,6 +120,7 @@ export default {
       }
 
     },
+
     onMouseUp() {
 
       this.$refs["slot-ghost"].style.transform = "unset";
@@ -158,36 +133,10 @@ export default {
 
           let slotId = this.closestParent.getAttribute("data-id"); // ID of current hovered box
           let isVertical = slotId.split("-").length % 2;
-          let foundElement = this.layouts.find(box => box.id === this.movingElementId);
-          let parentBox = this.layouts.find(box => box.id === slotId);
+          let foundElement = Layout.layout.find(box => box.id === this.movingElementId);
 
           if (slotId !== this.movingElementId) {
-            if (foundElement) {
-
-              if (slotHovered.name === "center") {
-                moveInside(foundElement, slotId);
-              }
-
-              // If we have to add previous on the same deepness
-              else if (slotHovered.name === "left" && !isVertical || slotHovered.name === "top" && isVertical) {
-                movePreviousSameLevel(foundElement, slotId, this.layouts);
-              }
-
-              // If we have to add previous on the next deeper level
-              else if (slotHovered.name === "left" && isVertical || slotHovered.name === "top" && !isVertical) {
-                movePreviousDeeperLevel(foundElement, slotId, parentBox);
-              }
-
-              // If we have to add next on the same deepness
-              else if (slotHovered.name === "right" && !isVertical || slotHovered.name === "bottom" && isVertical) {
-                moveNextSameLevel(foundElement, slotId, this.layouts);
-              }
-
-              // If we have to add next on the next deeper level
-              else if (slotHovered.name === "right" && isVertical || slotHovered.name === "bottom" && !isVertical) {
-                moveNextDeeperLevel(foundElement, slotId, parentBox);
-              }
-            }
+            Layout.moveSlot(slotHovered, foundElement, slotId, isVertical);
           }
         }
       } else {
@@ -195,6 +144,7 @@ export default {
       }
 
     },
+
     onMouseDown(e, movingElementId) {
       this.movingElementId = movingElementId;
 
@@ -207,7 +157,7 @@ export default {
       };
 
     }
-  },
+  }
 
 };
 

@@ -19,13 +19,19 @@ const routes = [
   {
     name: "Layouts",
     path: "/sandbox/layouts",
-    component: () => import("@/ui/views/sandbox/Layout.vue"),
+    component: () => import("@/ui/views/sandbox/Layouts/Layout.vue"),
   },
+  {
+    name: "DragCode",
+    path: "/sandbox/DragCode",
+    component: () => import("@/ui/views/sandbox/DragCode/index.vue"),
+  },
+
 ];
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes
+  history: createWebHistory(),
+  routes
 });
 
 export default router;

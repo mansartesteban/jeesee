@@ -17,6 +17,9 @@
             <RouterLink :to="{name: 'Layouts'}">
                 <Button rounded glowing class="primary elevation-4 xl">Layouts</Button>
             </RouterLink>
+            <RouterLink :to="{name: 'DragCode'}">
+                <Button rounded glowing class="primary elevation-4 xl">DragCode</Button>
+            </RouterLink>
         </div>
     </div>
 </template>
