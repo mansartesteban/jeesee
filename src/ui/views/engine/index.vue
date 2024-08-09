@@ -3,10 +3,10 @@
         ref="engine-view"
         class="engine-view"
     >
-        <SideBar ref="side-bar"></SideBar>
+        <SideBar ref="side-bar">fezfe</SideBar>
         <SceneView ref="scene-view"></SceneView>
         <ContextBar ref="context-bar"></ContextBar>
-        <BottomBar ref="bottom-bar"></BottomBar>
+        <BottomBar ref="bottom-bar">efzfze</BottomBar>
     </div>
 </template>
 
@@ -56,10 +56,9 @@ export default {
 };
 </script>
 <style lang="scss">
-
-    .engine-view {
-        position: relative;
-        height: 100%;
-    }
-
+.engine-view
+{
+    position: relative;
+    height: 100%;
+}
 </style>

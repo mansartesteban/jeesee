@@ -1,5 +1,5 @@
 import GeometryUtils from "@/engine/utils/GeometryUtils";
-import PhysicsComponent from "./PhysicsComponent";
+import PhysicsComponent from "@core/components/PhysicsComponent";
 import { Vector3 } from "three";
 
 class RotateAroundPhysics extends PhysicsComponent {

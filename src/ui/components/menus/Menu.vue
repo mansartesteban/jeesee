@@ -11,7 +11,7 @@
         >
             <Button
                 @click="activatorOn"
-                :icon="'bi bi-' + activatorIcon"
+                :icon="activatorIcon"
             >{{ activatorLabel }}</Button>
         </slot>
 

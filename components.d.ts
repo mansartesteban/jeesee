@@ -36,6 +36,7 @@ declare module '@vue/runtime-core' {
     DocumentationTreeView: typeof import('./src/ui/views/documentation/sections/DocumentationTreeView.vue')['default']
     DragCode: typeof import('./src/ui/views/sandbox/DragCode/index.vue')['default']
     DragCodeBlock: typeof import('./src/ui/views/sandbox/DragCode/DragCodeBlock.vue')['default']
+    Editor: typeof import('./src/ui/views/sandbox/Editor/index.vue')['default']
     Engine: typeof import('./src/ui/views/engine/index.vue')['default']
     EntityComponent: typeof import('./src/ui/views/engine/ContextBar/EntityComponent.vue')['default']
     Home: typeof import('./src/ui/views/Home.vue')['default']
@@ -63,6 +64,7 @@ declare module '@vue/runtime-core' {
     TabViewContainer: typeof import('./src/ui/components/tabs/TabViewContainer.vue')['default']
     Textbox: typeof import('./src/ui/components/inputs/Textbox.vue')['default']
     Toolbar: typeof import('./src/ui/components/Toolbar.vue')['default']
+    TopBar: typeof import('./src/ui/views/TopBar.vue')['default']
     TransformComponent: typeof import('./src/ui/views/engine/ContextBar/TransformComponent.vue')['default']
     TreeView: typeof import('./src/ui/components/TreeView.vue')['default']
   }

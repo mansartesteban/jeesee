@@ -1,5 +1,5 @@
 import MiniVector2 from "@/engine/core/geometry/MiniVector2";
-import InterfaceStore from "@/engine/storage/stores/InterfaceStore";
+// import InterfaceStore from "@/engine/storage/stores/InterfaceStore";
 import BlockLayout from "./BlockLayout";
 import Interfacor from "./Interfacor";
 
@@ -45,7 +45,7 @@ class GuiLayout extends Interfacor {
             actionBar: block.options.actionBar
         }));
 
-        InterfaceStore.save("layout-position", datas);
+        // InterfaceStore.save("layout-position", datas);
     }
 
     transformblockData(datas) {

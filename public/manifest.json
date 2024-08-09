@@ -1,0 +1,30 @@
+{
+    "name": "JeeSee Engine",
+    "lang": "fr-fr",
+    "short_name": "jeesee",
+    "description": "The simpliest and most powerful game engine developped with JS",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "theme_color": "#40c2ad",
+    "background_color": "#333744",
+    "orientation": "any",
+    "icons": [
+        {
+            "src": "/assets/medias/logo.svg",
+            "sizes": "512x512"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Create a new project",
+            "description": "Launch  JeeSee Engine and start a new project !",
+            "url": "/sandbox/Editor"
+        },
+        {
+            "name": "Launch engine",
+            "description": "Launch engine editor interface and start create !",
+            "url": "/engine"
+        }
+    ]
+}

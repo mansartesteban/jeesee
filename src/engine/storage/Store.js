@@ -1,23 +1,28 @@
+import Config from "@engine/Config";
+
 class Store {
 
     static STORES = Object.freeze({
         INTERFACE: "interface",
         SETTINGS: "settings",
-        SCENE: "scene"
+        SCENE: "scene",
+        PROJECT: "project",
+        CONFIG: "config"
     });
 
     name;
     db;
 
-    autosaveInterval = 2000;
+    autoSaveInterval;
 
     datas = [];
 
     constructor(name) {
         this.name = name;
+        this.autoSaveInterval = Config.getConfig("database", "autoSaveInterval");
     }
 
-    save(id, value) {
+    save(id, value, immediate = false) {
 
         let findIndex = this.datas.findIndex(data => data.id === id);
         if (findIndex !== -1) {
@@ -25,7 +30,10 @@ class Store {
         } else {
             this.datas.push({ id, value });
         }
-        console.log("saving", this.datas, id, value);
+
+        if (immediate) {
+            this.saveAll();
+        }
     }
 
     get(id) {
@@ -44,16 +52,20 @@ class Store {
     }
 
     autosave() {
-        console.log("atutosaver", this.datas);
+        console.log("autosave", this.name);
+        this.saveAll().then(() => {
+            setTimeout(this.autosave.bind(this), this.autoSaveInterval);
+        });
+    }
+
+    saveAll() {
+        const promises = [];
         this.datas.forEach(data => {
-            console.log("data", data);
             if (this.db) {
-                this.db.setItem(this, data);
+                promises.push(this.db.setItem(this, data));
             }
         });
-
-        console.log("autovsave", this.datas);
-        setTimeout(this.autosave.bind(this), this.autosaveInterval);
+        return Promise.all(promises);
     }
 
     attachDB(db) {

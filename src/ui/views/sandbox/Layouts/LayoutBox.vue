@@ -17,10 +17,6 @@
           {{ title }}
         </span>
         <div class="flex"></div>
-        <!-- <span class="text-ellipsis">
-          {{ id }}
-        </span> -->
-        <!-- <div class="flex"></div> -->
         <Button
           xs
           :icon="isCollapsed ? 'chevron-down' : 'chevron-up'"
@@ -47,7 +43,6 @@
           :neighbours="item.length"
           :vertical="vertical"
         ></LayoutResizer>
-        <!-- v-if="item && ['container', 'box'].includes(item.type)" -->
         <LayoutBox
           v-bind="item"
           :items="item.boxes"
@@ -161,33 +156,18 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.layout-box {
+.layout-box
+{
   flex: 1;
-  overflow: auto;
   border: 2px solid var(--secondary-color);
   margin: -2px;
   overflow: hidden;
-  
-  .layout-box-header {
+
+  .layout-box-header
+  {
     border-bottom: 2px solid var(--secondary-color);
     margin: -2px;
-    // padding: .5em;
   }
 
-  // .layout-box-body {
-
-  //   padding: .5em;
-    
-  //   &.flex-column {
-  //     border: 1px dotted coral;
-  //   }
-
-  //   &.flex-row {
-  //     border: 1px dotted cornflowerblue;
-  //   }
-
-  // }
 }
-
-
 </style>

@@ -1,5 +1,4 @@
-import Entity from "@/engine/game/Entity";
-import TransformComponent from "../Components/TransformComponent";
+import Entity from "@core/Entity";
 import { Vector3 } from "three";
 
 class Ground extends Entity {

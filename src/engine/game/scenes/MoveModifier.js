@@ -1,5 +1,5 @@
 import { Vector3 } from "three";
-import PhysicsComponent from "./Default/Components/PhysicsComponent";
+import PhysicsComponent from "@core/components/PhysicsComponent";
 
 class MoveModifier extends PhysicsComponent {
 

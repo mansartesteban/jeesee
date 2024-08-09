@@ -1,4 +1,4 @@
-import PhysicsComponent from "../../Components/PhysicsComponent";
+import PhysicsComponent from "@core/components/PhysicsComponent";
 
 class BallPhysics extends PhysicsComponent {
 

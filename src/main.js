@@ -7,7 +7,7 @@ import "@assets/styles/_jeesee.scss";
 import routing from "./routing";
 import "./extensions";
 
-import Engine from "@/engine/game/Engine";
+import Engine from "@core/Engine";
 import EngineApp from "@/engine";
 
 const app = createApp(App);

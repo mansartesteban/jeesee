@@ -26,6 +26,11 @@ const routes = [
     path: "/sandbox/DragCode",
     component: () => import("@/ui/views/sandbox/DragCode/index.vue"),
   },
+  {
+    name: "Editor",
+    path: "/sandbox/Editor",
+    component: () => import("@/ui/views/sandbox/Editor/index.vue"),
+  },
 
 ];
 

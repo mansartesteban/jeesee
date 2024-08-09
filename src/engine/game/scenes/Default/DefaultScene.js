@@ -1,17 +1,16 @@
-import Scene from "@/engine/game/Scene";
+import Scene from "@core/Scene";
 import { GridHelper, PerspectiveCamera, PointLight, Quaternion, Vector3 } from "three";
-import Controls from "../../Controls";
+import Controls from "@core/Controls";
 import Stats from 'stats.js';
 
-import Skybox from "./Entities/SkyBox/Skybox";
-
-import SkyboxRender from "./Renders/SkyBoxRender";
-
-import SceneManager from "../../SceneManager";
-import Entity from "../../Entity";
-import TetrahedronRender from "./Renders/TetrahedronRender";
+import SceneManager from "@core/SceneManager";
+import Entity from "@core/Entity";
 import RotateAroundPhysics from "./Components/RotateAroundPhysics";
-import CubeRender from "./Renders/CubeRender";
+
+import Skybox from "@core/shapes/Skybox";
+import SkyboxRender from "@/engine/core/renderers/SkyBoxRenderer";
+import TetrahedronRender from "@/engine/core/renderers/TetrahedronRenderer";
+import CubeRender from "@/engine/core/renderers/CubeRenderer";
 
 class DefaultScene extends Scene {
 

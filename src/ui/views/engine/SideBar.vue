@@ -32,22 +32,18 @@
     </div>
 </template>
 <script>
-import Entity from '@/engine/game/Entity';
-import CubeRender from '@/engine/game/scenes/Default/Renders/CubeRender';
-import SphereRender from '@/engine/game/scenes/Default/Renders/SphereRender';
-import TetrahedronRender from '@/engine/game/scenes/Default/Renders/TetrahedronRender';
-import PhysicsComponent from '@/engine/game/scenes/Default/Components/PhysicsComponent';
+import Entity from '@core/Entity';
+import CubeRender from '@core/renderers/CubeRenderer';
+import SphereRender from '@core/renderers/SphereRenderer';
+import TetrahedronRender from '@core/renderers/TetrahedronRenderer';
+import PhysicsComponent from '@core/components/PhysicsComponent';
 import { Quaternion, Vector3 } from 'three';
-import CharacterRender from '@/engine/game/scenes/Default/Renders/CharacterRender';
-import TempleRender from '@/engine/game/scenes/Default/Renders/TempleRender';
+import CharacterRender from '@/engine/game/scenes/Default/Renderers/CharacterRenderer';
+import TempleRender from '@/engine/game/scenes/Default/Renderers/TempleRenderer';
 import CharacterPhysics from '@/engine/game/scenes/Default/Entities/Character/CharacterPhysics';
-import Gravity from '@/engine/game/scenes/Default/Components/Gravity';
-import Grid from '@/engine/game/scenes/Default/Entities/Grid/Grid';
-import Skybox from '@/engine/game/scenes/Default/Entities/SkyBox/Skybox';
-import Ground from '@/engine/game/scenes/Default/Entities/Ground';
-import Collider from '@/engine/game/scenes/Default/Components/Colliders/Collider';
-import SceneManager from '@/engine/game/SceneManager';
+import SceneManager from '@core/SceneManager';
 import RotateAroundPhysics from '@/engine/game/scenes/Default/Components/RotateAroundPhysics';
+import Collider from '@core/components/colliders/Collider';
 
 export default {
     data() {
@@ -155,4 +151,3 @@ export default {
     },
 };
 </script>
-

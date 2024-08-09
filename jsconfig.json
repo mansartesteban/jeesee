@@ -6,8 +6,17 @@
     "moduleResolution": "node",
     "paths": {
       "@/*": [
-        "src/*"
-      ]
+        "src/*",
+      ],
+      "@core/*": [
+        "src/engine/core/*"
+      ],
+      "@engine/*": [
+        "src/engine/*"
+      ],
+      "@config/*": [
+        "src/config/*"
+      ],
     },
     "lib": [
       "esnext",

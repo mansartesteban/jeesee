@@ -33,5 +33,6 @@ export default [
         type: "box",
         id: "1-0",
         title: "Assets & Scripts",
+        content: "BottomBar"
     },
 ];

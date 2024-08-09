@@ -1,5 +1,5 @@
-import PhysicsComponent from "../../Components/PhysicsComponent";
-import TransformComponent from "../../Components/TransformComponent";
+import PhysicsComponent from "@core/components/PhysicsComponent";
+import TransformComponent from "@core/components/TransformComponent";
 
 class CarPhysics extends PhysicsComponent {
 

@@ -1,4 +1,3 @@
-import Bundle from "./Bundle";
 import Observer from "./Observer";
 import Database from "@/engine/storage/Database";
 

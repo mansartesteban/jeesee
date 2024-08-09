@@ -75,12 +75,12 @@
 </template>
 
 <script>
-import SceneManager from '@/engine/game/SceneManager';
-import Collider from '@/engine/game/scenes/Default/Components/Colliders/Collider';
-import Gravity from '@/engine/game/scenes/Default/Components/Gravity';
-import MeshRenderComponent from '@/engine/game/scenes/Default/Components/MeshRenderComponent';
-import PhysicsComponent from '@/engine/game/scenes/Default/Components/PhysicsComponent';
-import UiComponent from '@/engine/game/scenes/Default/Components/UiComponent';
+import SceneManager from '@core/SceneManager';
+import Collider from '@core/components/colliders/Collider';
+import Gravity from '@core/components/Gravity';
+import MeshRenderComponent from '@core/components/MeshRenderComponent';
+import PhysicsComponent from '@core/components/PhysicsComponent';
+import UiComponent from '@core/components/UiComponent';
 import RotateAroundPhysics from '@/engine/game/scenes/Default/Components/RotateAroundPhysics';
 import BallPhysics from '@/engine/game/scenes/Default/Entities/Ball/BallPhysics';
 import CarPhysics from '@/engine/game/scenes/Default/Entities/Car/CarPhysics';
@@ -212,14 +212,15 @@ export default {
 };
 </script>
 <style lang="scss">
+.entities-tree,
+.entity-details
+{
+    max-height: 25%;
+    overflow-y: auto;
+}
 
-    .entities-tree, .entity-details {
-        max-height: 25%;
-        overflow-y: auto;
-    }
-    
-    .entity-components {
-        overflow-y: auto;
-    }
-
-</style>
+.entity-components
+{
+    overflow-y: auto;
+}
+</style>@/engine/core/components/Colliders/Collider@/engine/core/components/colliders/Collider

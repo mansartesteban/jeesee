@@ -41,3 +41,6 @@ TODO: Create a quest system
       Have the possibility to link scenes to quest
       Have the possibility to handle gui/hud or dialogs
       With this quest system, we would be able to create the tutorial of any game i guess
+
+FIXME:
+- raycasting for object selection doesn't not target the good point

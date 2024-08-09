@@ -6,7 +6,7 @@ import Interact from "./Interact";
 import Interfacor from "./Interfacor";
 import MathUtils from "@/engine/utils/MathUtils";
 
-import InterfaceStore from "@/engine/storage/stores/InterfaceStore";
+// import InterfaceStore from "@/engine/storage/stores/InterfaceStore";
 
 class BlockLayout extends Interfacor {
 
@@ -119,19 +119,19 @@ class BlockLayout extends Interfacor {
 
 				if (this.options.actionBar === true) {
 
-					actionBar.addAction({
-						icon: "debug",
-						callback: () => {
-							InterfaceStore.save("snapStrength", MathUtils.random(0, 50));
-						}
-					});
+					// actionBar.addAction({
+					// 	icon: "debug",
+					// 	callback: () => {
+					// 		InterfaceStore.save("snapStrength", MathUtils.random(0, 50));
+					// 	}
+					// });
 
-					actionBar.addAction({
-						icon: "eye",
-						callback: () => {
-							console.log("get ", InterfaceStore.get("snapStrength"));
-						}
-					});
+					// actionBar.addAction({
+					// 	icon: "eye",
+					// 	callback: () => {
+					// 		console.log("get ", InterfaceStore.get("snapStrength"));
+					// 	}
+					// });
 
 					actionBar.addAction({
 						icon: "chevron-down",
